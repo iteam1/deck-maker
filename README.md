@@ -79,20 +79,6 @@ Both produce fully native, editable PPTX. The differences that matter:
 measurement step, SVG out of the box). python-pptx when the roadmap includes editing
 existing decks or filling corporate templates — PptxGenJS cannot open a .pptx at all.
 
-## Repo layout (proof of concept, python-pptx flavor)
-
-```
-deck_maker/
-  extract.js     DOM walker — runs in the rendered page, emits layout JSON
-  renderer.py    layout JSON → native .pptx (text, shapes, tables, charts,
-                 SVG via svgBlip injection, gradient backgrounds)
-examples/
-  demo.html      an agent-designed 2-slide deck exercising every primitive
-```
-
-Pipeline: render `examples/demo.html` headless → evaluate `extractLayout()` →
-`python -m deck_maker layout.json out.pptx`.
-
 ## Related to
 
 https://python-pptx.readthedocs.io/en/latest/

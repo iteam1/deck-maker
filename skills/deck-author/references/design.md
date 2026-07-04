@@ -44,6 +44,13 @@ pure `#000`/`#fff`** — off-black/off-white keep depth. **Accent budget: an acc
 ≤ 3 times per slide.** Deck-maker's default indigo is fine as a *chosen* accent, but don't
 reach for generic AI-purple reflexively.
 
+**Two-surface rule.** A deck uses exactly **two slide surfaces**: the light content
+surface, and ONE dark/accent surface shared by every full-bleed slide — cover, section
+dividers, and closing all sit on the **same** color. Introducing a third surface (e.g. an
+ink divider in an IKB deck) reads as a different deck spliced in. If the dark surface is
+the accent (Swiss style), ghost numerals and textures on it are lighter/darker *shades of
+that same hue*, never a new hue.
+
 **Tint vs. saturated (the pastel-pair rule).** Saturated accent = marks and text; a
 desaturated, same-hue tint = fills/chips/callout backgrounds. E.g. callout bg `#eef2ff` +
 indigo `#4f46e5` bar and text. Color is a scarce resource — use it for meaning, not decoration.
@@ -136,9 +143,10 @@ rankings / breakdowns.
 **S12 · Before/After (split).** Vertical divider; left "before" dimmed to a muted color
 (~55% read — no `opacity`), right "after" full accent. For migrations / comparisons.
 
-**S13 · Section divider.** Kicker + 88–120px chapter headline + one pull-line; **invert
-ink↔paper at chapter boundaries** so a long deck feels authored. Optional giant chapter
-number (160px+) as the anchor.
+**S13 · Section divider.** Kicker + 88–120px chapter headline + one pull-line; **invert to
+the deck's dark surface at chapter boundaries** — the *same* full-bleed color as the cover
+and closing (two-surface rule), never a new one. Optional giant chapter number (160px+) in
+a shade of that surface's hue as the anchor.
 
 **S14 · Process row (dateless).** 01–04 numbered cards/steps in a row (distinct from S05's
 chronological timeline). Middle step may invert to accent. For methods / how-it-works.

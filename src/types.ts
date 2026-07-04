@@ -30,6 +30,10 @@ export type TextRun = {
 	italic?: boolean;
 	color?: string;
 	font?: string;
+	/** Letter-spacing in px (from letter-spacing; em resolved against size). */
+	spacing?: number;
+	/** Hard line break after this run (from <pre> line preservation). */
+	breakAfter?: boolean;
 };
 
 /** Data for a native, editable chart (parsed from a data-chart JSON attribute). */
@@ -51,6 +55,8 @@ export type Element =
 			box: Box;
 			runs: TextRun[];
 			align?: "left" | "center" | "right";
+			/** Line-height as a multiple (unitless line-height, or px ÷ font-size). */
+			lineHeight?: number;
 	  }
 	| {
 			kind: "shape";

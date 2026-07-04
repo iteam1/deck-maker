@@ -13,14 +13,17 @@ type Slide = { w: number; h: number; elements: Element[] };   // w,h = 1280, 720
 type Box   = { x: number; y: number; w: number; h: number };  // px, top-left origin
 
 type Element =
-  | { kind: "text";   box; runs: TextRun[]; align?: "left" | "center" | "right" }
+  | { kind: "text";   box; runs: TextRun[]; align?: "left" | "center" | "right";
+                      lineHeight?: number }  // multiple → lineSpacingMultiple
   | { kind: "shape";  box; shape: "rect" | "ellipse" | "arrow"; fill?; radius?; stroke? }
   | { kind: "table";  box; rows: string[][] }
   | { kind: "chart";  box; spec: ChartSpec }
   | { kind: "svg";    box; svg: string }
   | { kind: "image";  box; src: string };
 
-type TextRun  = { text: string; size?: number; bold?; italic?; color?; font? };
+type TextRun  = { text: string; size?: number; bold?; italic?; color?; font?;
+                  spacing?: number;      // letter-spacing px → charSpacing pt
+                  breakAfter?: boolean } // hard break (from <pre> lines)
 type ChartSpec = { type: "bar"|"line"|"pie"|"doughnut"; categories: string[];
                    series: { name; values: number[] }[]; colors?: string[] };
 ```

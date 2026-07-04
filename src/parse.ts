@@ -58,7 +58,19 @@ type RunStyle = {
 	italic?: boolean;
 	color?: string;
 	font?: string;
+	spacing?: number;
 };
+
+/** letter-spacing → px ("2px" → 2, "0.14em" → 0.14 × size). */
+function spacingFrom(
+	v: string | undefined,
+	size: number | undefined,
+	base: number | undefined,
+) {
+	if (!v) return base;
+	if (v.endsWith("em")) return parseFloat(v) * (size ?? 16) || base;
+	return parseFloat(v) || base;
+}
 
 /** First family from a font-family list, unquoted ('"Fira Sans", Arial' → 'Fira Sans'). */
 function firstFont(v: string | undefined): string | undefined {
@@ -84,12 +96,14 @@ function italicFrom(style: string | undefined, base: boolean | undefined) {
 
 /** Overlay an element's inline style onto an inherited run style. */
 function mergeStyle(s: Record<string, string>, base: RunStyle): RunStyle {
+	const size = px(s["font-size"]) || base.size;
 	return {
-		size: px(s["font-size"]) || base.size,
+		size,
 		bold: boldFrom(s["font-weight"], base.bold),
 		italic: italicFrom(s["font-style"], base.italic),
 		color: s["color"] ?? base.color,
 		font: firstFont(s["font-family"]) ?? base.font,
+		spacing: spacingFrom(s["letter-spacing"], size, base.spacing),
 	};
 }
 
@@ -102,12 +116,27 @@ function collectRuns(
 	style: RunStyle,
 	vars: Record<string, string>,
 	out: TextRun[],
+	pre = false,
 ) {
 	for (const child of el.childNodes) {
 		if (child.nodeType === 3) {
 			// .text decodes HTML entities (&copy; → ©); .rawText would not.
-			const text = child.text.replace(/\s+/g, " ");
-			if (text) out.push({ text, ...style });
+			if (pre) {
+				// <pre> mode: preserve line structure (ASCII art, dot fields).
+				const lines = child.text.replace(/^\n/, "").split("\n");
+				lines.forEach((line, i) => {
+					const text = line.trimEnd();
+					if (text || i < lines.length - 1)
+						out.push({
+							text,
+							...style,
+							breakAfter: i < lines.length - 1 || undefined,
+						});
+				});
+			} else {
+				const text = child.text.replace(/\s+/g, " ");
+				if (text) out.push({ text, ...style });
+			}
 		} else if (child.nodeType === 1) {
 			const c = child as HTMLElement;
 			const tag = c.tagName?.toLowerCase();
@@ -117,7 +146,7 @@ function collectRuns(
 			);
 			if (tag === "b" || tag === "strong") s.bold = true;
 			if (tag === "i" || tag === "em") s.italic = true;
-			collectRuns(c, s, vars, out);
+			collectRuns(c, s, vars, out, pre || tag === "pre");
 		}
 	}
 }
@@ -171,21 +200,31 @@ function classify(
 	if (tag === "img")
 		return { kind: "image", box, src: el.getAttribute("src") ?? "" };
 
+	const base = mergeStyle(s, {});
+	const pre = tag === "pre" || s["white-space"]?.startsWith("pre") === true;
 	const runs: TextRun[] = [];
-	collectRuns(el, mergeStyle(s, {}), vars, runs);
+	collectRuns(el, base, vars, runs, pre);
 	const first = runs[0];
-	if (first) first.text = first.text.trimStart();
+	if (first && !pre) first.text = first.text.trimStart();
 	const last = runs[runs.length - 1];
-	if (last) last.text = last.text.trimEnd();
-	const kept = runs.filter((r) => r.text.length > 0);
+	if (last && !pre) last.text = last.text.trimEnd();
+	const kept = runs.filter((r) => r.text.length > 0 || r.breakAfter);
 
 	if (kept.length) {
 		const a = s["text-align"];
+		const lh = s["line-height"];
+		const lhNum = lh ? parseFloat(lh) : Number.NaN;
 		return {
 			kind: "text",
 			box,
 			runs: kept,
 			align: a === "left" || a === "center" || a === "right" ? a : undefined,
+			// unitless multiple, or px ÷ font-size
+			lineHeight: Number.isNaN(lhNum)
+				? undefined
+				: lh?.endsWith("px")
+					? lhNum / (base.size ?? 16)
+					: lhNum,
 		};
 	}
 

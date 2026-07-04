@@ -57,6 +57,10 @@ function textRuns(runs: TextRun[]) {
 			italic: run.italic,
 			color: hex(run.color),
 			fontFace: run.font,
+			charSpacing: run.spacing
+				? Math.round(run.spacing * 0.75 * 100) / 100
+				: undefined,
+			breakLine: run.breakAfter,
 		},
 	}));
 }
@@ -93,6 +97,7 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 						...pos,
 						align: el.align,
 						valign: "top",
+						lineSpacingMultiple: el.lineHeight,
 					});
 					break;
 				case "shape":

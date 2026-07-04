@@ -122,6 +122,37 @@ describe("parse", () => {
 		expect(b.fill).toBe("#10b981"); // fell back
 	});
 
+	test("reads letter-spacing (px and em) and line-height", () => {
+		const deck = parse(
+			slide(
+				`<p style="position:absolute;left:0;top:0;width:600px;height:40px;font-size:12px;letter-spacing:2px;line-height:0.95">CHROME ROW</p>` +
+					`<p style="position:absolute;left:0;top:60px;width:600px;height:40px;font-size:20px;letter-spacing:0.1em">EM SPACED</p>`,
+			),
+		);
+		const [a, b] = deck.slides[0]?.elements ?? [];
+		if (a?.kind !== "text" || b?.kind !== "text")
+			throw new Error("expected text");
+		expect(a.runs[0]?.spacing).toBe(2);
+		expect(a.lineHeight).toBeCloseTo(0.95);
+		expect(b.runs[0]?.spacing).toBeCloseTo(2); // 0.1em × 20px
+	});
+
+	test("<pre> preserves line breaks as breakAfter runs", () => {
+		const deck = parse(
+			slide(
+				`<pre style="position:absolute;left:0;top:0;width:200px;height:80px;font-size:11px;font-family:'Courier New'">▒▓█▓▒
+░▒▓█▓
+▒░░▒▓</pre>`,
+			),
+		);
+		const el = deck.slides[0]?.elements[0];
+		if (el?.kind !== "text") throw new Error(`expected text, got ${el?.kind}`);
+		expect(el.runs.map((r) => r.text)).toEqual(["▒▓█▓▒", "░▒▓█▓", "▒░░▒▓"]);
+		expect(el.runs[0]?.breakAfter).toBe(true);
+		expect(el.runs[1]?.breakAfter).toBe(true);
+		expect(el.runs[2]?.breakAfter).toBeUndefined();
+	});
+
 	test("chart parses its data-chart JSON", () => {
 		const deck = parse(
 			slide(

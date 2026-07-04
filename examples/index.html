@@ -6,307 +6,368 @@
     <!-- Preview-only. The converter reads inline styles; this makes the browser render
          text where the converter places it, and draws chart/ellipse previews. -->
     <style>
-      .slide p, .slide h1, .slide h2 { margin: 0; line-height: 1.2; }
+      .slide p, .slide h1, .slide h2, .slide pre { margin: 0; line-height: 1.2; }
       .slide [data-shape="ellipse"] { border-radius: 50%; }
       .slide table { border-collapse: collapse; }
-      .slide th, .slide td { border-bottom: 1px solid #e2e8f0; padding: 9px 12px; text-align: left; color: #334155; }
-      .slide th { color: #0f172a; }
+      .slide th, .slide td { border-bottom: 1px solid #d8d5cc; padding: 10px 12px; text-align: left; color: #3a3a36; }
+      .slide th { color: #0a0a0a; border-bottom: 2px solid #0a0a0a; }
     </style>
   </head>
-  <body style="margin: 0; padding: 24px 0; background: #cbd5e1;">
-    <!-- ═══════════ S01 · Cover (dark) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fff;margin:0 auto 24px auto;">
-      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#0f172a;"></div>
-      <svg style="position:absolute;left:0;top:0;width:1280px;height:720px;" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
-        <title>aurora</title>
-        <defs>
-          <linearGradient id="a1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5" stop-opacity="0.55"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></linearGradient>
-          <linearGradient id="a2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity="0.38"/><stop offset="1" stop-color="#0f172a" stop-opacity="0"/></linearGradient>
-        </defs>
-        <path d="M0,720 C300,520 520,640 760,470 C980,320 1120,380 1280,240 L1280,720 Z" fill="url(#a1)"/>
-        <path d="M1280,0 C1020,140 900,60 700,180 C520,290 380,240 200,340 L0,260 L0,0 Z" fill="url(#a2)"/>
-        <circle cx="1060" cy="366" r="150" fill="none" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
-        <circle cx="1060" cy="366" r="116" fill="none" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1.5"/>
-      </svg>
+  <body style="margin: 0; padding: 24px 0; background: #b9b6ad;">
+    <!-- ════════ 01 · COVER (full IKB) ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#002fa7;"></div>
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#fafaf8;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 01 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;text-align:right;">2026.07.04</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#2a4bb8;"></div>
 
-      <svg style="position:absolute;left:64px;top:56px;width:44px;height:44px;" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><title>logo</title><circle cx="22" cy="22" r="21" fill="#4f46e5"/><path d="M10 30 L18 13 L24 24 L29 18 L34 30 Z" fill="#c7d2fe"/></svg>
-      <p style="position:absolute;left:122px;top:68px;width:400px;height:24px;font-size:15px;font-weight:bold;color:#e2e8f0;font-family:Arial;">AURORA ANALYTICS</p>
-      <p style="position:absolute;left:900px;top:68px;width:316px;height:24px;font-size:13px;color:#64748b;font-family:Arial;text-align:right;">INVESTOR REVIEW · № 01 / 11</p>
+      <pre style="position:absolute;left:980px;top:120px;width:240px;height:130px;font-size:12px;line-height:1.3;letter-spacing:6px;color:#4666c4;font-family:'Courier New';">▒▓█▓▒░░▒▓█▓
+░▒▓█▓▒░░▒▓█
+░░▒▓█▓▒░░▒▓
+▒░░▒▓█▓▒░░▒
+▓▒░░▒▓█▓▒░░
+█▓▒░░▒▓█▓▒░</pre>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:250px;width:180px;height:36px;background:#1e1b4b;border-radius:18px;"></div>
-      <p style="position:absolute;left:64px;top:259px;width:180px;height:20px;font-size:13px;font-weight:bold;color:#a5b4fc;font-family:Arial;text-align:center;">Q2 · FY 2026</p>
+      <p style="position:absolute;left:64px;top:236px;width:600px;height:20px;font-size:13px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;">№01 · INVESTOR REVIEW — VOL. 8</p>
+      <h1 style="position:absolute;left:64px;top:280px;width:1000px;height:110px;font-size:104px;font-weight:bold;color:#fafaf8;font-family:Arial;line-height:0.95;">Business</h1>
+      <h1 style="position:absolute;left:64px;top:382px;width:1000px;height:110px;font-size:104px;font-weight:bold;color:#fafaf8;font-family:Arial;line-height:0.95;">review<span style="color:#8fa3d8;">, Q2.</span></h1>
+      <p style="position:absolute;left:64px;top:540px;width:640px;height:48px;font-size:16px;color:#b8c4e8;font-family:Arial;line-height:1.5;">Revenue, retention, and the road to Q3 — prepared by the Insights Team for the July board session.</p>
 
-      <h1 style="position:absolute;left:64px;top:308px;width:840px;height:180px;font-size:72px;font-weight:bold;color:#fff;font-family:Arial;">Business Review</h1>
-      <p style="position:absolute;left:64px;top:432px;width:760px;height:60px;font-size:21px;color:#94a3b8;font-family:Arial;">Revenue, retention, and the <span style="font-family:Georgia;font-style:italic;color:#c7d2fe;">road to Q3</span> — by the Insights Team</p>
-
-      <p style="position:absolute;left:940px;top:322px;width:250px;height:70px;font-size:56px;font-weight:bold;color:#38bdf8;font-family:Arial;text-align:center;">+18%</p>
-      <p style="position:absolute;left:940px;top:398px;width:250px;height:24px;font-size:14px;color:#94a3b8;font-family:Arial;text-align:center;">revenue, quarter over quarter</p>
-
-      <div data-shape="rect" style="position:absolute;left:64px;top:642px;width:1152px;height:1px;background:#334155;"></div>
-      <p style="position:absolute;left:64px;top:662px;width:600px;height:22px;font-size:12px;color:#64748b;font-family:Arial;">aurora.dev · confidential</p>
-      <p style="position:absolute;left:900px;top:662px;width:316px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:right;">July 4, 2026</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#2a4bb8;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#8fa3d8;font-family:'Courier New';letter-spacing:1px;">AURORA.DEV · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#8fa3d8;font-family:'Courier New';letter-spacing:1px;text-align:right;">1 / 12</p>
     </section>
 
-    <!-- ═══════════ S02 · Agenda (split) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <div data-shape="rect" style="position:absolute;left:0;top:0;width:420px;height:720px;background:#0f172a;"></div>
-      <svg style="position:absolute;left:0;top:380px;width:420px;height:340px;" viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg"><title>wave</title><path d="M0,340 C120,240 220,300 420,180 L420,340 Z" fill="#1e293b"/><path d="M0,340 C160,300 260,330 420,270 L420,340 Z" fill="#4f46e5" opacity="0.35"/></svg>
-      <p style="position:absolute;left:64px;top:88px;width:300px;height:20px;font-size:12px;font-weight:bold;color:#818cf8;font-family:Arial;letter-spacing:0.14em;">WHAT WE'LL COVER</p>
-      <h2 style="position:absolute;left:64px;top:112px;width:300px;height:60px;font-size:44px;font-weight:bold;color:#fff;font-family:Arial;">Agenda</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:180px;width:56px;height:6px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:64px;top:668px;width:300px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">Q2 2026 · Insights Team</p>
+    <!-- ════════ 02 · AGENDA (paper ledger) ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 02 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">AGENDA</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <p style="position:absolute;left:484px;top:120px;width:60px;height:40px;font-size:28px;font-weight:bold;color:#4f46e5;font-family:Arial;">01</p>
-      <p style="position:absolute;left:560px;top:120px;width:600px;height:32px;font-size:22px;font-weight:bold;color:#0f172a;font-family:Arial;">Performance snapshot</p>
-      <p style="position:absolute;left:560px;top:156px;width:620px;height:26px;font-size:15px;color:#64748b;font-family:Arial;">The quarter in four numbers — and what moved them</p>
-      <div data-shape="rect" style="position:absolute;left:484px;top:202px;width:732px;height:1px;background:#e2e8f0;"></div>
+      <h2 style="position:absolute;left:64px;top:150px;width:380px;height:180px;font-size:84px;font-weight:bold;color:#0a0a0a;font-family:Arial;line-height:0.95;">Agenda<span style="color:#002fa7;">.</span></h2>
+      <p style="position:absolute;left:64px;top:560px;width:380px;height:40px;font-size:13px;color:#6b6b66;font-family:'Courier New';line-height:1.5;">FOUR SECTIONS · 25 MIN
++ 10 MIN DISCUSSION</p>
 
-      <p style="position:absolute;left:484px;top:250px;width:60px;height:40px;font-size:28px;font-weight:bold;color:#38bdf8;font-family:Arial;">02</p>
-      <p style="position:absolute;left:560px;top:250px;width:600px;height:32px;font-size:22px;font-weight:bold;color:#0f172a;font-family:Arial;">Revenue deep dive</p>
-      <p style="position:absolute;left:560px;top:286px;width:620px;height:26px;font-size:15px;color:#64748b;font-family:Arial;">Regional ranking, mix, and the APAC breakout</p>
-      <div data-shape="rect" style="position:absolute;left:484px;top:332px;width:732px;height:1px;background:#e2e8f0;"></div>
+      <p style="position:absolute;left:520px;top:140px;width:60px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">01</p>
+      <p style="position:absolute;left:600px;top:132px;width:560px;height:34px;font-size:26px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Performance snapshot</p>
+      <p style="position:absolute;left:600px;top:172px;width:600px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">The quarter in four numbers — and what moved them</p>
+      <div data-shape="rect" style="position:absolute;left:520px;top:218px;width:696px;height:1px;background:#d8d5cc;"></div>
 
-      <p style="position:absolute;left:484px;top:380px;width:60px;height:40px;font-size:28px;font-weight:bold;color:#10b981;font-family:Arial;">03</p>
-      <p style="position:absolute;left:560px;top:380px;width:600px;height:32px;font-size:22px;font-weight:bold;color:#0f172a;font-family:Arial;">The road to Q3</p>
-      <p style="position:absolute;left:560px;top:416px;width:620px;height:26px;font-size:15px;color:#64748b;font-family:Arial;">Cloud GA, two new offices, and platform pricing</p>
-      <div data-shape="rect" style="position:absolute;left:484px;top:462px;width:732px;height:1px;background:#e2e8f0;"></div>
+      <p style="position:absolute;left:520px;top:258px;width:60px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">02</p>
+      <p style="position:absolute;left:600px;top:250px;width:560px;height:34px;font-size:26px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Revenue deep dive</p>
+      <p style="position:absolute;left:600px;top:290px;width:600px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">Regional ranking, mix, and the APAC breakout</p>
+      <div data-shape="rect" style="position:absolute;left:520px;top:336px;width:696px;height:1px;background:#d8d5cc;"></div>
 
-      <p style="position:absolute;left:484px;top:510px;width:60px;height:40px;font-size:28px;font-weight:bold;color:#f59e0b;font-family:Arial;">04</p>
-      <p style="position:absolute;left:560px;top:510px;width:600px;height:32px;font-size:22px;font-weight:bold;color:#0f172a;font-family:Arial;">Asks &amp; next steps</p>
-      <p style="position:absolute;left:560px;top:546px;width:620px;height:26px;font-size:15px;color:#64748b;font-family:Arial;">The hiring plan and the one decision we need today</p>
+      <p style="position:absolute;left:520px;top:376px;width:60px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">03</p>
+      <p style="position:absolute;left:600px;top:368px;width:560px;height:34px;font-size:26px;font-weight:bold;color:#0a0a0a;font-family:Arial;">The road to Q3</p>
+      <p style="position:absolute;left:600px;top:408px;width:600px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">Cloud GA, two new offices, and platform pricing</p>
+      <div data-shape="rect" style="position:absolute;left:520px;top:454px;width:696px;height:1px;background:#d8d5cc;"></div>
+
+      <p style="position:absolute;left:520px;top:494px;width:60px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">04</p>
+      <p style="position:absolute;left:600px;top:486px;width:560px;height:34px;font-size:26px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Asks &amp; next steps</p>
+      <p style="position:absolute;left:600px;top:526px;width:600px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">The hiring plan and the one decision we need today</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">2 / 12</p>
     </section>
 
-    <!-- ═══════════ S08 · Statement (breather, ink) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#0f172a;margin:0 auto 24px auto;">
-      <svg style="position:absolute;left:0;top:0;width:1280px;height:720px;" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg"><title>glow</title><defs><linearGradient id="s1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4f46e5" stop-opacity="0.4"/><stop offset="1" stop-color="#0f172a" stop-opacity="0"/></linearGradient></defs><path d="M0,720 C360,560 620,660 900,500 C1080,400 1200,440 1280,380 L1280,720 Z" fill="url(#s1)"/></svg>
-      <p style="position:absolute;left:96px;top:250px;width:400px;height:20px;font-size:13px;font-weight:bold;color:#818cf8;font-family:Arial;letter-spacing:0.16em;">THE HEADLINE</p>
-      <h2 style="position:absolute;left:96px;top:288px;width:1088px;height:220px;font-size:76px;font-weight:bold;color:#fff;font-family:Arial;">Q2 was our strongest quarter <span style="font-family:Georgia;font-style:italic;color:#a5b4fc;">on record.</span></h2>
-      <p style="position:absolute;left:96px;top:520px;width:900px;height:60px;font-size:22px;color:#94a3b8;font-family:Arial;">Revenue up 18%, churn at an all-time low, and Aurora Cloud out the door.</p>
-      <p style="position:absolute;left:96px;top:662px;width:600px;height:22px;font-size:12px;color:#64748b;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:662px;width:200px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:right;">03 / 11</p>
+    <!-- ════════ 03 · STATEMENT ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 03 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">01 · PERFORMANCE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
+
+      <!-- dot matrix, top right -->
+      <div data-shape="rect" style="position:absolute;left:1096px;top:120px;width:12px;height:12px;background:#002fa7;"></div>
+      <div data-shape="rect" style="position:absolute;left:1120px;top:120px;width:12px;height:12px;background:#002fa7;"></div>
+      <div data-shape="rect" style="position:absolute;left:1144px;top:120px;width:12px;height:12px;background:#d6ddf0;"></div>
+      <div data-shape="rect" style="position:absolute;left:1168px;top:120px;width:12px;height:12px;background:#002fa7;"></div>
+      <div data-shape="rect" style="position:absolute;left:1096px;top:144px;width:12px;height:12px;background:#d6ddf0;"></div>
+      <div data-shape="rect" style="position:absolute;left:1120px;top:144px;width:12px;height:12px;background:#002fa7;"></div>
+      <div data-shape="rect" style="position:absolute;left:1168px;top:144px;width:12px;height:12px;background:#d6ddf0;"></div>
+      <div data-shape="rect" style="position:absolute;left:1120px;top:168px;width:12px;height:12px;background:#d6ddf0;"></div>
+      <div data-shape="rect" style="position:absolute;left:1144px;top:168px;width:12px;height:12px;background:#002fa7;"></div>
+
+      <p style="position:absolute;left:64px;top:170px;width:400px;height:20px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">§ 01 · THE HEADLINE</p>
+      <h2 style="position:absolute;left:64px;top:224px;width:1088px;height:280px;font-size:84px;font-weight:bold;color:#0a0a0a;font-family:Arial;line-height:1.05;">Our strongest quarter <span style="font-family:Georgia;font-style:italic;font-weight:normal;color:#002fa7;">on record.</span></h2>
+      <p style="position:absolute;left:64px;top:540px;width:880px;height:32px;font-size:20px;color:#6b6b66;font-family:Arial;">Revenue up 18%, churn at an all-time low, and Aurora Cloud out the door.</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">3 / 12</p>
     </section>
 
-    <!-- ═══════════ S03 · KPI dashboard ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#4f46e5;font-family:Arial;letter-spacing:0.14em;">01 · PERFORMANCE</p>
-      <h2 style="position:absolute;left:64px;top:74px;width:800px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Performance snapshot</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 04</p>
+    <!-- ════════ 04 · KPI TOWER ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 04 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">01 · PERFORMANCE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:162px;width:274px;height:150px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <div data-shape="rect" style="position:absolute;left:88px;top:188px;width:40px;height:6px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:88px;top:206px;width:226px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">$28.7M</p>
-      <p style="position:absolute;left:88px;top:260px;width:226px;height:22px;font-size:14px;color:#64748b;font-family:Arial;">Quarterly revenue</p>
-      <p style="position:absolute;left:88px;top:284px;width:226px;height:20px;font-size:13px;font-weight:bold;color:#10b981;font-family:Arial;">▲ 18% vs Q1</p>
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">The quarter in four numbers<span style="color:#002fa7;">.</span></h2>
 
-      <div data-shape="rect" style="position:absolute;left:357px;top:162px;width:274px;height:150px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <div data-shape="rect" style="position:absolute;left:381px;top:188px;width:40px;height:6px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:381px;top:206px;width:226px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">2.1%</p>
-      <p style="position:absolute;left:381px;top:260px;width:226px;height:22px;font-size:14px;color:#64748b;font-family:Arial;">Monthly churn</p>
-      <p style="position:absolute;left:381px;top:284px;width:226px;height:20px;font-size:13px;font-weight:bold;color:#10b981;font-family:Arial;">▼ 0.8 pt — all-time low</p>
+      <!-- col 1 -->
+      <p style="position:absolute;left:64px;top:210px;width:250px;height:52px;font-size:40px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';">$28.7M</p>
+      <p style="position:absolute;left:64px;top:266px;width:250px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">QUARTERLY REVENUE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:416px;width:60px;height:144px;background:#002fa7;"></div>
+      <p style="position:absolute;left:64px;top:572px;width:250px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';">+18% VS Q1</p>
 
-      <div data-shape="rect" style="position:absolute;left:650px;top:162px;width:274px;height:150px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <div data-shape="rect" style="position:absolute;left:674px;top:188px;width:40px;height:6px;background:#10b981;"></div>
-      <p style="position:absolute;left:674px;top:206px;width:226px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">61</p>
-      <p style="position:absolute;left:674px;top:260px;width:226px;height:22px;font-size:14px;color:#64748b;font-family:Arial;">Net promoter score</p>
-      <p style="position:absolute;left:674px;top:284px;width:226px;height:20px;font-size:13px;font-weight:bold;color:#10b981;font-family:Arial;">▲ 9 pts vs Q1</p>
+      <!-- col 2 -->
+      <p style="position:absolute;left:352px;top:210px;width:250px;height:52px;font-size:40px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';">2.1%</p>
+      <p style="position:absolute;left:352px;top:266px;width:250px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">MONTHLY CHURN</p>
+      <div data-shape="rect" style="position:absolute;left:352px;top:336px;width:60px;height:224px;background:#002fa7;"></div>
+      <p style="position:absolute;left:352px;top:572px;width:250px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';">−28% VS Q1</p>
 
-      <div data-shape="rect" style="position:absolute;left:943px;top:162px;width:273px;height:150px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <div data-shape="rect" style="position:absolute;left:967px;top:188px;width:40px;height:6px;background:#f59e0b;"></div>
-      <p style="position:absolute;left:967px;top:206px;width:225px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">1,904</p>
-      <p style="position:absolute;left:967px;top:260px;width:225px;height:22px;font-size:14px;color:#64748b;font-family:Arial;">New customers</p>
-      <p style="position:absolute;left:967px;top:284px;width:225px;height:20px;font-size:13px;font-weight:bold;color:#10b981;font-family:Arial;">▲ 22% vs Q1</p>
+      <!-- col 3 -->
+      <p style="position:absolute;left:640px;top:210px;width:250px;height:52px;font-size:40px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';">61</p>
+      <p style="position:absolute;left:640px;top:266px;width:250px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">NET PROMOTER SCORE</p>
+      <div data-shape="rect" style="position:absolute;left:640px;top:424px;width:60px;height:136px;background:#002fa7;"></div>
+      <p style="position:absolute;left:640px;top:572px;width:250px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';">+17% VS Q1</p>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:342px;width:736px;height:298px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:88px;top:364px;width:600px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Revenue vs. costs <span style="color:#94a3b8;font-weight:normal;">(USD millions)</span></p>
-      <div data-chart='{"type":"bar","categories":["Q3 25","Q4 25","Q1 26","Q2 26"],"series":[{"name":"Revenue","values":[19.4,21.8,24.3,28.7]},{"name":"Costs","values":[14.1,15.0,15.9,17.2]}],"colors":["#4f46e5","#c7d2fe"]}' style="position:absolute;left:88px;top:402px;width:688px;height:220px;"></div>
+      <!-- col 4 -->
+      <p style="position:absolute;left:928px;top:210px;width:288px;height:52px;font-size:40px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';">1,904</p>
+      <p style="position:absolute;left:928px;top:266px;width:288px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">NEW CUSTOMERS</p>
+      <div data-shape="rect" style="position:absolute;left:928px;top:384px;width:60px;height:176px;background:#002fa7;"></div>
+      <p style="position:absolute;left:928px;top:572px;width:288px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';">+22% VS Q1</p>
 
-      <div data-shape="rect" style="position:absolute;left:820px;top:342px;width:396px;height:298px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:844px;top:364px;width:340px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">What moved the numbers</p>
-      <div data-shape="ellipse" style="position:absolute;left:844px;top:410px;width:10px;height:10px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:868px;top:402px;width:324px;height:44px;font-size:14px;color:#475569;font-family:Arial;"><b>Aurora Cloud beta</b> — 1,900 sign-ups, 34% to paid</p>
-      <div data-shape="ellipse" style="position:absolute;left:844px;top:466px;width:10px;height:10px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:868px;top:458px;width:324px;height:44px;font-size:14px;color:#475569;font-family:Arial;"><b>APAC launch</b> — first contracts in Tokyo &amp; Seoul</p>
-      <div data-shape="ellipse" style="position:absolute;left:844px;top:522px;width:10px;height:10px;background:#10b981;"></div>
-      <p style="position:absolute;left:868px;top:514px;width:324px;height:44px;font-size:14px;color:#475569;font-family:Arial;"><b>Time-to-value</b> — six days down to <i>36 hours</i></p>
-      <div data-shape="ellipse" style="position:absolute;left:844px;top:578px;width:10px;height:10px;background:#f59e0b;"></div>
-      <p style="position:absolute;left:868px;top:570px;width:324px;height:44px;font-size:14px;color:#475569;font-family:Arial;"><b>Support</b> — volume flat on a 22% bigger base</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:560px;width:1152px;height:2px;background:#0a0a0a;"></div>
+      <p style="position:absolute;left:64px;top:612px;width:900px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">BAR HEIGHT = % CHANGE VS Q1, TO SCALE · CHURN SHOWN AS IMPROVEMENT</p>
 
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">04 / 11</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">4 / 12</p>
     </section>
 
-    <!-- ═══════════ S11 · Ranked H-bar ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#38bdf8;font-family:Arial;letter-spacing:0.14em;">02 · REVENUE</p>
-      <h2 style="position:absolute;left:64px;top:74px;width:900px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Revenue by region</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 05</p>
-      <p style="position:absolute;left:64px;top:150px;width:700px;height:24px;font-size:15px;color:#64748b;font-family:Arial;">Q2 2026, ranked by revenue <span style="font-style:italic;">(USD millions)</span></p>
+    <!-- ════════ 05 · NATIVE BAR CHART ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 05 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">01 · PERFORMANCE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <!-- rows: label(64-360) · track(380-1000) · value(1020-1216); bar width ∝ value/14.2 -->
-      <p style="position:absolute;left:64px;top:214px;width:300px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">North America</p>
-      <div data-shape="rect" style="position:absolute;left:380px;top:214px;width:620px;height:26px;background:#eef2ff;border-radius:4px;"></div>
-      <div data-shape="rect" style="position:absolute;left:380px;top:214px;width:620px;height:26px;background:#4f46e5;border-radius:4px;"></div>
-      <p style="position:absolute;left:1020px;top:214px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:right;">$14.2M</p>
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Revenue outruns costs<span style="color:#002fa7;">.</span></h2>
+      <p style="position:absolute;left:64px;top:172px;width:800px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">Fourth consecutive quarter of widening operating margin.</p>
 
-      <p style="position:absolute;left:64px;top:290px;width:300px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Europe</p>
-      <div data-shape="rect" style="position:absolute;left:380px;top:290px;width:620px;height:26px;background:#eef2ff;border-radius:4px;"></div>
-      <div data-shape="rect" style="position:absolute;left:380px;top:290px;width:375px;height:26px;background:#6366f1;border-radius:4px;"></div>
-      <p style="position:absolute;left:1020px;top:290px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:right;">$8.6M</p>
+      <div data-chart='{"type":"bar","categories":["Q3 2025","Q4 2025","Q1 2026","Q2 2026"],"series":[{"name":"Revenue","values":[19.4,21.8,24.3,28.7]},{"name":"Costs","values":[14.1,15.0,15.9,17.2]}],"colors":["#002fa7","#c9c6bc"]}' style="position:absolute;left:64px;top:220px;width:1152px;height:370px;"></div>
+      <p style="position:absolute;left:64px;top:610px;width:900px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">USD MILLIONS · SOURCE: FINANCE CLOSE 2026.07.01 · EDITABLE NATIVE CHART</p>
 
-      <p style="position:absolute;left:64px;top:366px;width:300px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">APAC</p>
-      <div data-shape="rect" style="position:absolute;left:380px;top:366px;width:620px;height:26px;background:#eef2ff;border-radius:4px;"></div>
-      <div data-shape="rect" style="position:absolute;left:380px;top:366px;width:179px;height:26px;background:#38bdf8;border-radius:4px;"></div>
-      <p style="position:absolute;left:1020px;top:366px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:right;">$4.1M</p>
-
-      <p style="position:absolute;left:64px;top:442px;width:300px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Rest of world</p>
-      <div data-shape="rect" style="position:absolute;left:380px;top:442px;width:620px;height:26px;background:#eef2ff;border-radius:4px;"></div>
-      <div data-shape="rect" style="position:absolute;left:380px;top:442px;width:79px;height:26px;background:#93c5fd;border-radius:4px;"></div>
-      <p style="position:absolute;left:1020px;top:442px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:right;">$1.8M</p>
-
-      <div data-shape="rect" style="position:absolute;left:64px;top:520px;width:1152px;height:1px;background:#e2e8f0;"></div>
-      <p style="position:absolute;left:64px;top:544px;width:1000px;height:60px;font-size:16px;color:#475569;font-family:Arial;"><b>APAC is growing 3× faster</b> than any other region — on <i>two months</i> of the Tokyo launch. A full quarter lands in Q3.</p>
-
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">05 / 11</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">5 / 12</p>
     </section>
 
-    <!-- ═══════════ S04 · Data deep-dive ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#38bdf8;font-family:Arial;letter-spacing:0.14em;">02 · REVENUE</p>
-      <h2 style="position:absolute;left:64px;top:74px;width:800px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Mix &amp; the APAC breakout</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 06</p>
+    <!-- ════════ 06 · RANKED H-BARS ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 06 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">02 · REVENUE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:162px;width:600px;height:470px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:88px;top:186px;width:500px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Regional detail <span style="color:#94a3b8;font-weight:normal;">(USD millions)</span></p>
-      <table style="position:absolute;left:88px;top:230px;width:552px;height:300px;font-size:15px;font-family:Arial;">
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Where revenue lives<span style="color:#002fa7;">.</span></h2>
+      <p style="position:absolute;left:64px;top:172px;width:800px;height:24px;font-size:15px;color:#6b6b66;font-family:Arial;">Q2 2026, ranked — bar length is revenue, to scale.</p>
+
+      <p style="position:absolute;left:64px;top:248px;width:280px;height:26px;font-size:19px;font-weight:bold;color:#0a0a0a;font-family:Arial;">North America</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:250px;width:620px;height:18px;background:#002fa7;"></div>
+      <p style="position:absolute;left:1020px;top:248px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';text-align:right;">$14.2M</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:284px;width:836px;height:1px;background:#d8d5cc;"></div>
+
+      <p style="position:absolute;left:64px;top:324px;width:280px;height:26px;font-size:19px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Europe</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:326px;width:375px;height:18px;background:#4666c4;"></div>
+      <p style="position:absolute;left:1020px;top:324px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';text-align:right;">$8.6M</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:360px;width:836px;height:1px;background:#d8d5cc;"></div>
+
+      <p style="position:absolute;left:64px;top:400px;width:280px;height:26px;font-size:19px;font-weight:bold;color:#0a0a0a;font-family:Arial;">APAC</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:402px;width:179px;height:18px;background:#8fa3d8;"></div>
+      <p style="position:absolute;left:1020px;top:400px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';text-align:right;">$4.1M</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:436px;width:836px;height:1px;background:#d8d5cc;"></div>
+
+      <p style="position:absolute;left:64px;top:476px;width:280px;height:26px;font-size:19px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Rest of world</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:478px;width:79px;height:18px;background:#d6ddf0;"></div>
+      <p style="position:absolute;left:1020px;top:476px;width:196px;height:26px;font-size:18px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';text-align:right;">$1.8M</p>
+      <div data-shape="rect" style="position:absolute;left:380px;top:512px;width:836px;height:1px;background:#d8d5cc;"></div>
+
+      <p style="position:absolute;left:64px;top:560px;width:1088px;height:52px;font-size:17px;color:#3a3a36;font-family:Arial;line-height:1.5;"><b>APAC is growing 3× faster</b> than any other region — on <span style="font-family:Georgia;font-style:italic;">two months</span> of the Tokyo launch. A full quarter lands in Q3.</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">6 / 12</p>
+    </section>
+
+    <!-- ════════ 07 · DEEP DIVE (table + doughnut) ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 07 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">02 · REVENUE</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
+
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Regional detail<span style="color:#002fa7;">.</span></h2>
+
+      <table style="position:absolute;left:64px;top:200px;width:560px;height:300px;font-size:15px;font-family:Arial;">
         <tr><th>Region</th><th>Revenue</th><th>Δ YoY</th><th>Share</th></tr>
         <tr><td>North America</td><td>$14.2M</td><td>+12%</td><td>49%</td></tr>
         <tr><td>Europe</td><td>$8.6M</td><td>+9%</td><td>30%</td></tr>
         <tr><td>APAC</td><td>$4.1M</td><td>+38%</td><td>14%</td></tr>
         <tr><td>Rest of world</td><td>$1.8M</td><td>+6%</td><td>7%</td></tr>
       </table>
-      <p style="position:absolute;left:88px;top:566px;width:552px;height:44px;font-size:13px;color:#64748b;font-family:Arial;"><i>APAC reflects two months of the Tokyo launch only — a full quarter lands in Q3.</i></p>
+      <p style="position:absolute;left:64px;top:540px;width:560px;height:44px;font-size:13px;color:#6b6b66;font-family:Arial;"><i>APAC reflects two months of the Tokyo launch only — a full quarter lands in Q3.</i></p>
 
-      <div data-shape="rect" style="position:absolute;left:688px;top:162px;width:528px;height:288px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:712px;top:186px;width:480px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Revenue mix by region</p>
-      <div data-chart='{"type":"doughnut","categories":["North America","Europe","APAC","Rest of world"],"series":[{"name":"Q2 2026","values":[14.2,8.6,4.1,1.8]}],"colors":["#4f46e5","#38bdf8","#10b981","#f59e0b"]}' style="position:absolute;left:712px;top:222px;width:480px;height:210px;"></div>
+      <p style="position:absolute;left:688px;top:200px;width:400px;height:20px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">REVENUE MIX · Q2</p>
+      <div data-chart='{"type":"doughnut","categories":["North America","Europe","APAC","Rest of world"],"series":[{"name":"Q2 2026","values":[14.2,8.6,4.1,1.8]}],"colors":["#002fa7","#4666c4","#8fa3d8","#d6ddf0"]}' style="position:absolute;left:688px;top:232px;width:528px;height:210px;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:688px;top:472px;width:528px;height:160px;background:#eef2ff;border-radius:14px;"></div>
-      <div data-shape="rect" style="position:absolute;left:688px;top:472px;width:6px;height:160px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:720px;top:494px;width:472px;height:26px;font-size:16px;font-weight:bold;color:#312e81;font-family:Arial;">The takeaway</p>
-      <p style="position:absolute;left:720px;top:526px;width:472px;height:88px;font-size:15px;color:#3730a3;font-family:Arial;">Every incremental dollar of Q3 go-to-market budget should land in <b>APAC first</b> — it compounds fastest.</p>
+      <div data-shape="rect" style="position:absolute;left:688px;top:470px;width:528px;height:150px;background:#002fa7;"></div>
+      <p style="position:absolute;left:716px;top:492px;width:472px;height:18px;font-size:12px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;">THE TAKEAWAY</p>
+      <p style="position:absolute;left:716px;top:522px;width:472px;height:76px;font-size:17px;color:#fafaf8;font-family:Arial;line-height:1.4;">Every incremental dollar of Q3 go-to-market budget lands in <b>APAC first</b> — it compounds fastest.</p>
 
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">06 / 11</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">7 / 12</p>
     </section>
 
-    <!-- ═══════════ S13 · Section divider (inverted) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#0f172a;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:96px;top:300px;width:400px;height:200px;font-size:180px;font-weight:bold;color:#1e293b;font-family:Arial;">03</p>
-      <p style="position:absolute;left:96px;top:300px;width:600px;height:20px;font-size:13px;font-weight:bold;color:#818cf8;font-family:Arial;letter-spacing:0.16em;">PART THREE</p>
-      <h2 style="position:absolute;left:96px;top:336px;width:900px;height:96px;font-size:64px;font-weight:bold;color:#fff;font-family:Arial;">The road to Q3</h2>
-      <p style="position:absolute;left:96px;top:452px;width:820px;height:60px;font-size:20px;color:#94a3b8;font-family:Arial;">Three shipping milestones, three workstreams, and the one <span style="font-family:Georgia;font-style:italic;color:#c7d2fe;">ask</span> we need today.</p>
-      <p style="position:absolute;left:96px;top:662px;width:600px;height:22px;font-size:12px;color:#64748b;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:662px;width:200px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:right;">07 / 11</p>
+    <!-- ════════ 08 · DIVIDER (ink) ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#0a0a0a;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#fafaf8;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#55554f;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 08 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#55554f;font-family:'Courier New';letter-spacing:2px;text-align:right;">03 · ROADMAP</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#2a2a26;"></div>
+
+      <p style="position:absolute;left:760px;top:220px;width:460px;height:240px;font-size:220px;font-weight:bold;color:#1c1c1a;font-family:Arial;text-align:right;">03</p>
+      <p style="position:absolute;left:64px;top:280px;width:400px;height:20px;font-size:13px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;">PART THREE</p>
+      <h2 style="position:absolute;left:64px;top:320px;width:900px;height:110px;font-size:84px;font-weight:bold;color:#fafaf8;font-family:Arial;line-height:0.95;">The road to Q3<span style="color:#002fa7;">.</span></h2>
+      <p style="position:absolute;left:64px;top:460px;width:760px;height:32px;font-size:19px;color:#9a988f;font-family:Arial;">Three shipping milestones, three workstreams, one <span style="font-family:Georgia;font-style:italic;color:#d6ddf0;">ask</span>.</p>
+
+      <pre style="position:absolute;left:64px;top:560px;width:300px;height:60px;font-size:11px;line-height:1.3;letter-spacing:5px;color:#2a2a26;font-family:'Courier New';">▓▒░░▒▓█▓▒░
+░▒▓█▓▒░░▒▓
+█▓▒░░▒▓█▓▒</pre>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#2a2a26;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#55554f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#55554f;font-family:'Courier New';letter-spacing:1px;text-align:right;">8 / 12</p>
     </section>
 
-    <!-- ═══════════ S05 · Timeline ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#10b981;font-family:Arial;letter-spacing:0.14em;">03 · ROADMAP</p>
-      <h2 style="position:absolute;left:64px;top:74px;width:800px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Shipping milestones</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#10b981;"></div>
-      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 08</p>
+    <!-- ════════ 09 · TIMELINE ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 09 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">03 · ROADMAP</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:96px;top:270px;width:1088px;height:4px;background:#e2e8f0;"></div>
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Shipping milestones<span style="color:#002fa7;">.</span></h2>
 
-      <p style="position:absolute;left:96px;top:200px;width:200px;height:24px;font-size:14px;font-weight:bold;color:#4f46e5;font-family:Arial;">JULY</p>
-      <div data-shape="ellipse" style="position:absolute;left:132px;top:260px;width:24px;height:24px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:96px;top:312px;width:250px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Aurora Cloud GA</p>
-      <p style="position:absolute;left:96px;top:344px;width:250px;height:80px;font-size:14px;color:#64748b;font-family:Arial;">Graduate the beta; target <b>99.95%</b> availability from day one.</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:300px;width:1152px;height:2px;background:#0a0a0a;"></div>
 
-      <p style="position:absolute;left:384px;top:200px;width:200px;height:24px;font-size:14px;font-weight:bold;color:#38bdf8;font-family:Arial;">AUGUST</p>
-      <div data-shape="ellipse" style="position:absolute;left:420px;top:260px;width:24px;height:24px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:384px;top:312px;width:250px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">APAC offices</p>
-      <p style="position:absolute;left:384px;top:344px;width:250px;height:80px;font-size:14px;color:#64748b;font-family:Arial;">Osaka &amp; Singapore open; local-language support follows.</p>
+      <p style="position:absolute;left:64px;top:236px;width:240px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">JUL</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:293px;width:16px;height:16px;background:#002fa7;"></div>
+      <p style="position:absolute;left:64px;top:340px;width:240px;height:26px;font-size:20px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Aurora Cloud GA</p>
+      <p style="position:absolute;left:64px;top:374px;width:240px;height:70px;font-size:14px;color:#6b6b66;font-family:Arial;line-height:1.5;">Graduate the beta; 99.95% availability target from day one.</p>
 
-      <p style="position:absolute;left:672px;top:200px;width:220px;height:24px;font-size:14px;font-weight:bold;color:#10b981;font-family:Arial;">SEPTEMBER</p>
-      <div data-shape="ellipse" style="position:absolute;left:708px;top:260px;width:24px;height:24px;background:#10b981;"></div>
-      <p style="position:absolute;left:672px;top:312px;width:250px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Platform pricing</p>
-      <p style="position:absolute;left:672px;top:344px;width:250px;height:80px;font-size:14px;color:#64748b;font-family:Arial;">Usage-based tiers roll out to all <i>new</i> customers.</p>
+      <p style="position:absolute;left:352px;top:236px;width:240px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">AUG</p>
+      <div data-shape="rect" style="position:absolute;left:352px;top:293px;width:16px;height:16px;background:#002fa7;"></div>
+      <p style="position:absolute;left:352px;top:340px;width:240px;height:26px;font-size:20px;font-weight:bold;color:#0a0a0a;font-family:Arial;">APAC offices</p>
+      <p style="position:absolute;left:352px;top:374px;width:240px;height:70px;font-size:14px;color:#6b6b66;font-family:Arial;line-height:1.5;">Osaka &amp; Singapore open; local-language support follows.</p>
 
-      <p style="position:absolute;left:960px;top:200px;width:220px;height:24px;font-size:14px;font-weight:bold;color:#f59e0b;font-family:Arial;">OCTOBER</p>
-      <div data-shape="ellipse" style="position:absolute;left:996px;top:260px;width:24px;height:24px;background:#f59e0b;"></div>
-      <p style="position:absolute;left:960px;top:312px;width:240px;height:28px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;">Customer summit</p>
-      <p style="position:absolute;left:960px;top:344px;width:240px;height:80px;font-size:14px;color:#64748b;font-family:Arial;">First Aurora Summit in Tokyo — 400 seats, keynote + labs.</p>
+      <p style="position:absolute;left:640px;top:236px;width:240px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">SEP</p>
+      <div data-shape="rect" style="position:absolute;left:640px;top:293px;width:16px;height:16px;background:#002fa7;"></div>
+      <p style="position:absolute;left:640px;top:340px;width:240px;height:26px;font-size:20px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Platform pricing</p>
+      <p style="position:absolute;left:640px;top:374px;width:240px;height:70px;font-size:14px;color:#6b6b66;font-family:Arial;line-height:1.5;">Usage-based tiers roll out to all new customers.</p>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:470px;width:1152px;height:1px;background:#e2e8f0;"></div>
-      <p style="position:absolute;left:64px;top:496px;width:1000px;height:40px;font-size:16px;color:#475569;font-family:Arial;">Every milestone ships behind a flag first — <b>zero</b> big-bang releases this quarter.</p>
+      <p style="position:absolute;left:928px;top:236px;width:240px;height:18px;font-size:13px;font-weight:bold;color:#002fa7;font-family:'Courier New';letter-spacing:2px;">OCT</p>
+      <div data-shape="rect" style="position:absolute;left:928px;top:293px;width:16px;height:16px;background:#002fa7;"></div>
+      <p style="position:absolute;left:928px;top:340px;width:288px;height:26px;font-size:20px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Customer summit</p>
+      <p style="position:absolute;left:928px;top:374px;width:288px;height:70px;font-size:14px;color:#6b6b66;font-family:Arial;line-height:1.5;">First Aurora Summit, Tokyo — 400 seats, keynote + labs.</p>
 
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">08 / 11</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:500px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:528px;width:1000px;height:26px;font-size:16px;color:#3a3a36;font-family:Arial;">Every milestone ships behind a flag first — <b>zero</b> big-bang releases this quarter.</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">9 / 12</p>
     </section>
 
-    <!-- ═══════════ S14 · Process row (workstreams) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#10b981;font-family:Arial;letter-spacing:0.14em;">03 · ROADMAP</p>
-      <h2 style="position:absolute;left:64px;top:74px;width:800px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">How it ships: three workstreams</h2>
-      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#10b981;"></div>
-      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 09</p>
+    <!-- ════════ 10 · PROCESS 3-COL ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 10 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">03 · ROADMAP</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:64px;top:190px;width:360px;height:380px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:88px;top:214px;width:60px;height:44px;font-size:32px;font-weight:bold;color:#4f46e5;font-family:Arial;">01</p>
-      <p style="position:absolute;left:88px;top:270px;width:312px;height:30px;font-size:20px;font-weight:bold;color:#0f172a;font-family:Arial;">Product</p>
-      <div data-shape="rect" style="position:absolute;left:88px;top:308px;width:40px;height:4px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:88px;top:326px;width:312px;height:220px;font-size:15px;color:#475569;font-family:Arial;">GA hardening, usage metering, and the audit-log API enterprise buyers keep asking for. Owned by Platform Eng, tracked weekly.</p>
+      <h2 style="position:absolute;left:64px;top:110px;width:900px;height:56px;font-size:44px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Three workstreams<span style="color:#002fa7;">.</span></h2>
 
-      <div data-shape="rect" style="position:absolute;left:460px;top:190px;width:360px;height:380px;background:#0f172a;border-radius:14px;"></div>
-      <p style="position:absolute;left:484px;top:214px;width:60px;height:44px;font-size:32px;font-weight:bold;color:#38bdf8;font-family:Arial;">02</p>
-      <p style="position:absolute;left:484px;top:270px;width:312px;height:30px;font-size:20px;font-weight:bold;color:#fff;font-family:Arial;">Go-to-market</p>
-      <div data-shape="rect" style="position:absolute;left:484px;top:308px;width:40px;height:4px;background:#38bdf8;"></div>
-      <p style="position:absolute;left:484px;top:326px;width:312px;height:220px;font-size:15px;color:#cbd5e1;font-family:Arial;">Six AE hires weighted to APAC, plus a partner pilot with two Tokyo integrators. This is where the budget ask lives.</p>
+      <div data-shape="rect" style="position:absolute;left:454px;top:210px;width:1px;height:380px;background:#d8d5cc;"></div>
+      <div data-shape="rect" style="position:absolute;left:844px;top:210px;width:1px;height:380px;background:#d8d5cc;"></div>
 
-      <div data-shape="rect" style="position:absolute;left:856px;top:190px;width:360px;height:380px;background:#fff;border-radius:14px;border:1px solid #e2e8f0;"></div>
-      <p style="position:absolute;left:880px;top:214px;width:60px;height:44px;font-size:32px;font-weight:bold;color:#10b981;font-family:Arial;">03</p>
-      <p style="position:absolute;left:880px;top:270px;width:312px;height:30px;font-size:20px;font-weight:bold;color:#0f172a;font-family:Arial;">Platform</p>
-      <div data-shape="rect" style="position:absolute;left:880px;top:308px;width:40px;height:4px;background:#10b981;"></div>
-      <p style="position:absolute;left:880px;top:326px;width:312px;height:220px;font-size:15px;color:#475569;font-family:Arial;">Second region in Osaka for data residency; the SOC 2 Type II audit closes in August. Unblocks three enterprise deals.</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:210px;width:56px;height:6px;background:#002fa7;"></div>
+      <p style="position:absolute;left:64px;top:236px;width:80px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">/ 01</p>
+      <p style="position:absolute;left:64px;top:274px;width:330px;height:32px;font-size:24px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Product</p>
+      <p style="position:absolute;left:64px;top:318px;width:330px;height:150px;font-size:15px;color:#3a3a36;font-family:Arial;line-height:1.6;">GA hardening, usage metering, and the audit-log API enterprise buyers keep asking for. Owned by Platform Eng, tracked weekly.</p>
+      <p style="position:absolute;left:64px;top:540px;width:330px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">OWNER: EK · 14 ENG</p>
 
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">09 / 11</p>
+      <div data-shape="rect" style="position:absolute;left:518px;top:210px;width:56px;height:6px;background:#002fa7;"></div>
+      <p style="position:absolute;left:518px;top:236px;width:80px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">/ 02</p>
+      <p style="position:absolute;left:518px;top:274px;width:290px;height:32px;font-size:24px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Go-to-market</p>
+      <p style="position:absolute;left:518px;top:318px;width:290px;height:150px;font-size:15px;color:#3a3a36;font-family:Arial;line-height:1.6;">Six AE hires weighted to APAC, plus a partner pilot with two Tokyo integrators. This is where the budget ask lives.</p>
+      <p style="position:absolute;left:518px;top:540px;width:290px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">OWNER: MT · $1.2M ASK</p>
+
+      <div data-shape="rect" style="position:absolute;left:908px;top:210px;width:56px;height:6px;background:#002fa7;"></div>
+      <p style="position:absolute;left:908px;top:236px;width:80px;height:24px;font-size:16px;font-weight:bold;color:#002fa7;font-family:'Courier New';">/ 03</p>
+      <p style="position:absolute;left:908px;top:274px;width:308px;height:32px;font-size:24px;font-weight:bold;color:#0a0a0a;font-family:Arial;">Platform</p>
+      <p style="position:absolute;left:908px;top:318px;width:308px;height:150px;font-size:15px;color:#3a3a36;font-family:Arial;line-height:1.6;">Second region in Osaka for data residency; the SOC 2 Type II audit closes in August. Unblocks three enterprise deals.</p>
+      <p style="position:absolute;left:908px;top:540px;width:308px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">OWNER: RS · AUDIT Q3</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">10 / 12</p>
     </section>
 
-    <!-- ═══════════ S06 · Photo + quote ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
-      <img src="assets/photo.png" alt="Mountains at dusk, Hokkaido offsite" style="position:absolute;left:64px;top:64px;width:640px;height:576px;" />
+    <!-- ════════ 11 · PHOTO + QUOTE ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 11 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#6b6b66;font-family:'Courier New';letter-spacing:2px;text-align:right;">VOICES</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#0a0a0a;"></div>
 
-      <p style="position:absolute;left:768px;top:110px;width:120px;height:100px;font-size:96px;font-weight:bold;color:#c7d2fe;font-family:Georgia;">“</p>
-      <p style="position:absolute;left:768px;top:224px;width:448px;height:180px;font-size:30px;color:#0f172a;font-family:Georgia;font-style:italic;">The best NPS we've ever recorded — and the first quarter support tickets fell while the base grew.</p>
-      <div data-shape="rect" style="position:absolute;left:768px;top:452px;width:56px;height:4px;background:#4f46e5;"></div>
-      <p style="position:absolute;left:768px;top:478px;width:448px;height:26px;font-size:16px;font-weight:bold;color:#0f172a;font-family:Arial;">June customer survey</p>
-      <p style="position:absolute;left:768px;top:506px;width:448px;height:24px;font-size:14px;color:#64748b;font-family:Arial;">n = 1,204 respondents · NPS 61 · CSAT 4.7 / 5</p>
-      <p style="position:absolute;left:768px;top:562px;width:448px;height:44px;font-size:13px;color:#94a3b8;font-family:Arial;font-style:italic;">Photo: the Q2 offsite in Hokkaido, where this roadmap was drafted.</p>
+      <img src="assets/photo.png" alt="Klein-blue duotone mountains, Hokkaido offsite" style="position:absolute;left:64px;top:100px;width:560px;height:504px;" />
+      <p style="position:absolute;left:64px;top:616px;width:560px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">FIG. 01 — Q2 OFFSITE, HOKKAIDO · WHERE THIS ROADMAP WAS DRAFTED</p>
 
-      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora Analytics · Confidential</p>
-      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">10 / 11</p>
+      <p style="position:absolute;left:688px;top:96px;width:140px;height:120px;font-size:120px;font-weight:bold;color:#002fa7;font-family:Georgia;">“</p>
+      <p style="position:absolute;left:688px;top:230px;width:528px;height:190px;font-size:29px;color:#0a0a0a;font-family:Georgia;font-style:italic;line-height:1.4;">The best NPS we've ever recorded — and the first quarter support tickets fell while the base grew.</p>
+      <div data-shape="rect" style="position:absolute;left:688px;top:462px;width:56px;height:2px;background:#0a0a0a;"></div>
+      <p style="position:absolute;left:688px;top:490px;width:528px;height:20px;font-size:13px;font-weight:bold;color:#0a0a0a;font-family:'Courier New';letter-spacing:1px;">JUNE CUSTOMER SURVEY</p>
+      <p style="position:absolute;left:688px;top:516px;width:528px;height:18px;font-size:12px;color:#6b6b66;font-family:'Courier New';letter-spacing:1px;">N = 1,204 · NPS 61 · CSAT 4.7 / 5</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#d8d5cc;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;">AURORA ANALYTICS · CONFIDENTIAL</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#9a988f;font-family:'Courier New';letter-spacing:1px;text-align:right;">11 / 12</p>
     </section>
 
-    <!-- ═══════════ S07 · Closing (dark) ═══════════ -->
-    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#0f172a;margin:0 auto 24px auto;">
-      <svg style="position:absolute;left:0;top:0;width:1280px;height:720px;" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg"><title>close</title><defs><linearGradient id="c1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4f46e5" stop-opacity="0.45"/><stop offset="1" stop-color="#10b981" stop-opacity="0"/></linearGradient></defs><path d="M0,720 C340,560 620,660 900,500 C1080,400 1200,440 1280,380 L1280,720 Z" fill="url(#c1)"/></svg>
-      <svg style="position:absolute;left:610px;top:150px;width:60px;height:60px;" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><title>mark</title><circle cx="22" cy="22" r="21" fill="#4f46e5"/><path d="M10 30 L18 13 L24 24 L29 18 L34 30 Z" fill="#c7d2fe"/></svg>
-      <h2 style="position:absolute;left:80px;top:262px;width:1120px;height:88px;font-size:64px;font-weight:bold;color:#fff;font-family:Arial;text-align:center;">Thank you</h2>
-      <p style="position:absolute;left:80px;top:366px;width:1120px;height:30px;font-size:19px;color:#94a3b8;font-family:Arial;text-align:center;">Questions, pushback, and ideas → <b>insights@aurora.dev</b></p>
-      <div data-shape="rect" style="position:absolute;left:550px;top:438px;width:180px;height:40px;background:#1e1b4b;border-radius:20px;"></div>
-      <p style="position:absolute;left:550px;top:448px;width:180px;height:22px;font-size:14px;font-weight:bold;color:#a5b4fc;font-family:Arial;text-align:center;">aurora.dev</p>
-      <p style="position:absolute;left:80px;top:662px;width:1120px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:center;">© 2026 Aurora Analytics · Confidential · 11 / 11</p>
+    <!-- ════════ 12 · CLOSING (IKB manifesto) ════════ -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#fafaf8;margin:0 auto 24px auto;">
+      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#002fa7;"></div>
+      <p style="position:absolute;left:64px;top:44px;width:500px;height:18px;font-size:12px;font-weight:bold;color:#fafaf8;font-family:'Courier New';letter-spacing:2px;">AURORA ANALYTICS — Q2 FY2026</p>
+      <p style="position:absolute;left:540px;top:44px;width:200px;height:18px;font-size:12px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;text-align:center;">№ 12 / 12</p>
+      <p style="position:absolute;left:816px;top:44px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#8fa3d8;font-family:'Courier New';letter-spacing:2px;text-align:right;">FIN.</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:76px;width:1152px;height:1px;background:#2a4bb8;"></div>
+
+      <pre style="position:absolute;left:980px;top:120px;width:240px;height:110px;font-size:12px;line-height:1.3;letter-spacing:6px;color:#4666c4;font-family:'Courier New';">▒▓█▓▒░░▒▓█
+░▒▓█▓▒░░▒▓
+▒░░▒▓█▓▒░░
+▓▒░░▒▓█▓▒░</pre>
+
+      <h2 style="position:absolute;left:64px;top:280px;width:1000px;height:110px;font-size:96px;font-weight:bold;color:#fafaf8;font-family:Arial;line-height:0.95;">Thank you<span style="color:#8fa3d8;">.</span></h2>
+      <p style="position:absolute;left:64px;top:430px;width:800px;height:22px;font-size:14px;font-weight:bold;color:#b8c4e8;font-family:'Courier New';letter-spacing:2px;">QUESTIONS, PUSHBACK, IDEAS → INSIGHTS@AURORA.DEV</p>
+      <p style="position:absolute;left:64px;top:472px;width:800px;height:24px;font-size:16px;color:#8fa3d8;font-family:Arial;">The board pre-read and the full data appendix follow this deck.</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:654px;width:1152px;height:1px;background:#2a4bb8;"></div>
+      <p style="position:absolute;left:64px;top:668px;width:700px;height:18px;font-size:12px;color:#8fa3d8;font-family:'Courier New';letter-spacing:1px;">© 2026 AURORA ANALYTICS · AURORA.DEV</p>
+      <p style="position:absolute;left:1016px;top:668px;width:200px;height:18px;font-size:12px;color:#8fa3d8;font-family:'Courier New';letter-spacing:1px;text-align:right;">12 / 12</p>
     </section>
 
     <!-- Preview-only: draw each data-chart as SVG (charts are empty divs otherwise). -->
     <script>
-      const PALETTE = ["#4f46e5", "#38bdf8", "#10b981", "#f59e0b", "#8b5cf6"];
+      const PALETTE = ["#002fa7", "#4666c4", "#8fa3d8", "#d6ddf0", "#0a0a0a"];
       const NS = "http://www.w3.org/2000/svg";
       const mk = (t, a) => { const n = document.createElementNS(NS, t); for (const [k, v] of Object.entries(a)) n.setAttribute(k, v); return n; };
       for (const el of document.querySelectorAll("[data-chart]")) {
@@ -321,18 +382,18 @@
             svg.appendChild(mk("path", { d: `M${cx},${cy} L${cx + r * Math.cos(a0)},${cy + r * Math.sin(a0)} A${r},${r} 0 ${big} 1 ${cx + r * Math.cos(a1)},${cy + r * Math.sin(a1)} Z`, fill: colors[i % colors.length] }));
             a0 = a1;
           });
-          if (spec.type === "doughnut") svg.appendChild(mk("circle", { cx, cy, r: r * 0.6, fill: "#fff" }));
+          if (spec.type === "doughnut") svg.appendChild(mk("circle", { cx, cy, r: r * 0.6, fill: "#fafaf8" }));
         } else {
           const max = Math.max(...spec.series.flatMap((s) => s.values)) * 1.1;
           const px0 = 8, py0 = 10, pw = W - 16, ph = H - 40, n = spec.categories.length, m = spec.series.length;
           if (spec.type === "bar") {
-            const group = pw / n, bw = Math.min(44, group / (m + 1));
-            spec.series.forEach((s, si) => { s.values.forEach((v, i) => { const bh = (v / max) * ph; svg.appendChild(mk("rect", { x: px0 + i * group + group / 2 + (si - m / 2) * bw + 2, y: py0 + ph - bh, width: bw - 4, height: bh, fill: colors[si % colors.length], rx: 3 })); }); });
+            const group = pw / n, bw = Math.min(56, group / (m + 1));
+            spec.series.forEach((s, si) => { s.values.forEach((v, i) => { const bh = (v / max) * ph; svg.appendChild(mk("rect", { x: px0 + i * group + group / 2 + (si - m / 2) * bw + 2, y: py0 + ph - bh, width: bw - 4, height: bh, fill: colors[si % colors.length] })); }); });
           } else {
             spec.series.forEach((s, si) => { svg.appendChild(mk("polyline", { points: s.values.map((v, i) => `${px0 + i * (pw / (n - 1))},${py0 + ph - (v / max) * ph}`).join(" "), fill: "none", stroke: colors[si % colors.length], "stroke-width": 3 })); });
           }
-          spec.categories.forEach((c, i) => { const t = mk("text", { x: spec.type === "bar" ? px0 + i * (pw / n) + pw / n / 2 : px0 + i * (pw / (n - 1)), y: H - 22, "text-anchor": "middle", "font-size": 11, fill: "#94a3b8", "font-family": "Arial" }); t.textContent = c; svg.appendChild(t); });
-          if (m > 1) spec.series.forEach((s, si) => { svg.appendChild(mk("rect", { x: px0 + si * 110, y: H - 12, width: 10, height: 10, fill: colors[si % colors.length], rx: 2 })); const t = mk("text", { x: px0 + si * 110 + 16, y: H - 3, "font-size": 11, fill: "#64748b", "font-family": "Arial" }); t.textContent = s.name; svg.appendChild(t); });
+          spec.categories.forEach((c, i) => { const t = mk("text", { x: spec.type === "bar" ? px0 + i * (pw / n) + pw / n / 2 : px0 + i * (pw / (n - 1)), y: H - 20, "text-anchor": "middle", "font-size": 12, fill: "#6b6b66", "font-family": "Courier New" }); t.textContent = c.toUpperCase(); svg.appendChild(t); });
+          if (m > 1) spec.series.forEach((s, si) => { svg.appendChild(mk("rect", { x: px0 + si * 140, y: H - 10, width: 10, height: 10, fill: colors[si % colors.length] })); const t = mk("text", { x: px0 + si * 140 + 16, y: H - 1, "font-size": 12, fill: "#6b6b66", "font-family": "Courier New" }); t.textContent = s.name.toUpperCase(); svg.appendChild(t); });
         }
         el.appendChild(svg);
       }

@@ -38,10 +38,12 @@ native `.pptx`.
    (S01–S14), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
    designed without it look generated.
 2. **Study and copy [`examples/index.html`](../../examples/index.html)** (in the
-   deck-maker repo) as your starting deck — the full worked example: 11 slides across the
-   archetype pool (cover, agenda, statement, KPI dashboard, ranked H-bar, data deep-dive,
-   section divider, timeline, process row, photo+quote, closing), with the margin reset
-   and chart-preview script already in place. Copy it and replace the content with yours.
+   deck-maker repo) as your starting deck — the full worked example: 12 slides across the
+   archetype pool (cover, agenda, statement, KPI tower, native chart, ranked H-bar, data
+   deep-dive, section divider, timeline, process row, photo+quote, closing) in the Swiss
+   IKB theme, with mono chrome rows, the margin reset, and the chart-preview script
+   already in place. Copy it and replace the content (and palette, per `themes.md`) with
+   yours.
 3. Optionally pick a non-default palette from [`references/themes.md`](references/themes.md)
    based on the deck's purpose.
 
@@ -119,7 +121,7 @@ PPTX will contain. `examples/index.html` already includes all three:
 3. `border-radius: 50%` on ellipses.
 
 And the converse — never let the design depend on CSS the converter drops: gradients on
-shapes (solid fills only — use SVG), `box-shadow`, `opacity`, `letter-spacing`. Keep
+shapes (solid fills only — use SVG), `box-shadow`, `opacity`. Keep
 ~20% slack in text boxes (PowerPoint wraps sooner than Chrome), and keep every box
 inside 1280x720.
 
@@ -127,7 +129,7 @@ inside 1280x720.
 
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
 - [`examples/index.html`](../../examples/index.html) — the full worked example / starter
-  deck (11 slides across the archetype pool). **Copy and adapt to begin.**
+  deck (12 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot
   contract. Read when choosing a non-default palette or matching a brand.
 - [`references/checklist.md`](references/checklist.md) — pre-handoff gate. Run before

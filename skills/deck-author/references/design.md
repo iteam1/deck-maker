@@ -64,8 +64,10 @@ Establish hierarchy with **weight + color, not ever-larger sizes**. Cap at **2 t
 **−0.02 to −0.04em**. Body: line-height **1.4–1.5**, measure capped at **~65 characters**.
 Labels/eyebrows: line-height 1, tracking **+0.12 to +0.22em**, uppercase.
 
-**Eyebrow / kicker.** Above nearly every headline: 11–13px, `text-transform: uppercase`,
-`letter-spacing: 0.14em`, weight 600, in the accent or muted. Cheapest "designed" signal.
+**Eyebrow / kicker.** Above nearly every headline: 11–13px, UPPERCASE (write it uppercase
+in the source — the converter has no `text-transform`), `letter-spacing: 2px` (converts to
+real PPTX character spacing), weight 600, in the accent or muted — a mono face (Courier
+New) makes it read technical. Cheapest "designed" signal.
 
 **One-italic-serif-word.** The signature editorial accent: one italic serif word inside an
 otherwise-sans headline (e.g. Aurora sans + a Georgia-italic word). Same-family italic/bold
@@ -169,7 +171,7 @@ Non-negotiable — a deck violating any of these is wrong even if it "looks fine
    one image. Never two equal text blocks; if truly parallel, use an equal-weight grid.
    ≤ 4 text roles per slide (eyebrow, title, body, one caption).
 5. **No CSS the converter drops** on convertible elements: gradients on shapes (SVG is the
-   only gradient vehicle), `box-shadow`, `opacity`, `letter-spacing`, `backdrop-filter`,
+   only gradient vehicle), `box-shadow`, `opacity`, `backdrop-filter`,
    `mix-blend-mode`, filters.
 6. **Never italicize CJK** (Chinese/Japanese/Korean — also Arabic, Hebrew, Thai). No italic
    tradition → renderers synthesize an ugly slant. Italic is Latin/Cyrillic/Greek only.
@@ -190,7 +192,9 @@ Non-negotiable — a deck violating any of these is wrong even if it "looks fine
 
 **Survives (map cleanly to native PPTX shapes/text) — reach for these:**
 hairlines (1px border → thin line); chrome rows (three text boxes); **ASCII dot fields**
-(a `<pre>` of `▒▓█░` in mono — literally text, maps 1:1); dot/cell matrices (grid of small
+(a `<pre>` of `▒▓█░` in mono — line breaks are preserved, each line becomes a paragraph);
+tracked uppercase labels (`letter-spacing` → real character spacing); tight display
+leading (`line-height: 0.95` → real line spacing); dot/cell matrices (grid of small
 rects); variable-height KPI bars (`rect`, height ∝ data); ranked H-bar tracks; corner
 registration marks (short lines); color-block split panels; numbered indices (`№06`,
 `/ 01`); a hard-offset "shadow" (a duplicated offset text box, 0-blur).
@@ -203,7 +207,7 @@ identically everywhere. The tradeoff: it's a raster in the `.pptx`, not editable
 Google Slides shows a broken image — which is why we rasterize.)
 
 **Won't survive on shapes/text — put it in an SVG instead, or avoid:** CSS gradients,
-`box-shadow`, `opacity`, `letter-spacing`, `backdrop-filter` blur, `mix-blend-mode`,
+`box-shadow`, `opacity`, `backdrop-filter` blur, `mix-blend-mode`,
 blurred-glow text-shadow, all motion/transitions, `clamp()`/`vw` (resolve to fixed px —
 we already have a fixed canvas).
 

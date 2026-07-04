@@ -13,6 +13,31 @@ function styleMap(style: string): Record<string, string> {
 	return out;
 }
 
+/**
+ * Extract CSS custom properties from the first `:root { … }` block found in any
+ * `<style>` tag. This is a flat lookup, not a cascade — it lets a deck carry a
+ * theme block and reference it with `var(--x)`, keeping the "no layout engine"
+ * promise (see open-design's design-token model).
+ */
+function themeVars(root: HTMLElement): Record<string, string> {
+	const vars: Record<string, string> = {};
+	for (const style of root.querySelectorAll("style")) {
+		const block = style.text.match(/:root\s*\{([^}]*)\}/);
+		if (!block?.[1]) continue;
+		for (const [k, v] of Object.entries(styleMap(block[1])))
+			if (k.startsWith("--")) vars[k] = v;
+	}
+	return vars;
+}
+
+/** Replace `var(--x)` / `var(--x, fallback)` in a style string from the theme map. */
+function resolveVars(style: string, vars: Record<string, string>): string {
+	return style.replace(
+		/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]*))?\)/g,
+		(_, name, fallback) => vars[name] ?? fallback?.trim() ?? "",
+	);
+}
+
 /** Parse a px value ("96px" → 96), tolerating missing/garbage. */
 const px = (v: string | undefined) => parseFloat(v ?? "0") || 0;
 
@@ -26,12 +51,86 @@ function readBox(s: Record<string, string>): Box {
 	};
 }
 
+/** Inheritable text styling carried down into runs. */
+type RunStyle = {
+	size?: number;
+	bold?: boolean;
+	italic?: boolean;
+	color?: string;
+	font?: string;
+};
+
+/** First family from a font-family list, unquoted ('"Fira Sans", Arial' → 'Fira Sans'). */
+function firstFont(v: string | undefined): string | undefined {
+	const first = v
+		?.split(",")[0]
+		?.trim()
+		.replace(/^["']|["']$/g, "");
+	return first || undefined;
+}
+
+function boldFrom(weight: string | undefined, base: boolean | undefined) {
+	if (!weight) return base;
+	if (weight === "bold" || weight === "bolder") return true;
+	if (weight === "normal") return false;
+	const n = Number.parseInt(weight, 10);
+	return Number.isNaN(n) ? base : n >= 600;
+}
+
+function italicFrom(style: string | undefined, base: boolean | undefined) {
+	if (!style) return base;
+	return style === "italic" || style === "oblique";
+}
+
+/** Overlay an element's inline style onto an inherited run style. */
+function mergeStyle(s: Record<string, string>, base: RunStyle): RunStyle {
+	return {
+		size: px(s["font-size"]) || base.size,
+		bold: boldFrom(s["font-weight"], base.bold),
+		italic: italicFrom(s["font-style"], base.italic),
+		color: s["color"] ?? base.color,
+		font: firstFont(s["font-family"]) ?? base.font,
+	};
+}
+
+/**
+ * Flatten an element's children into styled runs: text nodes carry the inherited
+ * style; <b>/<strong> and <i>/<em> (and nested spans with inline style) refine it.
+ */
+function collectRuns(
+	el: HTMLElement,
+	style: RunStyle,
+	vars: Record<string, string>,
+	out: TextRun[],
+) {
+	for (const child of el.childNodes) {
+		if (child.nodeType === 3) {
+			// .text decodes HTML entities (&copy; → ©); .rawText would not.
+			const text = child.text.replace(/\s+/g, " ");
+			if (text) out.push({ text, ...style });
+		} else if (child.nodeType === 1) {
+			const c = child as HTMLElement;
+			const tag = c.tagName?.toLowerCase();
+			const s = mergeStyle(
+				styleMap(resolveVars(c.getAttribute("style") ?? "", vars)),
+				style,
+			);
+			if (tag === "b" || tag === "strong") s.bold = true;
+			if (tag === "i" || tag === "em") s.italic = true;
+			collectRuns(c, s, vars, out);
+		}
+	}
+}
+
 /**
  * Classify one positioned element into an IR Element.
  * Detection precedence: chart → table → svg → shape → image → text.
  */
-function classify(el: HTMLElement): Element | null {
-	const s = styleMap(el.getAttribute("style") ?? "");
+function classify(
+	el: HTMLElement,
+	vars: Record<string, string>,
+): Element | null {
+	const s = styleMap(resolveVars(el.getAttribute("style") ?? "", vars));
 	const box = readBox(s);
 	const tag = el.tagName?.toLowerCase();
 
@@ -52,26 +151,42 @@ function classify(el: HTMLElement): Element | null {
 
 	const shape = el.getAttribute("data-shape");
 	if (shape === "rect" || shape === "ellipse" || shape === "arrow") {
+		// "border: 1px solid #e2e8f0" → stroke
+		const border = s["border"]?.match(
+			/^([\d.]+)px\s+solid\s+(#[0-9a-fA-F]{3,6})/,
+		);
 		return {
 			kind: "shape",
 			box,
 			shape,
 			fill: s["background"] ?? s["background-color"],
+			radius: px(s["border-radius"]) || undefined,
+			stroke:
+				border?.[1] && border[2]
+					? { color: border[2], width: parseFloat(border[1]) }
+					: undefined,
 		};
 	}
 
 	if (tag === "img")
 		return { kind: "image", box, src: el.getAttribute("src") ?? "" };
 
-	const text = el.text.trim();
-	if (text) {
-		const run: TextRun = {
-			text,
-			size: px(s["font-size"]) || undefined,
-			bold: s["font-weight"] === "bold" || undefined,
-			color: s["color"],
+	const runs: TextRun[] = [];
+	collectRuns(el, mergeStyle(s, {}), vars, runs);
+	const first = runs[0];
+	if (first) first.text = first.text.trimStart();
+	const last = runs[runs.length - 1];
+	if (last) last.text = last.text.trimEnd();
+	const kept = runs.filter((r) => r.text.length > 0);
+
+	if (kept.length) {
+		const a = s["text-align"];
+		return {
+			kind: "text",
+			box,
+			runs: kept,
+			align: a === "left" || a === "center" || a === "right" ? a : undefined,
 		};
-		return { kind: "text", box, runs: [run] };
 	}
 
 	return null;
@@ -79,14 +194,15 @@ function classify(el: HTMLElement): Element | null {
 
 export function parse(html: string): Deck {
 	const root = parseHtml(html);
+	const vars = themeVars(root);
 
 	const slides: Slide[] = root.querySelectorAll(".slide").map((slideEl) => {
 		const elements: Element[] = [];
 		// Only direct element children of the slide are positioned primitives;
-		// anything nested (table cells, svg innards) is handled by its owner.
+		// anything nested (table cells, svg innards, bold spans) belongs to its owner.
 		for (const child of slideEl.childNodes) {
 			if (child.nodeType !== 1) continue;
-			const el = classify(child as HTMLElement);
+			const el = classify(child as HTMLElement, vars);
 			if (el) elements.push(el);
 		}
 		return { w: 1280, h: 720, elements };

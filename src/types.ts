@@ -27,14 +27,18 @@ export type TextRun = {
 	text: string;
 	size?: number;
 	bold?: boolean;
+	italic?: boolean;
 	color?: string;
+	font?: string;
 };
 
 /** Data for a native, editable chart (parsed from a data-chart JSON attribute). */
 export type ChartSpec = {
-	type: "bar" | "line" | "pie";
+	type: "bar" | "line" | "pie" | "doughnut";
 	categories: string[];
 	series: { name: string; values: number[] }[];
+	/** Optional series colors, CSS hex. */
+	colors?: string[];
 };
 
 /**
@@ -42,12 +46,21 @@ export type ChartSpec = {
  * One member per rung of the fidelity ladder.
  */
 export type Element =
-	| { kind: "text"; box: Box; runs: TextRun[] }
+	| {
+			kind: "text";
+			box: Box;
+			runs: TextRun[];
+			align?: "left" | "center" | "right";
+	  }
 	| {
 			kind: "shape";
 			box: Box;
 			shape: "rect" | "ellipse" | "arrow";
 			fill?: string;
+			/** Corner radius in px (from border-radius) — rect becomes a rounded rect. */
+			radius?: number;
+			/** Outline (from border: Wpx solid #color). */
+			stroke?: { color: string; width: number };
 	  }
 	| { kind: "table"; box: Box; rows: string[][] }
 	| { kind: "chart"; box: Box; spec: ChartSpec }

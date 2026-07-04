@@ -16,11 +16,17 @@ function hex(color: string | undefined): string | undefined {
 	return c || undefined;
 }
 
-/** Map our TextRun[] to PptxGenJS's { text, options } run format. */
+/** Map our TextRun[] to PptxGenJS's { text, options } run format (px → pt). */
 function textRuns(runs: TextRun[]) {
 	return runs.map((run) => ({
 		text: run.text,
-		options: { fontSize: run.size, bold: run.bold, color: hex(run.color) },
+		options: {
+			fontSize: run.size ? Math.round(run.size * 0.75 * 100) / 100 : undefined,
+			bold: run.bold,
+			italic: run.italic,
+			color: hex(run.color),
+			fontFace: run.font,
+		},
 	}));
 }
 
@@ -51,13 +57,29 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 
 			switch (el.kind) {
 				case "text":
-					s.addText(textRuns(el.runs), pos);
+					// valign top matches how the browser lays text in its box.
+					s.addText(textRuns(el.runs), {
+						...pos,
+						align: el.align,
+						valign: "top",
+					});
 					break;
 				case "shape":
-					s.addShape(SHAPE[el.shape], {
-						...pos,
-						fill: el.fill ? { color: hex(el.fill) ?? "000000" } : undefined,
-					});
+					s.addShape(
+						el.shape === "rect" && el.radius ? "roundRect" : SHAPE[el.shape],
+						{
+							...pos,
+							fill: el.fill ? { color: hex(el.fill) ?? "000000" } : undefined,
+							// rectRadius is in inches; PptxGenJS caps it at half the short side.
+							rectRadius: el.radius ? inch(el.radius) : undefined,
+							line: el.stroke
+								? {
+										color: hex(el.stroke.color) ?? "000000",
+										width: el.stroke.width * 0.75, // px → pt
+									}
+								: undefined,
+						},
+					);
 					break;
 				case "table":
 					s.addTable(
@@ -65,7 +87,10 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 						pos,
 					);
 					break;
-				case "chart":
+				case "chart": {
+					const colors = el.spec.colors
+						?.map((c) => hex(c))
+						.filter((c): c is string => !!c);
 					s.addChart(
 						el.spec.type,
 						el.spec.series.map((ser) => ({
@@ -73,9 +98,14 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 							labels: el.spec.categories,
 							values: ser.values,
 						})),
-						pos,
+						{
+							...pos,
+							chartColors: colors,
+							holeSize: el.spec.type === "doughnut" ? 60 : undefined,
+						},
 					);
 					break;
+				}
 				case "svg":
 					s.addImage({
 						data: `data:image/svg+xml;base64,${Buffer.from(el.svg).toString("base64")}`,

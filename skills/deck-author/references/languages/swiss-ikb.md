@@ -19,6 +19,27 @@ Support tones derive from the accent — for Klein Blue: hairline `#d8d5cc`, mut
 #8fa3d8 → #d6ddf0`. **Two surfaces only:** paper + the accent (cover, dividers, closing
 all sit on the accent; ghost numerals/textures on it are shades of the same hue).
 
+### Swapping the palette (colors are parameters, not hard-coded)
+
+Author the deck against a `:root` block and reference slots with `var()` — the converter
+resolves them, so changing the whole deck's color = editing ONE block:
+
+```html
+<style>
+  :root {
+    --od-accent: #002fa7;  --od-page-bg: #fafaf8;  --od-text: #0a0a0a;
+    --od-muted: #6b6b66;   --od-border: #d8d5cc;
+    --od-accent-2: #4666c4; --od-accent-3: #8fa3d8; /* ramp = accent at ~70% / ~45% */
+  }
+</style>
+<div data-shape="rect" style="...; background: var(--od-accent);"></div>
+```
+
+The **relationships are the language** (ramp = tints of the one accent; on-accent tones =
+lighter shades of it; two surfaces); the hex are defaults. To rebrand: keep the
+relationships, re-derive each slot from the new accent hue. `data-chart` colors are JSON
+(no `var()`) — set them to the same hex as your ramp slots.
+
 ## Type
 
 - Display/body: **Arial** — bold display at 84–104px, `line-height: 0.95`.

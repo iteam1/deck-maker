@@ -19,6 +19,12 @@ Muted text = ink at ~60% strength (pick a solid mid-tone of the ink hue, e.g. Mo
 dividers and closing share whichever dark surface the deck uses. Chart ramp = ink →
 ink-tint → two paper-tint steps.
 
+**Colors are parameters:** author against a `:root` block (`--od-text` = ink,
+`--od-page-bg` = paper, `--od-surface` = paper-tint, `--od-accent` = ink-tint) and use
+`var()` — the converter resolves it, so switching between the five sets (or a brand set)
+is a one-block edit. The four-role *relationship* (ink / paper / paper-tint / ink-tint,
+all one temperature) is the language; the hex are defaults.
+
 ## Type
 
 - Display: **Georgia** (the PPTX-safe serif) — 72–96px, `line-height: 1.0–1.1`,

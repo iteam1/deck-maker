@@ -21,6 +21,13 @@ Unlike Swiss, the four accents **rotate** through sequences (agenda numbers, KPI
 timeline nodes) — but still ≤ 3 accent hits per slide. **Two surfaces only:** the light
 bg + ink (cover, dividers, closing share ink).
 
+**Colors are parameters:** the table above is the *default* binding. Author against a
+`:root` block (`--od-accent`, `--od-accent-2/3`, `--od-page-bg`, `--od-surface`,
+`--od-text`, `--od-muted`, `--od-border`) and use `var()` in inline styles — the
+converter resolves it, so a rebrand is a one-block edit. Keep the relationships: tint
+fills are pale versions of their accent (`#eef2ff` ← indigo); the rotating set stays
+4 hues of similar weight. `data-chart` colors are JSON — mirror your slot hex there.
+
 ## Type
 
 - Everything **Arial**: display 64–72px bold, section headers 36px, card titles 18px,

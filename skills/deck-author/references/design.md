@@ -39,6 +39,11 @@ deck) is the #1 "spliced-together" tell; it is banned.
 To port a new language (from open-design or a brand), copy a language file's structure:
 Intent / Palette / Type / Chrome / Restyling the pool / Bans.
 
+In every language, **colors are parameters**: the hex values are defaults bound to
+`--od-*` slots (see [`themes.md`](themes.md)); author with `var(--od-…)` against a
+`:root` block and a rebrand is a one-block edit. What's fixed is each language's
+*relationships* (tints of one accent, two surfaces, ramp structure) — not the hex.
+
 ## Universal design rules (apply in every language)
 
 **Never pure `#000`/`#fff`** — off-black/off-white keep depth. **Accent budget: an accent

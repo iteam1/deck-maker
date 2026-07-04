@@ -139,6 +139,9 @@ inside 1280x720.
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
 - [`examples/index.html`](../../examples/index.html) — the full worked example / starter
   deck (13 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
+- [`examples/pitch.html`](../../examples/pitch.html) — second worked example: a 7-slide
+  investor pitch in **Aurora Cards** (2×2 matrix, team grid, pricing, logo wall, the ask).
+  Start here for pitch/sales-shaped decks.
 - [`references/languages/`](references/languages/) — the design-language catalogue
   (swiss-ikb, editorial-ink, aurora-cards). **Pick exactly one per deck.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot

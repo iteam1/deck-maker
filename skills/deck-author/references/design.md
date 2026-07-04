@@ -34,7 +34,7 @@ deck) is the #1 "spliced-together" tell; it is banned.
 |---|---|---|
 | [`languages/swiss-ikb.md`](languages/swiss-ikb.md) | cold, rational, hairlines + one saturated accent | facts, analysis, methodology — **the shipped example** |
 | [`languages/editorial-ink.md`](languages/editorial-ink.md) | magazine × e-ink, serif display, printed paper | narrative, opinion, story-telling |
-| [`languages/aurora-cards.md`](languages/aurora-cards.md) | friendly corporate, rounded cards, gradient air | product reviews, team updates, SaaS |
+| [`languages/aurora-cards.md`](languages/aurora-cards.md) | friendly corporate, rounded cards, gradient air | product reviews, SaaS — see `examples/pitch.html` |
 
 To port a new language (from open-design or a brand), copy a language file's structure:
 Intent / Palette / Type / Chrome / Restyling the pool / Bans.

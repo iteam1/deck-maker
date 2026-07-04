@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Aurora — Seed Pitch (Aurora Cards worked example)</title>
+    <style>
+      .slide p, .slide h1, .slide h2, .slide pre { margin: 0; line-height: 1.2; }
+      .slide [data-shape="ellipse"] { border-radius: 50%; }
+      .slide table { border-collapse: collapse; }
+      .slide th, .slide td { border-bottom: 1px solid #e2e8f0; padding: 9px 12px; text-align: left; color: #475569; }
+      .slide th { color: #0f172a; }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 24px 0; background: #cbd5e1;">
+    <!-- S01 · COVER (ink) -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#0f172a;"></div>
+      <svg style="position:absolute;left:0;top:0;width:1280px;height:720px;" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+        <title>aurora</title>
+        <defs><linearGradient id="p1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5" stop-opacity="0.5"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0,720 C300,520 520,640 760,470 C980,320 1120,380 1280,240 L1280,720 Z" fill="url(#p1)"/>
+        <circle cx="1060" cy="360" r="140" fill="none" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
+      </svg>
+      <svg style="position:absolute;left:64px;top:56px;width:44px;height:44px;" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><title>logo</title><circle cx="22" cy="22" r="21" fill="#4f46e5"/><path d="M10 30 L18 13 L24 24 L29 18 L34 30 Z" fill="#c7d2fe"/></svg>
+      <p style="position:absolute;left:122px;top:68px;width:400px;height:24px;font-size:15px;font-weight:bold;color:#e2e8f0;font-family:Arial;">AURORA</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:252px;width:180px;height:36px;background:#1e1b4b;border-radius:18px;"></div>
+      <p style="position:absolute;left:64px;top:261px;width:180px;height:20px;font-size:13px;font-weight:bold;color:#a5b4fc;font-family:Arial;text-align:center;">SEED · 2026</p>
+      <h1 style="position:absolute;left:64px;top:312px;width:1000px;height:180px;font-size:72px;font-weight:bold;color:#ffffff;font-family:Arial;">Decks that ship themselves<span style="color:#8fa3d8;">.</span></h1>
+      <p style="position:absolute;left:64px;top:440px;width:720px;height:56px;font-size:20px;color:#94a3b8;font-family:Arial;line-height:1.4;">Claude Code designs the deck as HTML; our engine converts it to a <span style="font-family:Georgia;font-style:italic;color:#c7d2fe;">native</span>, editable PowerPoint.</p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:640px;width:1152px;height:1px;background:#334155;"></div>
+      <p style="position:absolute;left:64px;top:660px;width:600px;height:22px;font-size:12px;color:#64748b;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:660px;width:200px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:right;">1 / 7</p>
+    </section>
+
+    <!-- S17 · 2x2 MATRIX -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#4f46e5;font-family:Arial;letter-spacing:2px;">COMPETITION</p>
+      <h2 style="position:absolute;left:64px;top:74px;width:900px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Alone in the fast-and-native quadrant</h2>
+      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#4f46e5;"></div>
+      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 02</p>
+
+      <!-- axes -->
+      <div data-shape="rect" style="position:absolute;left:240px;top:390px;width:800px;height:2px;background:#94a3b8;"></div>
+      <div data-shape="rect" style="position:absolute;left:639px;top:170px;width:2px;height:440px;background:#94a3b8;"></div>
+      <p style="position:absolute;left:1050px;top:382px;width:160px;height:18px;font-size:11px;font-weight:bold;color:#64748b;font-family:Arial;letter-spacing:1px;">NATIVE OUTPUT →</p>
+      <p style="position:absolute;left:560px;top:148px;width:160px;height:18px;font-size:11px;font-weight:bold;color:#64748b;font-family:Arial;letter-spacing:1px;text-align:center;">↑ AGENT-DRIVEN</p>
+
+      <!-- quadrant labels -->
+      <p style="position:absolute;left:280px;top:200px;width:200px;height:18px;font-size:12px;color:#94a3b8;font-family:Arial;font-style:italic;">agents, images out</p>
+      <p style="position:absolute;left:820px;top:590px;width:220px;height:18px;font-size:12px;color:#94a3b8;font-family:Arial;font-style:italic;">native, hand-built</p>
+
+      <!-- competitors -->
+      <div data-shape="ellipse" style="position:absolute;left:340px;top:250px;width:14px;height:14px;background:#94a3b8;"></div>
+      <p style="position:absolute;left:362px;top:246px;width:180px;height:20px;font-size:13px;color:#475569;font-family:Arial;">NotebookLM slides</p>
+      <div data-shape="ellipse" style="position:absolute;left:420px;top:320px;width:14px;height:14px;background:#94a3b8;"></div>
+      <p style="position:absolute;left:442px;top:316px;width:180px;height:20px;font-size:13px;color:#475569;font-family:Arial;">Gamma</p>
+      <div data-shape="ellipse" style="position:absolute;left:780px;top:500px;width:14px;height:14px;background:#94a3b8;"></div>
+      <p style="position:absolute;left:802px;top:496px;width:180px;height:20px;font-size:13px;color:#475569;font-family:Arial;">PowerPoint + hands</p>
+      <div data-shape="ellipse" style="position:absolute;left:380px;top:520px;width:14px;height:14px;background:#94a3b8;"></div>
+      <p style="position:absolute;left:402px;top:516px;width:180px;height:20px;font-size:13px;color:#475569;font-family:Arial;">Template galleries</p>
+      <!-- us -->
+      <div data-shape="ellipse" style="position:absolute;left:880px;top:230px;width:20px;height:20px;background:#4f46e5;"></div>
+      <p style="position:absolute;left:908px;top:226px;width:200px;height:22px;font-size:15px;font-weight:bold;color:#4f46e5;font-family:Arial;">deck-maker</p>
+
+      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">2 / 7</p>
+    </section>
+
+    <!-- S15 · TEAM GRID -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#38bdf8;font-family:Arial;letter-spacing:2px;">TEAM</p>
+      <h2 style="position:absolute;left:64px;top:74px;width:900px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Built by the people who shipped it before</h2>
+      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#38bdf8;"></div>
+      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 03</p>
+
+      <!-- person 1 -->
+      <div data-shape="rect" style="position:absolute;left:64px;top:190px;width:256px;height:330px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <div data-shape="rect" style="position:absolute;left:144px;top:222px;width:96px;height:96px;background:#eef2ff;border-radius:14px;"></div>
+      <p style="position:absolute;left:144px;top:248px;width:96px;height:44px;font-size:36px;font-weight:bold;color:#4f46e5;font-family:Arial;text-align:center;">MS</p>
+      <p style="position:absolute;left:88px;top:344px;width:208px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:center;">Maki Sato</p>
+      <p style="position:absolute;left:88px;top:374px;width:208px;height:20px;font-size:13px;color:#64748b;font-family:Arial;text-align:center;">CEO · ex-Figma</p>
+      <p style="position:absolute;left:88px;top:410px;width:208px;height:60px;font-size:13px;color:#475569;font-family:Arial;text-align:center;">Led the plugin platform to 1M weekly users</p>
+
+      <!-- person 2 -->
+      <div data-shape="rect" style="position:absolute;left:352px;top:190px;width:256px;height:330px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <div data-shape="rect" style="position:absolute;left:432px;top:222px;width:96px;height:96px;background:#e0f2fe;border-radius:14px;"></div>
+      <p style="position:absolute;left:432px;top:248px;width:96px;height:44px;font-size:36px;font-weight:bold;color:#0284c7;font-family:Arial;text-align:center;">EK</p>
+      <p style="position:absolute;left:376px;top:344px;width:208px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:center;">Elena Kovács</p>
+      <p style="position:absolute;left:376px;top:374px;width:208px;height:20px;font-size:13px;color:#64748b;font-family:Arial;text-align:center;">CTO · ex-Vercel</p>
+      <p style="position:absolute;left:376px;top:410px;width:208px;height:60px;font-size:13px;color:#475569;font-family:Arial;text-align:center;">Built the build pipeline serving 2B requests/day</p>
+
+      <!-- person 3 -->
+      <div data-shape="rect" style="position:absolute;left:640px;top:190px;width:256px;height:330px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <div data-shape="rect" style="position:absolute;left:720px;top:222px;width:96px;height:96px;background:#dcfce7;border-radius:14px;"></div>
+      <p style="position:absolute;left:720px;top:248px;width:96px;height:44px;font-size:36px;font-weight:bold;color:#059669;font-family:Arial;text-align:center;">RT</p>
+      <p style="position:absolute;left:664px;top:344px;width:208px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:center;">Ravi Thakur</p>
+      <p style="position:absolute;left:664px;top:374px;width:208px;height:20px;font-size:13px;color:#64748b;font-family:Arial;text-align:center;">Design · ex-Stripe</p>
+      <p style="position:absolute;left:664px;top:410px;width:208px;height:60px;font-size:13px;color:#475569;font-family:Arial;text-align:center;">Shaped the docs design system teams copy</p>
+
+      <!-- person 4 -->
+      <div data-shape="rect" style="position:absolute;left:928px;top:190px;width:256px;height:330px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <div data-shape="rect" style="position:absolute;left:1008px;top:222px;width:96px;height:96px;background:#fef3c7;border-radius:14px;"></div>
+      <p style="position:absolute;left:1008px;top:248px;width:96px;height:44px;font-size:36px;font-weight:bold;color:#d97706;font-family:Arial;text-align:center;">LB</p>
+      <p style="position:absolute;left:952px;top:344px;width:208px;height:26px;font-size:18px;font-weight:bold;color:#0f172a;font-family:Arial;text-align:center;">Lena Braun</p>
+      <p style="position:absolute;left:952px;top:374px;width:208px;height:20px;font-size:13px;color:#64748b;font-family:Arial;text-align:center;">GTM · ex-Notion</p>
+      <p style="position:absolute;left:952px;top:410px;width:208px;height:60px;font-size:13px;color:#475569;font-family:Arial;text-align:center;">Took self-serve from $0 to $40M ARR</p>
+
+      <p style="position:absolute;left:64px;top:560px;width:1100px;height:24px;font-size:15px;color:#475569;font-family:Arial;">12 people total — 8 engineering, 2 design, 2 GTM. Berlin &amp; Tokyo.</p>
+
+      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">3 / 7</p>
+    </section>
+
+    <!-- S18 · PRICING -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#10b981;font-family:Arial;letter-spacing:2px;">BUSINESS MODEL</p>
+      <h2 style="position:absolute;left:64px;top:74px;width:900px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Priced on decks shipped, not seats</h2>
+      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#10b981;"></div>
+      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 04</p>
+
+      <!-- Free -->
+      <div data-shape="rect" style="position:absolute;left:64px;top:180px;width:368px;height:400px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:96px;top:210px;width:300px;height:24px;font-size:16px;font-weight:bold;color:#64748b;font-family:Arial;">Free</p>
+      <p style="position:absolute;left:96px;top:242px;width:300px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">$0</p>
+      <p style="position:absolute;left:96px;top:310px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ 3 decks / month</p>
+      <p style="position:absolute;left:96px;top:344px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ All design languages</p>
+      <p style="position:absolute;left:96px;top:378px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">— Watermarked export</p>
+      <p style="position:absolute;left:96px;top:412px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">— Community support</p>
+
+      <!-- Pro (ours, emphasized) -->
+      <div data-shape="rect" style="position:absolute;left:456px;top:160px;width:368px;height:440px;background:#eef2ff;border-radius:14px;border:2px solid #4f46e5;"></div>
+      <p style="position:absolute;left:488px;top:190px;width:300px;height:24px;font-size:16px;font-weight:bold;color:#4f46e5;font-family:Arial;">Pro — most teams</p>
+      <p style="position:absolute;left:488px;top:222px;width:300px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">$29<span style="font-size:16px;font-weight:normal;color:#64748b;"> / editor / mo</span></p>
+      <p style="position:absolute;left:488px;top:290px;width:304px;height:22px;font-size:14px;color:#312e81;font-family:Arial;">✓ Unlimited decks</p>
+      <p style="position:absolute;left:488px;top:324px;width:304px;height:22px;font-size:14px;color:#312e81;font-family:Arial;">✓ Brand palette import</p>
+      <p style="position:absolute;left:488px;top:358px;width:304px;height:22px;font-size:14px;color:#312e81;font-family:Arial;">✓ Critic-gate reviews</p>
+      <p style="position:absolute;left:488px;top:392px;width:304px;height:22px;font-size:14px;color:#312e81;font-family:Arial;">✓ Native chart data links</p>
+      <div data-shape="rect" style="position:absolute;left:488px;top:520px;width:304px;height:44px;background:#4f46e5;border-radius:10px;"></div>
+      <p style="position:absolute;left:488px;top:532px;width:304px;height:22px;font-size:15px;font-weight:bold;color:#ffffff;font-family:Arial;text-align:center;">Start 14-day trial</p>
+
+      <!-- Enterprise -->
+      <div data-shape="rect" style="position:absolute;left:848px;top:180px;width:368px;height:400px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:880px;top:210px;width:300px;height:24px;font-size:16px;font-weight:bold;color:#64748b;font-family:Arial;">Enterprise</p>
+      <p style="position:absolute;left:880px;top:242px;width:300px;height:52px;font-size:40px;font-weight:bold;color:#0f172a;font-family:Arial;">Custom</p>
+      <p style="position:absolute;left:880px;top:310px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ SSO + audit log</p>
+      <p style="position:absolute;left:880px;top:344px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ Corporate template import</p>
+      <p style="position:absolute;left:880px;top:378px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ On-prem conversion</p>
+      <p style="position:absolute;left:880px;top:412px;width:304px;height:22px;font-size:14px;color:#475569;font-family:Arial;">✓ Dedicated support</p>
+
+      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">4 / 7</p>
+    </section>
+
+    <!-- S16 · LOGO WALL -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <p style="position:absolute;left:64px;top:52px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#f59e0b;font-family:Arial;letter-spacing:2px;">TRACTION</p>
+      <h2 style="position:absolute;left:64px;top:74px;width:900px;height:46px;font-size:36px;font-weight:bold;color:#0f172a;font-family:Arial;">Teams already shipping with us</h2>
+      <div data-shape="rect" style="position:absolute;left:64px;top:128px;width:56px;height:6px;background:#f59e0b;"></div>
+      <p style="position:absolute;left:1096px;top:56px;width:120px;height:24px;font-size:14px;font-weight:bold;color:#cbd5e1;font-family:Arial;text-align:right;">№ 05</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:190px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:64px;top:226px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Georgia;text-align:center;">Meridian&amp;Co</p>
+      <div data-shape="rect" style="position:absolute;left:360px;top:190px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:360px;top:226px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Arial;letter-spacing:3px;">HELIOTROPE</p>
+      <div data-shape="rect" style="position:absolute;left:656px;top:190px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:656px;top:226px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:'Courier New';text-align:center;">nordwind.io</p>
+      <div data-shape="rect" style="position:absolute;left:952px;top:190px;width:264px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:952px;top:226px;width:264px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Arial;text-align:center;">Kestrel Labs</p>
+
+      <div data-shape="rect" style="position:absolute;left:64px;top:310px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:64px;top:346px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Arial;font-style:italic;text-align:center;">bluefern</p>
+      <div data-shape="rect" style="position:absolute;left:360px;top:310px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:360px;top:346px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Georgia;text-align:center;">Alcázar</p>
+      <div data-shape="rect" style="position:absolute;left:656px;top:310px;width:272px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:656px;top:346px;width:272px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:Arial;text-align:center;">TETSU²</p>
+      <div data-shape="rect" style="position:absolute;left:952px;top:310px;width:264px;height:96px;background:#ffffff;border-radius:14px;border:1px solid #e2e8f0;"></div>
+      <p style="position:absolute;left:952px;top:346px;width:264px;height:26px;font-size:19px;font-weight:bold;color:#334155;font-family:'Courier New';text-align:center;">graph/ene</p>
+
+      <p style="position:absolute;left:64px;top:470px;width:1100px;height:24px;font-size:15px;color:#475569;font-family:Arial;"><b>32 teams</b> across 9 countries · 1,900 decks shipped in the beta quarter</p>
+
+      <p style="position:absolute;left:64px;top:666px;width:600px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:666px;width:200px;height:22px;font-size:12px;color:#94a3b8;font-family:Arial;text-align:right;">5 / 7</p>
+    </section>
+    <!-- S09 · THE ASK (ink) -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#0f172a;"></div>
+      <svg style="position:absolute;left:0;top:0;width:1280px;height:720px;" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg"><title>ask</title><defs><linearGradient id="p2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4f46e5" stop-opacity="0.4"/><stop offset="1" stop-color="#0f172a" stop-opacity="0"/></linearGradient></defs><path d="M0,720 C340,560 620,660 900,500 C1080,400 1200,440 1280,380 L1280,720 Z" fill="url(#p2)"/></svg>
+      <p style="position:absolute;left:64px;top:200px;width:400px;height:18px;font-size:12px;font-weight:bold;color:#818cf8;font-family:Arial;letter-spacing:2px;">THE ASK</p>
+      <p style="position:absolute;left:64px;top:250px;width:700px;height:130px;font-size:112px;font-weight:bold;color:#ffffff;font-family:Arial;">$2.5M</p>
+      <p style="position:absolute;left:64px;top:396px;width:700px;height:20px;font-size:13px;font-weight:bold;color:#818cf8;font-family:Arial;letter-spacing:2px;">SEED ROUND — 18 MONTHS OF RUNWAY</p>
+      <p style="position:absolute;left:64px;top:436px;width:620px;height:84px;font-size:16px;color:#94a3b8;font-family:Arial;line-height:1.5;">60% engineering (4 hires), 25% GTM, 15% ops. Goal: 500 paying teams and the corporate-template importer shipped. <b style="color:#ffffff;">Closing July 31.</b></p>
+      <div data-shape="rect" style="position:absolute;left:64px;top:640px;width:1152px;height:1px;background:#334155;"></div>
+      <p style="position:absolute;left:64px;top:660px;width:600px;height:22px;font-size:12px;color:#64748b;font-family:Arial;">© 2026 Aurora · Confidential</p>
+      <p style="position:absolute;left:1016px;top:660px;width:200px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:right;">6 / 7</p>
+    </section>
+
+    <!-- S07 · CLOSING (ink) -->
+    <section class="slide" style="width:1280px;height:720px;position:relative;overflow:hidden;background:#f8fafc;margin:0 auto 24px auto;">
+      <div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#0f172a;"></div>
+      <svg style="position:absolute;left:610px;top:150px;width:60px;height:60px;" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><title>mark</title><circle cx="22" cy="22" r="21" fill="#4f46e5"/><path d="M10 30 L18 13 L24 24 L29 18 L34 30 Z" fill="#c7d2fe"/></svg>
+      <h2 style="position:absolute;left:80px;top:280px;width:1120px;height:88px;font-size:64px;font-weight:bold;color:#ffffff;font-family:Arial;text-align:center;">Let's build it<span style="color:#8fa3d8;">.</span></h2>
+      <p style="position:absolute;left:80px;top:384px;width:1120px;height:30px;font-size:19px;color:#94a3b8;font-family:Arial;text-align:center;">Data room + demo → <b>founders@aurora.dev</b></p>
+      <p style="position:absolute;left:80px;top:660px;width:1120px;height:22px;font-size:12px;color:#64748b;font-family:Arial;text-align:center;">© 2026 Aurora · Confidential · 7 / 7</p>
+    </section>
+
+  </body>
+</html>

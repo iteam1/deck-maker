@@ -42,7 +42,7 @@ Then, from any project:
 
 > "Make me a deck about our Q2 results."
 
-Claude writes `deck.html` (from the [worked example](examples/index.html)), you review in
+Claude writes `deck.html` (from the [worked examples](examples/) — Swiss QBR + Aurora pitch), you review in
 a browser, on your OK it produces `deck.pptx`.
 
 ## CLI

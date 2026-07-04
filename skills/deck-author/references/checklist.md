@@ -24,8 +24,11 @@ actually happened.
 
 ## Design
 
-- [ ] One palette, used consistently; an accent appears ≤ 3× per slide; accents rotated in
-      sequence order. No pure `#000`/`#fff`.
+- [ ] **One design language** (`references/languages/`) for the whole deck — palette,
+      fonts, chrome, and pool styling all from that one file, nothing borrowed from
+      another language.
+- [ ] One palette, used consistently; an accent appears ≤ 3× per slide. No pure
+      `#000`/`#fff`.
 - [ ] **Two surfaces only**: cover, dividers, and closing share the SAME full-bleed
       surface color — no third background anywhere in the deck.
 - [ ] Every slide is composed from the layout pool (S01–S14), not improvised.

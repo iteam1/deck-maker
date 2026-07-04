@@ -44,8 +44,10 @@ native `.pptx`.
    IKB theme, with mono chrome rows, the margin reset, and the chart-preview script
    already in place. Copy it and replace the content (and palette, per `themes.md`) with
    yours.
-3. Optionally pick a non-default palette from [`references/themes.md`](references/themes.md)
-   based on the deck's purpose.
+3. **Pick ONE design language** from [`references/languages/`](references/languages/) by
+   the deck's purpose — Swiss IKB (facts/analysis — what the example uses), Editorial
+   E-Ink (narrative), or Aurora Cards (friendly corporate) — and follow only it. Never
+   blend languages. `references/themes.md` has extra palettes for brand-matching.
 
 ## The contract
 
@@ -130,7 +132,9 @@ inside 1280x720.
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
 - [`examples/index.html`](../../examples/index.html) — the full worked example / starter
   deck (12 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
+- [`references/languages/`](references/languages/) — the design-language catalogue
+  (swiss-ikb, editorial-ink, aurora-cards). **Pick exactly one per deck.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot
-  contract. Read when choosing a non-default palette or matching a brand.
+  contract. Read when matching a brand.
 - [`references/checklist.md`](references/checklist.md) — pre-handoff gate. Run before
   declaring the deck ready and before converting.

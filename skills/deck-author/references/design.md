@@ -23,26 +23,26 @@ by `deck-maker check`:
 
 Decorative shapes and SVG (full-bleed backgrounds, panels) may bleed past the rails.
 
-## Design system
+## Pick ONE design language — never blend
 
-**Palette — pick ONE, use everywhere.** The default (Aurora) below, or pick a named theme
-from [`themes.md`](themes.md), or the user's brand. Never introduce a color mid-deck.
+A deck is written in exactly **one** design language. Each language is a self-contained
+spec — palette, fonts, chrome, and how it restyles the layout pool — in
+[`languages/`](languages/). Mixing grammars (e.g. an Editorial ink divider inside a Swiss
+deck) is the #1 "spliced-together" tell; it is banned.
 
-| Role | Value |
-|---|---|
-| Ink (dark surfaces) | `#0f172a` |
-| Light background | `#f8fafc` |
-| Card surface / border | `#ffffff` / `1px solid #e2e8f0` |
-| Primary accent | `#4f46e5` (indigo) |
-| Secondary accents | `#38bdf8` sky · `#10b981` emerald · `#f59e0b` amber |
-| Headings / body / muted | `#0f172a` / `#475569` / `#64748b` |
-| Muted-on-dark / faint | `#94a3b8` / `#cbd5e1` |
-| Semantic | good `#10b981` · warn `#f59e0b` · bad `#f43f5e` |
+| Language | Feel | Use for |
+|---|---|---|
+| [`languages/swiss-ikb.md`](languages/swiss-ikb.md) | cold, rational, hairlines + one saturated accent | facts, analysis, methodology — **the shipped example** |
+| [`languages/editorial-ink.md`](languages/editorial-ink.md) | magazine × e-ink, serif display, printed paper | narrative, opinion, story-telling |
+| [`languages/aurora-cards.md`](languages/aurora-cards.md) | friendly corporate, rounded cards, gradient air | product reviews, team updates, SaaS |
 
-Rotate the four accents for sequences (agenda numbers, KPI ticks, timeline nodes). **Never
-pure `#000`/`#fff`** — off-black/off-white keep depth. **Accent budget: an accent appears
-≤ 3 times per slide.** Deck-maker's default indigo is fine as a *chosen* accent, but don't
-reach for generic AI-purple reflexively.
+To port a new language (from open-design or a brand), copy a language file's structure:
+Intent / Palette / Type / Chrome / Restyling the pool / Bans.
+
+## Universal design rules (apply in every language)
+
+**Never pure `#000`/`#fff`** — off-black/off-white keep depth. **Accent budget: an accent
+appears ≤ 3 times per slide.** Don't reach for generic AI-purple reflexively.
 
 **Two-surface rule.** A deck uses exactly **two slide surfaces**: the light content
 surface, and ONE dark/accent surface shared by every full-bleed slide — cover, section
@@ -91,6 +91,11 @@ Never leave a slide default-white with floating text: dark slides get a full-ble
 Compose every deck from this pool. **Do not invent or restructure layouts mid-deck.** Slide
 count is driven by content (short 6–10, long far more); **repeat layouts across sections** —
 consistency comes from repetition, not variety. Each is a variation of the middle band.
+
+The pool is universal; **your chosen language restyles it** (see `languages/`). The
+coordinate sketches below are written in the Aurora Cards idiom — under Swiss they become
+hairlines/towers/square nodes, under Editorial they become tint blocks/serif quotes, as
+each language file specifies.
 
 **S01 · Cover (dark).** Full-bleed ink rect + aurora SVG (2 gradient wave paths + faint
 circle rings, `stop-opacity` 0.3–0.55); logo 44px + wordmark (64, 56); pill chip

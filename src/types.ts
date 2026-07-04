@@ -38,7 +38,7 @@ export type TextRun = {
 
 /** Data for a native, editable chart (parsed from a data-chart JSON attribute). */
 export type ChartSpec = {
-	type: "bar" | "line" | "pie" | "doughnut";
+	type: "bar" | "line" | "pie" | "doughnut" | "area" | "scatter" | "radar";
 	categories: string[];
 	series: { name: string; values: number[] }[];
 	/** Optional series colors, CSS hex. */

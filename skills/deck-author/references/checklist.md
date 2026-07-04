@@ -31,7 +31,7 @@ actually happened.
       `#000`/`#fff`.
 - [ ] **Two surfaces only**: cover, dividers, and closing share the SAME full-bleed
       surface color — no third background anywhere in the deck.
-- [ ] Every slide is composed from the layout pool (S01–S14), not improvised.
+- [ ] Every slide is composed from the layout pool (S01–S19), not improvised.
 - [ ] Every slide has the chrome header + footer bands and **one** focal point (≤ 4 text
       roles: eyebrow, title, body, one caption). No two equal-weight text blocks.
 - [ ] Uppercase tracked eyebrow above headlines; extreme type contrast (hero ~8–10× labels).

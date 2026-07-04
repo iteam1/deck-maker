@@ -34,17 +34,20 @@ native `.pptx`.
 ## Start here
 
 1. **Read [`references/design.md`](references/design.md)** — the design playbook: the
-   three-band frame, palette + type scale + tracking, the locked 14-archetype layout pool
-   (S01–S14), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
+   three-band frame, palette + type scale + tracking, the locked 19-archetype layout pool + deck arcs
+   (S01–S19), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
    designed without it look generated.
 2. **Study and copy [`examples/index.html`](../../examples/index.html)** (in the
-   deck-maker repo) as your starting deck — the full worked example: 12 slides across the
+   deck-maker repo) as your starting deck — the full worked example: 13 slides across the
    archetype pool (cover, agenda, statement, KPI tower, native chart, ranked H-bar, data
    deep-dive, section divider, timeline, process row, photo+quote, closing) in the Swiss
    IKB theme, with mono chrome rows, the margin reset, and the chart-preview script
    already in place. Copy it and replace the content (and palette, per `themes.md`) with
    yours.
-3. **Pick ONE design language** from [`references/languages/`](references/languages/) by
+3. **Pick the deck arc** for the deck type (QBR, investor pitch, sales, talk, status,
+   consulting) from the playbook's "Deck arcs" section — the arc orders the archetypes
+   and guarantees an ask/decision beat before the close.
+4. **Pick ONE design language** from [`references/languages/`](references/languages/) by
    the deck's purpose — Swiss IKB (facts/analysis — what the example uses), Editorial
    E-Ink (narrative), or Aurora Cards (friendly corporate) — and follow only it. Never
    blend languages. `references/themes.md` has extra palettes for brand-matching.
@@ -87,7 +90,7 @@ Pick the richest type for each piece of content — never draw what you can mark
 }' style="position: absolute; left: 88px; top: 392px; width: 688px; height: 246px;"></div>
 ```
 
-`type`: `bar` (comparisons), `line` (trends), `pie`/`doughnut` (composition). Always set
+`type`: `bar`, `line`, `area`, `pie`, `doughnut`, `scatter`, `radar`. Always set
 `colors` from the palette. The converter builds a native chart — the user gets
 right-click → Edit Data.
 
@@ -135,7 +138,7 @@ inside 1280x720.
 
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
 - [`examples/index.html`](../../examples/index.html) — the full worked example / starter
-  deck (12 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
+  deck (13 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
 - [`references/languages/`](references/languages/) — the design-language catalogue
   (swiss-ikb, editorial-ink, aurora-cards). **Pick exactly one per deck.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot

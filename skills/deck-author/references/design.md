@@ -161,10 +161,60 @@ a shade of that surface's hue as the anchor.
 **S14 · Process row (dateless).** 01–04 numbered cards/steps in a row (distinct from S05's
 chronological timeline). Middle step may invert to accent. For methods / how-it-works.
 
+**S15 · Team grid.** 3–4 columns: headshot (square-cropped `<img>`, or a flat-color
+initial block), name 18px bold, role 13px muted, one-line credential. Hairline between
+rows. For pitch decks / about-us.
+
+**S16 · Logo wall.** "Trusted by" eyebrow + a 3×2 / 4×2 grid of customer logos (`<img>`,
+uniform box height ~48px, generous gaps) on the light surface; one mono caption with a
+real count ("32 CUSTOMERS · 9 COUNTRIES"). Social proof for sales decks.
+
+**S17 · 2×2 matrix.** Two hairline axes crossing at center (labeled at the ends, mono
+uppercase), quadrant labels muted, plotted entries as dots/chips with 13px names — us in
+accent, others muted. Positioning / prioritization / competitive frames.
+
+**S18 · Comparison / pricing table.** 3–4 column table: header = plan or competitor
+names (ours accent-marked), rows = features with ✓ / — / values; ours' column may sit on
+a tint fill. Terminal row = price or verdict, bold. For sales and eval decks.
+
+**S19 · Executive summary.** Numbered ledger of 3–5 one-line findings (mono index +
+bold claim + 15px consequence), each row hairline-separated; one accent-marked row = the
+decision requested. Opens consulting-style decks; every claim links to a later slide.
+
+**Device: code block.** For tech talks — a `<pre>` in Courier New 14–16px on an
+ink/tint panel; line breaks are preserved by the engine, so code ships as real
+editable text, never a screenshot.
+
+## Deck arcs — pick by deck type, then pull archetypes
+
+The pool is genre-neutral; the **arc** (order + emphasis) is what changes per deck type.
+Pick the arc first, then fill each beat from the pool:
+
+- **Business review / QBR** — S01 → S02 agenda → per section: S08 statement, S03/S04/S11
+  data → S13 dividers at act breaks → S05/S14 roadmap → **S09/S08 the ask** → S07.
+  (The shipped example.)
+- **Investor pitch** — S01 → S08 problem (statement) → S08/S12 solution (before/after) →
+  S09 traction hero-number → S03 metrics → S17 competition 2×2 → S16 logo wall →
+  S15 team → S05 roadmap → **S09 the ask ($ + use of funds)** → S07.
+- **Sales / product** — S01 → S08 customer pain → S12 before/after → S10 feature grid →
+  S06 case-study quote → S16 logo wall → S18 pricing → S14 onboarding process →
+  S09 CTA → S07.
+- **Conference / tech talk** — S01 → S08 hook → S13 dividers per act → content slides
+  favoring statements, code blocks, and single big diagrams (one idea per slide,
+  minimal chrome) → S08 takeaway → S07.
+- **Project status** — S01 → S19 exec summary → S03 KPI health → S05 timeline vs plan →
+  S11 risks ranked → S09/S08 decision needed → S07.
+- **Consulting / strategy** — S01 → **S19 exec summary (the answer first)** → S13 per
+  pillar → S17 frameworks + S04/S11 evidence → S14 recommendations → S09 ask → S07.
+
+Every arc ends the body with an explicit ask/decision/CTA beat before the closing —
+a deck that only informs is a report, not a deck.
+
 ## Charts and tables
 
-- Embed **data**, never draw charts: `data-chart` JSON. `bar` (comparison), `line` (trend),
-  `pie`/`doughnut` (composition).
+- Embed **data**, never draw charts: `data-chart` JSON. `bar` (comparison), `line`/`area`
+  (trend), `pie`/`doughnut` (composition), `scatter` (correlation), `radar` (profiles).
+  The browser preview approximates area/scatter/radar as lines — the `.pptx` is native.
 - **Always set `colors`** from the palette, in this order: `[accent, accent-2, accent-3,
   good, warn]`. Single series → single accent. Defaults look generic.
 - Style discipline (newsroom rules): axis labels/legend in **muted**, gridlines in the
@@ -184,7 +234,7 @@ Non-negotiable — a deck violating any of these is wrong even if it "looks fine
    user. No number → ask, or use an honest `—` / explicit `X.X` placeholder. Bar heights and
    fills are real data, to scale. No fake-precise figures (`99.99%`) invented for aesthetics.
 2. **One palette per deck.** No new color mid-deck; never mix palettes.
-3. **Compose from the layout pool (S01–S14).** Repeat as content demands; never invent.
+3. **Compose from the layout pool (S01–S19).** Repeat as content demands; never invent.
 4. **One focal point per slide.** Exactly one hierarchy peak — one sentence, one number, or
    one image. Never two equal text blocks; if truly parallel, use an equal-weight grid.
    ≤ 4 text roles per slide (eyebrow, title, body, one caption).

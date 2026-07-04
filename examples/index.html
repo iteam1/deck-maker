@@ -5,10 +5,47 @@
     <title>deck</title>
   </head>
   <body>
-    <section class="slide" style="width: 1280px; height: 720px; position: relative;">
-      <h1 style="position: absolute; left: 96px; top: 240px; width: 1088px; height: 120px; font-size: 72px; color: #111;">
-        Hello, deck-maker
+    <!-- One .slide = one PPTX slide. Fixed 1280x720 canvas, position: relative. -->
+    <section
+      class="slide"
+      style="width: 1280px; height: 720px; position: relative; font-family: Arial;"
+    >
+      <h1
+        style="position: absolute; left: 96px; top: 56px; width: 1088px; height: 96px; font-size: 54px; color: #111111;"
+      >
+        deck-maker demo
       </h1>
+
+      <!-- autoshape -->
+      <div
+        data-shape="rect"
+        style="position: absolute; left: 96px; top: 200px; width: 320px; height: 180px; background: #4f46e5;"
+      ></div>
+
+      <!-- native table -->
+      <table
+        style="position: absolute; left: 460px; top: 200px; width: 300px; height: 180px;"
+      >
+        <tr><td>Quarter</td><td>Value</td></tr>
+        <tr><td>Q1</td><td>4.2</td></tr>
+        <tr><td>Q2</td><td>5.1</td></tr>
+      </table>
+
+      <!-- native chart: embed the DATA, not a drawing -->
+      <div
+        data-chart='{"type":"bar","categories":["Q1","Q2","Q3","Q4"],"series":[{"name":"Product A","values":[4.2,5.1,6.3,7.4]}]}'
+        style="position: absolute; left: 800px; top: 200px; width: 384px; height: 300px;"
+      ></div>
+
+      <!-- svg vector -->
+      <svg
+        style="position: absolute; left: 96px; top: 440px; width: 200px; height: 200px;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>green circle</title>
+        <circle cx="50" cy="50" r="45" fill="#22c55e" />
+      </svg>
     </section>
   </body>
 </html>

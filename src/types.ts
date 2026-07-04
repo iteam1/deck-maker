@@ -15,7 +15,7 @@ export type Deck = {
 	slides: Slide[];
 };
 
-/** One slide: its own size (will be 1280x720) plus its elements. */
+/** One slide: its own size (1280x720) plus its elements. */
 export type Slide = {
 	w: number;
 	h: number;
@@ -30,8 +30,26 @@ export type TextRun = {
 	color?: string;
 };
 
+/** Data for a native, editable chart (parsed from a data-chart JSON attribute). */
+export type ChartSpec = {
+	type: "bar" | "line" | "pie";
+	categories: string[];
+	series: { name: string; values: number[] }[];
+};
+
 /**
- * Discriminated union keyed on `kind` — emit.ts will switch on it.
- * Walking skeleton: only `text`. Add shape | table | chart | svg | image later.
+ * Discriminated union keyed on `kind` — emit.ts switches on it.
+ * One member per rung of the fidelity ladder.
  */
-export type Element = { kind: "text"; box: Box; runs: TextRun[] };
+export type Element =
+	| { kind: "text"; box: Box; runs: TextRun[] }
+	| {
+			kind: "shape";
+			box: Box;
+			shape: "rect" | "ellipse" | "arrow";
+			fill?: string;
+	  }
+	| { kind: "table"; box: Box; rows: string[][] }
+	| { kind: "chart"; box: Box; spec: ChartSpec }
+	| { kind: "svg"; box: Box; svg: string }
+	| { kind: "image"; box: Box; src: string };

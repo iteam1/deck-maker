@@ -7,19 +7,20 @@ the engineering view: repo layout, dataflow, workflow._
 
 ```
 skills/
-  author/      skill — how to write deck.html in the required format
-  engine/      skill — how to run the CLI to convert it
+  deck-author/    skill — how to write deck.html in the required format
+  deck-convert/   skill — how to run the CLI to convert it
 src/
-  cli.ts       drives the engine (convert, ...)
-  parse.ts     HTML → Deck (the IR)
-  emit.ts      Deck → PptxGenJS → .pptx
+  cli.ts          drives the engine (convert, ...)
+  parse.ts        HTML → Deck (the IR)
+  emit.ts         Deck → PptxGenJS → .pptx
+  types.ts        the IR types shared by parse + emit
 ```
 
 - **engine** = `parse.ts` + `emit.ts`, decoupled by the **IR** (`Deck`): parse never
   touches PptxGenJS, emit never touches HTML.
 - **cli** drives the engine.
-- **skills** teach Claude Code to author conforming HTML (`author`) and run the CLI
-  (`engine`).
+- **skills** teach Claude Code to author conforming HTML (`deck-author`) and run the CLI
+  (`deck-convert`).
 
 ## Dataflow
 

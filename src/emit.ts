@@ -7,26 +7,29 @@ const inch = (px: number) => px / 96;
 /** CSS hex ("#111" or "#112233") → PptxGenJS hex ("111111", no leading #). */
 function hex(color: string | undefined): string | undefined {
 	if (!color) return undefined;
-	let c = color.replace("#", "");
+	let c = color.replace("#", "").trim();
 	if (c.length === 3)
 		c = c
 			.split("")
 			.map((ch) => ch + ch)
 			.join("");
-	return c;
+	return c || undefined;
 }
 
 /** Map our TextRun[] to PptxGenJS's { text, options } run format. */
 function textRuns(runs: TextRun[]) {
 	return runs.map((run) => ({
 		text: run.text,
-		options: {
-			fontSize: run.size,
-			bold: run.bold,
-			color: hex(run.color),
-		},
+		options: { fontSize: run.size, bold: run.bold, color: hex(run.color) },
 	}));
 }
+
+/** Our shape names → PptxGenJS shape names. */
+const SHAPE = {
+	rect: "rect",
+	ellipse: "ellipse",
+	arrow: "rightArrow",
+} as const;
 
 export async function emit(deck: Deck, outPath: string): Promise<void> {
 	const pptx = new pptxgen();
@@ -37,22 +40,51 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 
 	for (const slide of deck.slides) {
 		const s = pptx.addSlide();
-		for (const element of slide.elements) {
-			switch (element.kind) {
-				case "text": {
-					const { box } = element;
-					s.addText(textRuns(element.runs), {
-						x: inch(box.x),
-						y: inch(box.y),
-						w: inch(box.w),
-						h: inch(box.h),
+
+		for (const el of slide.elements) {
+			const pos = {
+				x: inch(el.box.x),
+				y: inch(el.box.y),
+				w: inch(el.box.w),
+				h: inch(el.box.h),
+			};
+
+			switch (el.kind) {
+				case "text":
+					s.addText(textRuns(el.runs), pos);
+					break;
+				case "shape":
+					s.addShape(SHAPE[el.shape], {
+						...pos,
+						fill: el.fill ? { color: hex(el.fill) ?? "000000" } : undefined,
 					});
 					break;
-				}
-				default:
-					throw new Error(
-						`unsupported element kind: ${(element as { kind: string }).kind}`,
+				case "table":
+					s.addTable(
+						el.rows.map((row) => row.map((cell) => ({ text: cell }))),
+						pos,
 					);
+					break;
+				case "chart":
+					s.addChart(
+						el.spec.type,
+						el.spec.series.map((ser) => ({
+							name: ser.name,
+							labels: el.spec.categories,
+							values: ser.values,
+						})),
+						pos,
+					);
+					break;
+				case "svg":
+					s.addImage({
+						data: `data:image/svg+xml;base64,${Buffer.from(el.svg).toString("base64")}`,
+						...pos,
+					});
+					break;
+				case "image":
+					s.addImage({ path: el.src, ...pos });
+					break;
 			}
 		}
 	}

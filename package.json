@@ -4,6 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+		"convert": "bun src/cli.ts",
 		"lint": "bunx biome check --write ."
 	},
 	"devDependencies": {

@@ -1,99 +1,65 @@
 # deck-maker — internals
 
-_Product rationale, the fidelity ladder, and the HTML conventions live in the
-[README](../README.md). This doc is the engineering view: **components, dataflow, and
-workflow.**_
+_Pitch, fidelity ladder, and HTML conventions live in the [README](../README.md). This is
+the engineering view: repo layout, dataflow, workflow._
 
-## Components
+## Repo layout
 
-| Path | Side | Responsibility |
-|---|---|---|
-| `skill/SKILL.md` | author | Teaches Claude Code the workflow + points at the contract |
-| `skill/reference/conventions.md` | author | The HTML contract — single source of truth |
-| `skill/reference/template.html` | author | Starter deck the agent copies |
-| `src/convert.ts` | engine | CLI entry: `deck-maker convert deck.html out.pptx` |
-| `src/parse.ts` | engine | HTML string → `Deck` (the IR) |
-| `src/emit.ts` | engine | `Deck` → PptxGenJS calls → `.pptx` |
-| `src/types.ts` | engine | The IR types shared by parse + emit |
-| `setup.ts` | install | Links skill into `~/.claude/skills`, puts CLI on PATH |
+```
+skills/
+  author/      skill — how to write deck.html in the required format
+  engine/      skill — how to run the CLI to convert it
+src/
+  cli.ts       drives the engine (convert, ...)
+  parse.ts     HTML → Deck (the IR)
+  emit.ts      Deck → PptxGenJS → .pptx
+```
 
-**parse** and **emit** are decoupled by one artifact: the **IR** (`Deck`). parse never
-touches PptxGenJS; emit never touches HTML. The IR is the contract between them.
+- **engine** = `parse.ts` + `emit.ts`, decoupled by the **IR** (`Deck`): parse never
+  touches PptxGenJS, emit never touches HTML.
+- **cli** drives the engine.
+- **skills** teach Claude Code to author conforming HTML (`author`) and run the CLI
+  (`engine`).
 
 ## Dataflow
 
 ```mermaid
 flowchart LR
     H["deck.html<br/>(string)"] -->|parse.ts| IR["Deck — the IR<br/>(in memory)"]
-    IR -->|emit.ts| O["out.pptx<br/>(PptxGenJS write)"]
+    IR -->|emit.ts| O["deck.pptx<br/>(PptxGenJS write)"]
 ```
 
-The IR — a `.slide` box becomes a `Slide`, each positioned child an `Element`:
+The IR — a `.slide` box → `Slide`, each positioned child → `Element`:
 
 ```ts
-type Px  = number                       // CSS px in the 1280x720 canvas
-type Box = { x: Px; y: Px; w: Px; h: Px }   // from inline left/top/width/height
+type Box = { x: number; y: number; w: number; h: number }   // px, from inline left/top/width/height
 
 type Deck  = { slides: Slide[] }
-type Slide = { w: Px; h: Px; elements: Element[] }    // w,h = 1280,720
+type Slide = { w: number; h: number; elements: Element[] }  // 1280 x 720
 
 type Element =
-  | { kind: 'text';   box: Box; runs: TextRun[]; align?: Align }
-  | { kind: 'shape';  box: Box; shape: 'rect' | 'ellipse' | 'arrow'; fill?: Hex; stroke?: Hex }
-  | { kind: 'table';  box: Box; rows: Cell[][] }
-  | { kind: 'chart';  box: Box; spec: ChartSpec }     // parsed from data-chart JSON
+  | { kind: 'text';   box: Box; runs: TextRun[] }
+  | { kind: 'shape';  box: Box; shape: 'rect' | 'ellipse' | 'arrow' }
+  | { kind: 'table';  box: Box; rows: string[][] }
+  | { kind: 'chart';  box: Box; spec: ChartSpec }        // from data-chart JSON
   | { kind: 'svg';    box: Box; svg: string }
   | { kind: 'image';  box: Box; src: string }
-  | { kind: 'raster'; box: Box; src: string }         // data-raster escape hatch
 
-type TextRun  = { text: string; font?: string; size?: Px; bold?: boolean; color?: Hex }
-type ChartSpec = { type: 'bar' | 'line' | 'pie'; categories: string[]; series: Series[] }
+type TextRun  = { text: string; size?: number; bold?: boolean; color?: string }
+type ChartSpec = { type: 'bar' | 'line' | 'pie'; categories: string[]; series: { name: string; values: number[] }[] }
 ```
 
-Geometry and convertible style are read from **inline `style` / `data-*`** only — no CSS
-cascade, so no layout engine. Detection precedence (in `parse.ts`):
-`data-raster` → `data-chart` → `<table>` → `<svg>`/`.svg` → `data-shape`/bare `<div>` →
-`<img>` → text.
-
-### emit mapping
-
-`emit.ts` walks `Deck` and, per element `kind`, calls one PptxGenJS API. Positions convert
-`px / 96 → inches` (PptxGenJS's unit; `1px = 1/96in = 9525 EMU`):
-
-| IR kind | PptxGenJS call |
-|---|---|
-| text | `slide.addText(runs, box)` |
-| shape | `slide.addShape(type, box)` |
-| table | `slide.addTable(rows, box)` |
-| chart | `slide.addChart(type, data, box)` — native, editable data |
-| svg | `slide.addImage({ data: svg, ...box })` |
-| image | `slide.addImage({ path: src, ...box })` |
-| raster | `slide.addImage({ path: src, ...box })` |
+Geometry and style are read from inline `style` / `data-*` only — no CSS cascade, so no
+layout engine. `emit.ts` converts `px / 96 → inches` for PptxGenJS.
 
 ## Workflow
 
 ```mermaid
 flowchart TD
-    S["Setup (once)<br/>bun install && bun run setup<br/>(symlink skill → ~/.claude/skills, link CLI onto PATH)"]
-    S --> A1["you: 'make me a deck about X'"]
-    A1 --> W["Claude Code writes deck.html<br/>(per skill/reference/conventions.md)"]
-    W --> R{"you review<br/>bun ./index.html in browser"}
-    R -->|tweak this| W
-    R -->|OK, ship it| CV["Claude Code runs (one-way)<br/>deck-maker convert deck.html out.pptx"]
-    CV --> INT["parse.ts → Deck → emit.ts → PptxGenJS"]
-    INT --> O(["out.pptx"])
-```
-
-## First milestone — walking skeleton
-
-Thinnest slice through every component, one primitive only:
-
-1. `examples/hello.html` — one `.slide`, one absolutely-positioned heading.
-2. `parse.ts` — `.slide` → `Deck` with a single `text` element.
-3. `emit.ts` — that element → `addText` at `px/96` inches → `out.pptx`.
-4. `convert.ts` — wire the CLI.
-5. Open in PowerPoint; confirm the text is native and editable.
-
-Then extend `parse.ts` + the emit mapping down the fidelity ladder
-(shape → table → chart → svg → image) and fill in `skill/`.
+    C1["clone + bun install"] --> C2["copy skills/ into your working folder"]
+    C2 --> W["Claude writes deck.html<br/>(author skill)"]
+    W --> R{"review in browser"}
+    R -->|tweak| W
+    R -->|OK| CV["CLI converts deck.html → deck.pptx<br/>(engine skill)"]
+    CV --> O(["deck.pptx — same folder"])
 ```

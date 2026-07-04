@@ -37,8 +37,11 @@ native `.pptx`.
    three-band frame, palette + type scale + tracking, the locked 14-archetype layout pool
    (S01–S14), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
    designed without it look generated.
-2. **Copy [`references/template.html`](references/template.html)** as the starting file —
-   it ships the margin reset, the chart preview script, and a cover + content slide.
+2. **Study and copy [`examples/index.html`](../../examples/index.html)** (in the
+   deck-maker repo) as your starting deck — the full worked example: 11 slides across the
+   archetype pool (cover, agenda, statement, KPI dashboard, ranked H-bar, data deep-dive,
+   section divider, timeline, process row, photo+quote, closing), with the margin reset
+   and chart-preview script already in place. Copy it and replace the content with yours.
 3. Optionally pick a non-default palette from [`references/themes.md`](references/themes.md)
    based on the deck's purpose.
 
@@ -91,7 +94,7 @@ markup.** The markup hides everything that actually matters — text overflow, w
 positions, broken images, off-palette color, distorted photos. Only the rendered pixels
 tell the truth. Build and *look* one slide at a time:
 
-1. Start from the template; write (or edit) **one** slide.
+1. Start from a copy of `examples/index.html`; write (or edit) **one** slide.
 2. **Render it and actually look at it.** Serve the file — `bun ./index.html` (or
    `python3 -m http.server -d <dir>`) — and screenshot that slide, e.g. with Playwright:
    `page.locator("section.slide:nth-of-type(N)").screenshot(...)`, then view the image.
@@ -108,7 +111,7 @@ tell the truth. Build and *look* one slide at a time:
 ## Rules that keep the preview truthful
 
 The converter ignores `<style>`/`<script>`; they exist so the browser shows what the
-PPTX will contain. The template already includes all three:
+PPTX will contain. `examples/index.html` already includes all three:
 
 1. The margin reset (`.slide p, h1, h2 { margin: 0; line-height: 1.25 }`) — without it
    browser text sits ~16px lower than the converter places it.
@@ -123,8 +126,8 @@ inside 1280x720.
 ## Bundled resources
 
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
-- [`references/template.html`](references/template.html) — the starter deck. **Copy to
-  begin.**
+- [`examples/index.html`](../../examples/index.html) — the full worked example / starter
+  deck (11 slides across the archetype pool). **Copy and adapt to begin.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot
   contract. Read when choosing a non-default palette or matching a brand.
 - [`references/checklist.md`](references/checklist.md) — pre-handoff gate. Run before

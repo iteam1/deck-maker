@@ -8,15 +8,19 @@ the engineering view: repo layout, dataflow, workflow._
 ```
 skills/
   deck-author/    skill — how to write deck.html in the required format
-    reference/
-      design.md      the design playbook (palette, type scale, slide archetypes)
-      template.html  working starter deck (reset + chart preview script included)
+    references/
+      design.md      the design playbook (palette, type scale, archetype pool)
+      themes.md      named palettes + the --od-* theme-slot contract
+      checklist.md   pre-handoff gate
   deck-convert/   skill — how to run the CLI to convert it
+examples/
+  index.html      the full worked example / starter deck (copy + adapt)
+  assets/         image assets referenced by the example
 src/
   cli.ts          verbs: convert (check + emit), check (geometry gate only)
   parse.ts        HTML → Deck (the IR)
   check.ts        Deck → violations (canvas bounds, footer rail, chart sanity)
-  emit.ts         Deck → PptxGenJS → .pptx
+  emit.ts         Deck → PptxGenJS → .pptx (repacks OPC, rasterizes SVG)
   types.ts        the IR types shared by parse + emit
 ```
 

@@ -223,8 +223,8 @@ truth. Every real defect in this project's history was found by *looking*, not b
 reviewing HTML. See the SKILL workflow for the loop.
 
 For the browser render to match the converter, the preview relies on three things (all in
-the template): the converter ignores `<style>`/`<script>` for layout, so they exist purely
-to make the browser show what the PPTX will contain:
+`examples/index.html`): the converter ignores `<style>`/`<script>` for layout, so they
+exist purely to make the browser show what the PPTX will contain:
 
 1. Margin reset: `.slide p, .slide h1, .slide h2 { margin: 0; line-height: 1.25; }` — without
    it browser text sits ~16px lower than the converter places it.

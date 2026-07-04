@@ -192,14 +192,20 @@ Non-negotiable — a deck violating any of these is wrong even if it "looks fine
 hairlines (1px border → thin line); chrome rows (three text boxes); **ASCII dot fields**
 (a `<pre>` of `▒▓█░` in mono — literally text, maps 1:1); dot/cell matrices (grid of small
 rects); variable-height KPI bars (`rect`, height ∝ data); ranked H-bar tracks; corner
-registration marks (short lines); concentric rings / line+area (inline SVG → ovals / native
-chart); color-block split panels; numbered indices (`№06`, `/ 01`); a hard-offset "shadow"
-(a duplicated offset text box, 0-blur).
+registration marks (short lines); color-block split panels; numbered indices (`№06`,
+`/ 01`); a hard-offset "shadow" (a duplicated offset text box, 0-blur).
 
-**Won't survive — avoid, or pre-render to a raster PNG:** procedural grain
-(`feTurbulence`), CSS gradient/radial washes on shapes, inset/vignette shadows,
-`backdrop-filter` blur, `mix-blend-mode`, blurred-glow text-shadow, all motion/transitions,
-`clamp()`/`vw` (resolve to fixed px — we already have a fixed canvas).
+**Inline `<svg>` is rasterized to a high-res PNG at convert time** (via resvg, at 2× the
+box). So SVG is your escape hatch for anything DrawingML can't do — gradients, gradient
+washes, concentric rings, freeform paths, feTurbulence-free vector art — and it renders
+identically everywhere. The tradeoff: it's a raster in the `.pptx`, not editable vectors.
+(Native SVG-in-PPTX is *not* reliably supported — LibreOffice refuses to open the file and
+Google Slides shows a broken image — which is why we rasterize.)
+
+**Won't survive on shapes/text — put it in an SVG instead, or avoid:** CSS gradients,
+`box-shadow`, `opacity`, `letter-spacing`, `backdrop-filter` blur, `mix-blend-mode`,
+blurred-glow text-shadow, all motion/transitions, `clamp()`/`vw` (resolve to fixed px —
+we already have a fixed canvas).
 
 ## Theming with CSS variables (optional)
 

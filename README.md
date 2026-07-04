@@ -13,7 +13,7 @@ Built with **Bun + TypeScript**, driven by **Claude Code**.
 | Text | Native text box | Edit, search, restyle — reflows on font change |
 | Table | Native PPTX table | Edit cells, resize columns, restyle borders |
 | Chart | Native chart **with embedded data** | Right-click → **Edit Data**, chart redraws |
-| Diagram / icon / illustration | SVG vector | Infinite zoom; "Convert to Shape" → editable vectors |
+| Diagram / icon / illustration | inline SVG, rasterized to a high-res PNG | Crisp at slide scale; gradients/paths render everywhere (native SVG-in-PPTX isn't reliably supported by LibreOffice / Google Slides) |
 | Boxes, arrows, callouts | DrawingML autoshapes | Move, recolor, reconnect |
 | Photo | PNG/JPEG | Last resort — only for genuinely raster content |
 

@@ -36,6 +36,10 @@ type ChartSpec = { type: "bar"|"line"|"pie"|"doughnut"; categories: string[];
   the classic silent regression (an `<em>` that never becomes `italic: true`). Same for
   `font`: the first `font-family` per run, so the emitter can set `fontFace` rather than
   letting PowerPoint fall back to Calibri silently.
+- **SVG is rasterized at emit time.** `emit.ts` renders each `svg` element to a PNG (resvg,
+  at 2× the box) rather than embedding the SVG — native SVG-in-PPTX makes LibreOffice reject
+  the file and Google Slides show a broken image. The IR still carries the raw `svg` string;
+  rasterization is an emit concern.
 - **Detection precedence** (in `parse.ts`, per element): `data-chart` → `<table>` → `<svg>`
   → `data-shape` → `<img>` → text. First match wins; text is the fallback.
 - **Discriminated union.** Every `Element` carries `kind`; `emit.ts` and `check.ts` both

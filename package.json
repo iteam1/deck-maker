@@ -17,6 +17,8 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
+		"@resvg/resvg-js": "^2.6.2",
+		"jszip": "^3.10.1",
 		"node-html-parser": "^8.0.4",
 		"pptxgenjs": "^4.0.1"
 	}

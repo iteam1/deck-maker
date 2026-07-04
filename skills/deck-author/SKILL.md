@@ -108,7 +108,11 @@ tell the truth. Build and *look* one slide at a time:
 4. When all slides look right: run the geometry gate
    `bun <deck-maker>/src/cli.ts check deck.html` (fix to 0 critical) and walk
    [`references/checklist.md`](references/checklist.md).
-5. Hand off to **deck-convert** to produce the `.pptx` — then **look at the `.pptx` too**
+5. **Critic gate** — spawn an independent subagent with the persona + rubric in
+   [`references/critic.md`](references/critic.md), give it the slide screenshots and the
+   deck's language file, and fix every 🔴/🟠 it reports. Ship only at **≥ 8/10 with no
+   🔴/🟠**. The author never grades its own deck.
+6. Hand off to **deck-convert** to produce the `.pptx` — then **look at the `.pptx` too**
    (render it back to images or open it). The browser is a design proxy; the converted
    file is the artifact, and it can differ (fonts, wrapping). Confirm before shipping.
 
@@ -138,3 +142,5 @@ inside 1280x720.
   contract. Read when matching a brand.
 - [`references/checklist.md`](references/checklist.md) — pre-handoff gate. Run before
   declaring the deck ready and before converting.
+- [`references/critic.md`](references/critic.md) — the critic-subagent persona + rubric.
+  Run the critic gate on rendered screenshots before handing the deck to the user.

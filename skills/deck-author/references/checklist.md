@@ -40,6 +40,15 @@ actually happened.
 - [ ] Footer (copyright + page `N / N`) on every content slide, at y ≥ 658.
 - [ ] Text boxes have ~20% height slack; body measure ≤ ~65 chars/line.
 
+## Narrative through-line (read the deck as ONE document, not per-slide)
+
+- [ ] Every agenda item maps to a delivered slide — especially the asks/decision climax.
+- [ ] Count claims match visuals ("three milestones" ≠ four nodes); stats quoted on two
+      slides use identical precision.
+- [ ] No verbatim sentence echoes across slides; each restatement adds something.
+- [ ] Chart titles state conclusions AND the chart draws its own proof (deltas annotated,
+      not left for the reader to compute).
+
 ## Content integrity
 
 - [ ] **All numbers are the user's** — no invented chart values, KPIs, table figures, or
@@ -56,6 +65,8 @@ actually happened.
 
 - [ ] **Every slide was rendered and looked at** (screenshot / browser), not judged from
       HTML — overflow, broken images, and misalignment only show in pixels.
+- [ ] **Critic gate passed** — an independent subagent (persona + rubric in
+      `references/critic.md`) scored the rendered slides ≥ 8/10 with zero 🔴/🟠 findings.
 - [ ] `deck-maker check deck.html` (or `bun <deck-maker>/src/cli.ts check deck.html`)
       reports **0 critical** issues. Fix 🟠 rail crossings too unless intentional.
 - [ ] The converted `.pptx` was opened / rendered back to images and looks right.

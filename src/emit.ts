@@ -118,8 +118,16 @@ export async function emit(deck: Deck, outPath: string): Promise<void> {
 					);
 					break;
 				case "table":
+					// Numeric-looking cells right-align (Swiss tables scan on figures).
 					s.addTable(
-						el.rows.map((row) => row.map((cell) => ({ text: cell }))),
+						el.rows.map((row) =>
+							row.map((cell) => ({
+								text: cell,
+								options: /^[+\-−$€£]?[\d.,]+[%MKB]?$/.test(cell.trim())
+									? { align: "right" as const }
+									: undefined,
+							})),
+						),
 						pos,
 					);
 					break;

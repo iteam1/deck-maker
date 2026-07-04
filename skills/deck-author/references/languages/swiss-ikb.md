@@ -45,7 +45,8 @@ relationships, re-derive each slot from the new accent hue. `data-chart` colors 
 - Display/body: **Arial** — bold display at 84–104px, `line-height: 0.95`.
 - Chrome/data/numerals: **Courier New** bold — KPI values 40px, labels 12px uppercase
   `letter-spacing: 1–2px`.
-- One italic accent word per section max: **Georgia** italic, in accent or tint.
+- One italic accent per section max — a word or a two-word phrase: **Georgia** italic,
+  in accent or tint.
 - Title endings take an accent-colored period: `Agenda<span accent>.</span>`
 
 ## Chrome (every slide, identical)
@@ -64,6 +65,19 @@ rule); ASCII dot fields (`<pre>` of `▒▓█░` in Courier New, `letter-spaci
 texture tone); dot matrices (12px squares, accent + tint); square timeline nodes (16px
 rects, all accent); process columns separated by vertical hairlines; solid accent
 takeaway blocks with paper text; ghost chapter numerals (220px, same-hue shade).
+
+## Craft details (learned in critic review)
+
+- **Drawn-square full-stop** on large display titles (≥ 84px): end the line with a small
+  accent/tint rect (≈ 18×18) seated ON the baseline, instead of a colored period glyph —
+  deliberate, identical in browser and PPTX. Content-size titles keep the tint period.
+- **Charts prove their own title.** If the headline claims "margin widens", draw the
+  margin (a bold mono delta line: `MARGIN: +5.3 → +6.8 → …`) — never make the reader
+  subtract bars. Values live in a mono caption; align the chart's inner padding to the
+  64px rail so caption/legend/labels share one left edge.
+- **Numeric table cells right-align** (the engine does this automatically) — Swiss tables
+  scan on figures.
+- Sentence case with terminal punctuation for titles; keep one case system deck-wide.
 
 ## Bans
 

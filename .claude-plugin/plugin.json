@@ -1,0 +1,5 @@
+{
+	"name": "deck-maker",
+	"description": "Author absolutely-positioned HTML decks and convert them to native, editable .pptx. Ships two skills (deck-author, deck-convert) plus a Bun/TypeScript engine.",
+	"version": "0.1.0"
+}

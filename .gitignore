@@ -20,3 +20,7 @@ out/
 dist/
 
 .playwright-mcp/
+
+# generated decks / scratch test kits (outputs, not source)
+*.pptx
+/lo-test/

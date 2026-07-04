@@ -1,74 +1,120 @@
 ---
 name: deck-author
 description: Design a slide deck as absolutely-positioned HTML in the deck-maker format (a fixed 1280x720 canvas), ready to convert into a native, editable PowerPoint. Use whenever the user asks to make, design, or edit a slide deck / PPTX / PowerPoint presentation.
+triggers:
+  - "deck"
+  - "slide deck"
+  - "pptx"
+  - "powerpoint"
+  - "presentation"
+  - "make slides"
+od:
+  mode: deck
+  category: slides
+  surface: web
+  scenario: marketing
+  aspect_hint: "16:9 (1280×720)"
+  preview:
+    type: html
+    entry: deck.html
+  design_system:
+    requires: false
+  outputs:
+    primary: deck.html
+  example_prompt: "Author a 1280×720 HTML deck about <topic> in the deck-maker format, then convert it to an editable .pptx."
 ---
 
 # Authoring a deck-maker HTML deck
 
-You write the deck as **one HTML file** (`deck.html`). Each slide is a fixed-size box; every
-element is absolutely positioned so the geometry lives in the source. The user reviews it in
-a browser; when they approve, the **deck-convert** skill turns it into a native `.pptx`.
+You write the deck as **one HTML file** (`deck.html`). Each slide is a fixed-size box;
+every element is absolutely positioned so the geometry lives in the source. The user
+reviews it in a browser; when they approve, the **deck-convert** skill turns it into a
+native `.pptx`.
 
-## The canvas
+## Start here
 
-- One `<section class="slide">` per slide. Give it exactly:
-  `style="width: 1280px; height: 720px; position: relative;"`
-- `1280x720` px is the 16:9 slide at 96dpi. `position: relative` makes it the positioning
-  context so children's coordinates are measured from the slide's top-left.
-- Stack multiple `.slide` sections in one `<body>` — they become slides in order.
+1. **Read [`references/design.md`](references/design.md)** — the design playbook: the
+   three-band frame, palette + type scale + tracking, the locked 14-archetype layout pool
+   (S01–S14), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
+   designed without it look generated.
+2. **Copy [`references/template.html`](references/template.html)** as the starting file —
+   it ships the margin reset, the chart preview script, and a cover + content slide.
+3. Optionally pick a non-default palette from [`references/themes.md`](references/themes.md)
+   based on the deck's purpose.
 
-## The rule: geometry is explicit and inline
+## The contract
 
-Every element inside a slide MUST carry, in its inline `style`:
-`position: absolute; left: …px; top: …px; width: …px; height: …px;`
-
-The converter reads these directly — there is **no browser and no CSS engine** at convert
-time. Do not put geometry in a `<style>` block or CSS classes; it won't be seen. Use **px**
-for everything and hex (`#rrggbb`) for colors.
+- One `<section class="slide">` per slide, exactly
+  `style="width: 1280px; height: 720px; position: relative; overflow: hidden;"`.
+  Stack sections in one `<body>`; they become slides in order.
+- Every element inside a slide carries inline
+  `position: absolute; left/top/width/height` in **px**. The converter reads inline
+  styles only — geometry in `<style>` blocks or classes is invisible to it.
+- Colors are hex. Fonts via `font-family` (first family wins). DOM order = z-order.
+- Only direct children of a `.slide` become PPTX objects; nested markup (table cells,
+  svg internals, `<b>`/`<i>` runs) belongs to its parent element.
 
 ## Element types (the fidelity ladder)
 
-Pick the richest type for each piece of content — never draw something you can mark up:
+Pick the richest type for each piece of content — never draw what you can mark up:
 
 | Content | How to write it |
 |---|---|
-| Text | any text element (`<h1>`, `<p>`, `<div>`) with text inside; add `font-size`, `color`, `font-weight: bold` inline |
-| Box / callout | `<div data-shape="rect">` (or `ellipse`, `arrow`) with a `background` color |
-| Table | a real `<table>` with `<tr>`/`<td>` |
-| Chart | `<div data-chart='{…}'>` — embed the **data**, not a drawing (see below) |
-| Diagram / icon | inline `<svg>…</svg>` |
-| Photo | `<img src="…">` |
-
-Only top-level children of a `.slide` become elements; table cells and svg internals belong
-to their parent.
+| Text | `<h1>`/`<h2>`/`<p>`/`<div>` with inline `font-size`, `color`, `font-weight`, `font-family`, `text-align`. Rich runs inside: `<b>`/`<strong>`, `<i>`/`<em>`, styled `<span>`s. Entities (`&copy;`, `&mdash;`) decode |
+| Box / card / callout | `<div data-shape="rect">` with `background`; `border-radius: Npx` → rounded card, `border: 1px solid #hex` → outline |
+| Dot / circle | `<div data-shape="ellipse">` (+ `border-radius: 50%` so the preview matches) |
+| Arrow | `<div data-shape="arrow">` |
+| Table | a real `<table>` with `<th>`/`<td>` |
+| Chart | `<div data-chart='{...}'>` — embed the **data**, see below |
+| Diagram / icon / gradient art | inline `<svg>` (converts as a vector; the only way to get gradients) |
+| Photo | `<img src="...">` — path resolves relative to the HTML file; match the box to the image's aspect ratio |
 
 ## Charts: embed data, never draw
-
-A hand-drawn chart converts to frozen vector art with no "Edit Data". Instead put the data
-in a `data-chart` JSON attribute on an empty positioned `<div>`:
 
 ```html
 <div data-chart='{
   "type": "bar",
   "categories": ["Q1","Q2","Q3","Q4"],
-  "series": [{ "name": "Product A", "values": [4.2, 5.1, 6.3, 7.4] }]
-}' style="position: absolute; left: 800px; top: 200px; width: 384px; height: 300px;"></div>
+  "series": [{ "name": "Revenue", "values": [4.2, 5.1, 6.3, 7.4] }],
+  "colors": ["#4f46e5", "#c7d2fe"]
+}' style="position: absolute; left: 88px; top: 392px; width: 688px; height: 246px;"></div>
 ```
 
-`type` is `bar`, `line`, or `pie`.
+`type`: `bar` (comparisons), `line` (trends), `pie`/`doughnut` (composition). Always set
+`colors` from the palette. The converter builds a native chart — the user gets
+right-click → Edit Data.
 
 ## Workflow
 
-1. Write/modify `deck.html` following the rules above. Start from `examples/index.html` in
-   the deck-maker repo as a template.
-2. Let the user preview it in a browser (open the file, or `bun ./index.html` for a live
-   server) and iterate until they approve.
-3. On approval, hand off to the **deck-convert** skill to produce the `.pptx`.
+1. Write/modify `deck.html` per `references/design.md`, starting from the template.
+2. Validate against [`references/checklist.md`](references/checklist.md) and run the
+   engine's geometry gate: `bun <deck-maker>/src/cli.ts check deck.html` — fix until
+   0 critical issues.
+3. Let the user preview in a browser and iterate until they approve (re-run the check
+   after edits).
+4. On approval, hand off to the **deck-convert** skill to produce the `.pptx`.
 
-## Gotchas
+## Rules that keep the preview truthful
 
-- Keep every box inside `1280x720`; content is clipped at the slide edge.
-- PowerPoint re-wraps text with its own font metrics — leave slack in text boxes and match
-  fonts so a line that fits in the browser also fits in PPT.
-- Effects with no PPTX equivalent (blend modes, filters, clip-paths) don't convert; avoid
-  relying on them.
+The converter ignores `<style>`/`<script>`; they exist so the browser shows what the
+PPTX will contain. The template already includes all three:
+
+1. The margin reset (`.slide p, h1, h2 { margin: 0; line-height: 1.25 }`) — without it
+   browser text sits ~16px lower than the converter places it.
+2. The chart preview script — `data-chart` divs are empty boxes in a browser without it.
+3. `border-radius: 50%` on ellipses.
+
+And the converse — never let the design depend on CSS the converter drops: gradients on
+shapes (solid fills only — use SVG), `box-shadow`, `opacity`, `letter-spacing`. Keep
+~20% slack in text boxes (PowerPoint wraps sooner than Chrome), and keep every box
+inside 1280x720.
+
+## Bundled resources
+
+- [`references/design.md`](references/design.md) — the full playbook. **Read first.**
+- [`references/template.html`](references/template.html) — the starter deck. **Copy to
+  begin.**
+- [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot
+  contract. Read when choosing a non-default palette or matching a brand.
+- [`references/checklist.md`](references/checklist.md) — pre-handoff gate. Run before
+  declaring the deck ready and before converting.

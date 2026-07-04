@@ -1,0 +1,15 @@
+{
+	"$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/marketplace.json",
+	"name": "deck-maker",
+	"owner": {
+		"name": "LocCH",
+		"url": "https://github.com/iteam1/deck-maker"
+	},
+	"plugins": [
+		{
+			"name": "deck-maker",
+			"source": "./",
+			"description": "Vibe-design a deck as HTML; convert it to a real, editable PowerPoint (native text, tables, charts, SVG) with a browser-free engine."
+		}
+	]
+}

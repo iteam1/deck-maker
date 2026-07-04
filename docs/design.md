@@ -8,10 +8,14 @@ the engineering view: repo layout, dataflow, workflow._
 ```
 skills/
   deck-author/    skill — how to write deck.html in the required format
+    reference/
+      design.md      the design playbook (palette, type scale, slide archetypes)
+      template.html  working starter deck (reset + chart preview script included)
   deck-convert/   skill — how to run the CLI to convert it
 src/
-  cli.ts          drives the engine (convert, ...)
+  cli.ts          verbs: convert (check + emit), check (geometry gate only)
   parse.ts        HTML → Deck (the IR)
+  check.ts        Deck → violations (canvas bounds, footer rail, chart sanity)
   emit.ts         Deck → PptxGenJS → .pptx
   types.ts        the IR types shared by parse + emit
 ```
@@ -39,15 +43,15 @@ type Deck  = { slides: Slide[] }
 type Slide = { w: number; h: number; elements: Element[] }  // 1280 x 720
 
 type Element =
-  | { kind: 'text';   box: Box; runs: TextRun[] }
-  | { kind: 'shape';  box: Box; shape: 'rect' | 'ellipse' | 'arrow' }
+  | { kind: 'text';   box: Box; runs: TextRun[]; align?: 'left' | 'center' | 'right' }
+  | { kind: 'shape';  box: Box; shape: 'rect' | 'ellipse' | 'arrow'; radius?: number; stroke?: { color: string; width: number } }
   | { kind: 'table';  box: Box; rows: string[][] }
   | { kind: 'chart';  box: Box; spec: ChartSpec }        // from data-chart JSON
   | { kind: 'svg';    box: Box; svg: string }
   | { kind: 'image';  box: Box; src: string }
 
-type TextRun  = { text: string; size?: number; bold?: boolean; color?: string }
-type ChartSpec = { type: 'bar' | 'line' | 'pie'; categories: string[]; series: { name: string; values: number[] }[] }
+type TextRun  = { text: string; size?: number; bold?: boolean; italic?: boolean; color?: string; font?: string }
+type ChartSpec = { type: 'bar' | 'line' | 'pie' | 'doughnut'; categories: string[]; series: { name: string; values: number[] }[]; colors?: string[] }
 ```
 
 Geometry and style are read from inline `style` / `data-*` only — no CSS cascade, so no

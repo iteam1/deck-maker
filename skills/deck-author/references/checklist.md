@@ -49,5 +49,8 @@ actually happened.
 
 ## The gate
 
+- [ ] **Every slide was rendered and looked at** (screenshot / browser), not judged from
+      HTML — overflow, broken images, and misalignment only show in pixels.
 - [ ] `deck-maker check deck.html` (or `bun <deck-maker>/src/cli.ts check deck.html`)
       reports **0 critical** issues. Fix 🟠 rail crossings too unless intentional.
+- [ ] The converted `.pptx` was opened / rendered back to images and looks right.

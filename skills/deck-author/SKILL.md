@@ -84,15 +84,26 @@ Pick the richest type for each piece of content — never draw what you can mark
 `colors` from the palette. The converter builds a native chart — the user gets
 right-click → Edit Data.
 
-## Workflow
+## Workflow — build slide by slide, and SEE each one
 
-1. Write/modify `deck.html` per `references/design.md`, starting from the template.
-2. Validate against [`references/checklist.md`](references/checklist.md) and run the
-   engine's geometry gate: `bun <deck-maker>/src/cli.ts check deck.html` — fix until
-   0 critical issues.
-3. Let the user preview in a browser and iterate until they approve (re-run the check
-   after edits).
-4. On approval, hand off to the **deck-convert** skill to produce the `.pptx`.
+**Never author the whole deck blind from HTML, and never judge a slide by reading its
+markup.** The markup hides everything that actually matters — text overflow, wrong
+positions, broken images, off-palette color, distorted photos. Only the rendered pixels
+tell the truth. Build and *look* one slide at a time:
+
+1. Start from the template; write (or edit) **one** slide.
+2. **Render it and actually look at it.** Serve the file — `bun ./index.html` (or
+   `python3 -m http.server -d <dir>`) — and screenshot that slide, e.g. with Playwright:
+   `page.locator("section.slide:nth-of-type(N)").screenshot(...)`, then view the image.
+   Opening it in a browser works too. Do not proceed on the HTML alone.
+3. Fix what you *see*, re-render, and only move to the next slide once this one reads as
+   designed (chrome, one focal point, aligned to the grid, on-palette).
+4. When all slides look right: run the geometry gate
+   `bun <deck-maker>/src/cli.ts check deck.html` (fix to 0 critical) and walk
+   [`references/checklist.md`](references/checklist.md).
+5. Hand off to **deck-convert** to produce the `.pptx` — then **look at the `.pptx` too**
+   (render it back to images or open it). The browser is a design proxy; the converted
+   file is the artifact, and it can differ (fonts, wrapping). Confirm before shipping.
 
 ## Rules that keep the preview truthful
 

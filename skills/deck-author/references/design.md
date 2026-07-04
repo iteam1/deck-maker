@@ -214,15 +214,24 @@ The engine resolves `var(--x)` / `var(--x, fallback)` in inline styles against t
 a theme block and reference it — swap the block, recolor the whole deck. Use the `--od-*`
 slot names from [`themes.md`](themes.md). Geometry stays literal px; only colors/fonts theme.
 
-## Making the browser preview truthful
+## Look at it — don't trust the HTML
 
-The converter ignores `<style>`/`<script>` for layout; they exist so the *browser* shows
-what the PPTX will contain. The template already includes all three:
+Build slide by slide and **render each slide to an image** (screenshot / Playwright /
+browser) before moving on. Reading the markup hides text overflow, wrong positions,
+broken images, distorted photos, and off-palette color — only the pixels are ground
+truth. Every real defect in this project's history was found by *looking*, not by
+reviewing HTML. See the SKILL workflow for the loop.
+
+For the browser render to match the converter, the preview relies on three things (all in
+the template): the converter ignores `<style>`/`<script>` for layout, so they exist purely
+to make the browser show what the PPTX will contain:
 
 1. Margin reset: `.slide p, .slide h1, .slide h2 { margin: 0; line-height: 1.25; }` — without
    it browser text sits ~16px lower than the converter places it.
 2. The chart preview script — `data-chart` divs are empty boxes otherwise.
 3. `data-shape="ellipse"` needs `border-radius: 50%`.
+
+And the browser is still only a proxy — after converting, **look at the `.pptx`** too.
 
 ## The distilled tell: designed vs generated
 

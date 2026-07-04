@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 import { dirname, isAbsolute, resolve } from "node:path";
 import { check, formatViolations, type Violation } from "./check";
 import { emit } from "./emit";

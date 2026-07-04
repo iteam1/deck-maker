@@ -1,61 +1,100 @@
 # deck-maker
 
-AI vibe-designs the deck. The output is a **real, editable PowerPoint file** — not a stack
-of images. Every element lands in the highest-fidelity native PPTX object PowerPoint can
-manipulate; never flatten structure into pixels.
+Design a slide deck as HTML with Claude Code, then convert it to a **real, editable
+PowerPoint** — native text, tables, charts, and shapes, not a stack of images.
 
-Built with **Bun + TypeScript**, driven by **Claude Code**.
+New here? Read **[docs/overview.md](docs/overview.md)** for what it is and how it works.
+This page is just install & usage.
 
-## The fidelity ladder
+## Requirements
 
-| Content | PPTX output | What the user can do |
-|---|---|---|
-| Text | Native text box | Edit, search, restyle — reflows on font change |
-| Table | Native PPTX table | Edit cells, resize columns, restyle borders |
-| Chart | Native chart **with embedded data** | Right-click → **Edit Data**, chart redraws |
-| Diagram / icon / illustration | inline SVG, rasterized to a high-res PNG | Crisp at slide scale; gradients/paths render everywhere (native SVG-in-PPTX isn't reliably supported by LibreOffice / Google Slides) |
-| Boxes, arrows, callouts | DrawingML autoshapes | Move, recolor, reconnect |
-| Photo | PNG/JPEG | Last resort — only for genuinely raster content |
+- [Bun](https://bun.sh) 1.3+ (the engine is Bun/TypeScript; conversion is browser-free).
 
-Rasterization is a per-element escape hatch for CSS with no PPTX equivalent (blend modes,
-filters, clip-paths) — never a whole slide.
+## Install
 
-## How it works
-
-HTML is the design medium — agents are fluent in HTML/CSS and hopeless at raw DrawingML.
-Slides are **absolutely-positioned HTML on a fixed 1280×720 canvas** (`1px = 9525 EMU`), so
-the source already holds every coordinate and converting to PPTX is plain parsing — no
-headless browser, no layout engine. You iterate in HTML; convert once, on approval.
-
-## Using it with Claude Code
-
-1. clone + `bun install`
-2. copy `skills/` into the folder you're working in — Claude Code loads the skills there
-3. ask Claude for a deck: it writes `deck.html`, you review it in the browser, and on your
-   OK the CLI emits `deck.pptx` — both land in that folder
-
-## Charts embed data, not pictures
-
-A *drawn* chart converts to frozen vector art — no Edit Data. Instead the agent puts the
-**data** on the element and the engine builds a native chart:
-
-```html
-<div class="chart" data-chart='{
-  "type": "bar",
-  "categories": ["Q1", "Q2", "Q3", "Q4"],
-  "series": [{"name": "Product A", "values": [4.2, 5.1, 6.3, 7.4]}]
-}'></div>
+```sh
+git clone https://github.com/iteam1/deck-maker.git
+cd deck-maker
+bun install
 ```
 
-## Gotchas
+Keep the clone around — the conversion engine lives in it and the CLI runs from it.
 
-- **Text reflow** — PowerPoint wraps with its own font metrics, so a line that fits in
-  Chrome can wrap in PPT. Use fixed boxes with slack and match fonts.
-- **Unmappable CSS** — blend modes, filters, clip-paths: rasterize those elements
-  individually, keep everything else native.
+## Add `deck-maker` to your PATH
 
-## Output library
+So you can run `deck-maker` from any folder:
 
-**[PptxGenJS](https://github.com/gitbrent/PptxGenJS)** — TypeScript-native; charts, tables,
-and SVG built in. [python-pptx](https://python-pptx.readthedocs.io/en/latest/) is the Python
-alternative if editing existing decks or corporate templates ever matters.
+```sh
+bun link            # in the deck-maker repo — creates ~/.bun/bin/deck-maker
+```
+
+That symlinks a global `deck-maker` command (make sure `~/.bun/bin` is on your `PATH` —
+it is by default with Bun). Verify:
+
+```sh
+deck-maker check examples/index.html      # → "11 slide(s), 0 issues, 0 critical"
+```
+
+**Prefer not to link?** Two alternatives:
+- Run it in place: `bun /path/to/deck-maker/src/cli.ts convert deck.html out.pptx`
+- Or drop a one-line wrapper on your PATH:
+  ```sh
+  printf '#!/usr/bin/env bash\nexec bun /path/to/deck-maker/src/cli.ts "$@"\n' \
+    > ~/.local/bin/deck-maker && chmod +x ~/.local/bin/deck-maker
+  ```
+
+## Use it with Claude Code
+
+deck-maker ships two skills — **deck-author** (writes the HTML) and **deck-convert** (runs
+the engine). Install them one of two ways:
+
+### Option A — as a plugin (shareable)
+
+From Claude Code, add this repo as a plugin marketplace and install it:
+
+```
+/plugin marketplace add /path/to/deck-maker
+/plugin install deck-maker
+```
+
+(Uses `.claude-plugin/marketplace.json`. You can also point `marketplace add` at the
+GitHub URL once it's pushed.)
+
+### Option B — just copy the skills
+
+Copy the two skill folders where Claude Code looks for skills:
+
+```sh
+# available in every project:
+cp -r skills/deck-author skills/deck-convert ~/.claude/skills/
+
+# or, just this project:
+cp -r skills/deck-author skills/deck-convert <your-project>/.claude/skills/
+```
+
+Either way, from any project you can now say:
+
+> "Make me a deck about our Q2 results."
+
+Claude authors `deck.html` from the [worked example](examples/index.html), you review it in
+a browser, and on your OK it runs the engine to produce `deck.pptx`.
+
+## Use the CLI directly
+
+```sh
+deck-maker check   deck.html              # validate geometry (rails, charts, images)
+deck-maker convert deck.html deck.pptx    # → a native, editable .pptx
+```
+
+From inside the repo you can also use the scripts: `bun run check …` / `bun run convert …`.
+`convert` runs `check` first and refuses on critical issues.
+
+Open the result in PowerPoint, Keynote, Google Slides, or LibreOffice.
+
+## Docs
+
+- **[docs/overview.md](docs/overview.md)** — what it is, the fidelity ladder, how it works.
+- **[docs/design.md](docs/design.md)** — engine internals (components, dataflow, workflow).
+- **[docs/IR.md](docs/IR.md)** — the `Deck` intermediate-representation contract.
+- **[skills/deck-author/references/design.md](skills/deck-author/references/design.md)** —
+  the design playbook (palette, type scale, archetype pool) the agent authors against.

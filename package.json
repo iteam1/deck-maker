@@ -3,6 +3,9 @@
 	"module": "index.ts",
 	"type": "module",
 	"private": true,
+	"bin": {
+		"deck-maker": "src/cli.ts"
+	},
 	"scripts": {
 		"convert": "bun src/cli.ts convert",
 		"check": "bun src/cli.ts check",

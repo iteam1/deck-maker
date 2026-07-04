@@ -7,6 +7,8 @@ and nothing can be edited afterwards. deck-maker's rule is the opposite: **every
 lands in the highest-fidelity native PPTX object PowerPoint can manipulate.** Never
 flatten structure into pixels.
 
+Built with **Bun + TypeScript**.
+
 ## The fidelity ladder
 
 | Content | PPTX output | What the user can do |
@@ -22,29 +24,55 @@ Rasterization is an explicit escape hatch for the few CSS effects with no PPTX
 equivalent (blend modes, filters, clip-paths) — applied **per element**, never to a
 whole slide.
 
-## Architecture: HTML in, native PPTX out
+## How it works: HTML in, native PPTX out
 
-LLM agents are excellent at HTML/CSS — it's their native design language — and terrible
-at raw DrawingML. So HTML is the **design medium**, but never the output format:
+LLM agents are excellent at HTML/CSS and terrible at raw DrawingML — so HTML is the
+**design medium**, never the output format. To keep conversion trivial, slides are
+authored as **absolutely-positioned HTML on a fixed slide-sized canvas**: the source
+already carries every coordinate, so converting to PPTX is plain parsing — no headless
+browser, no layout engine. The agent and user iterate entirely in HTML; conversion
+happens **once, on approval**.
 
 ```
-agent writes slide HTML/CSS          (full design freedom — the "vibe" step)
+   ┌──────────────────────────────────────────┐
+   │  DESIGN + REVIEW — stays in HTML, fast    │
+   └──────────────────────────────────────────┘
+
+agent writes / edits deck HTML       (absolute-positioned slides,
+        │                             one .slide box each)
+        ▼
+bun ./index.html  →  browser         (one scrollable page, N slides at
+        │                             PPTX scale = the surface the user reviews)
+        ▼
+   user reviews  ──"tweak this"──►  back to agent   (loop until happy)
+        │
+        │ "OK, ship it"
+        ▼
+━━━━━━━━━━━━━  approval gate · one-way from here  ━━━━━━━━━━━━━
+        ▼
+parser reads each .slide             (element → semantic primitive:
+        │                             text | shape | table | chart | svg | image, + its px box)
+        ▼
+PptxGenJS emits native PPTX          (px × 9525 → EMU; one .slide → one slide)
         │
         ▼
-headless browser renders it          (Playwright/Puppeteer — to MEASURE, not screenshot:
-        │                             resolves flexbox/wrapping into absolute geometry)
-        ▼
-extractor walks the DOM              (each element → semantic primitive:
-        │                             text | shape | table | chart | svg | image)
-        ▼
-renderer emits native PPTX           (PptxGenJS or python-pptx)
+     shipped .pptx
 ```
+
+Three conventions make the convert step pure parsing:
+
+- **Fixed canvas** — each slide is one `1280×720` `.slide` box (`overflow: hidden`), the
+  16:9 slide at 96dpi. `1px = 9525 EMU`, so px→PPTX is a single constant.
+- **Explicit geometry** — every element carries its absolute `left/top/width/height`, so
+  a TypeScript parser reads coordinates straight from the source. No CSS to resolve.
+- **Same DOM for both** — the page the user reviews is exactly what gets parsed, so what
+  you approve is what converts, slide-for-slide.
 
 ### Charts need semantic marking
 
 If the agent *draws* a chart in HTML/SVG, a faithful converter produces frozen vector
-art — no Edit Data. Instead the agent embeds the **data** on the element and the
-renderer builds a native chart from it:
+art — no Edit Data. Instead the agent embeds the **data** on the element and the parser
+builds a native chart from it:
 
 ```html
 <div class="chart-box" data-chart='{
@@ -57,30 +85,21 @@ renderer builds a native chart from it:
 ### Known gotchas
 
 - **Text reflow** — PowerPoint wraps text with its own font metrics; a line that fits in
-  Chrome can wrap differently in PPT. Leave slack in text boxes and match fonts.
-- **Unmappable CSS** — blend modes, filters, clip-paths: rasterize those elements
-  individually, keep everything else native.
+  Chrome can wrap differently in PPT. Use fixed boxes with slack, match fonts, and render
+  the finished PPTX back to images to confirm before shipping.
+- **Unmappable CSS** — blend modes, filters, clip-paths have no PPTX equivalent;
+  rasterize those elements individually, keep everything else native.
 
-## Output library: PptxGenJS vs python-pptx
+## Output library
 
-Both produce fully native, editable PPTX. The differences that matter:
-
-| | [PptxGenJS](https://github.com/gitbrent/PptxGenJS) | [python-pptx](https://python-pptx.readthedocs.io/en/latest/) |
-|---|---|---|
-| Language / runtime | JS — Node **and** browser | Python |
-| Edit existing .pptx | ✗ write-only | ✓ open, modify, save |
-| SVG images | ✓ native | ✗ needs XML injection (~20 lines) |
-| Charts | ✓ native, combo charts built in | ✓ native, broad types; combo = XML surgery |
-| Tables | ✓ + auto-paging, `tableToSlides()` (HTML table → slides) | ✓ solid API, no HTML awareness |
-| Corporate templates | code-defined masters only | ✓ fill placeholders in a real .pptx template |
-| Escape hatch | closed API | ✓ raw lxml XML tree — anything OOXML allows |
-
-**Recommendation:** PptxGenJS for greenfield generation (same language as the browser
-measurement step, SVG out of the box). python-pptx when the roadmap includes editing
-existing decks or filling corporate templates — PptxGenJS cannot open a .pptx at all.
+**[PptxGenJS](https://github.com/gitbrent/PptxGenJS)** writes the file — TypeScript-native,
+with native charts, tables, and SVG out of the box.
+[python-pptx](https://python-pptx.readthedocs.io/en/latest/) is the Python alternative if
+the roadmap ever needs editing existing decks or filling corporate templates; PptxGenJS is
+write-only.
 
 ## Related to
 
-https://python-pptx.readthedocs.io/en/latest/
-
 https://github.com/gitbrent/PptxGenJS
+
+https://python-pptx.readthedocs.io/en/latest/

@@ -1,0 +1,22 @@
+# Claude Code
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
+.worktreeinclude
+.claude/
+
+# Veronica state
+.veronica-lock
+
+.understand-anything/
+.gitnexus/
+
+# dependencies (bun install)
+node_modules/
+
+.env
+.env.*
+out/
+dist/
+
+.playwright-mcp/

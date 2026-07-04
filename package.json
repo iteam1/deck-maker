@@ -1,16 +1,20 @@
 {
-  "name": "deck-maker",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "node-html-parser": "^8.0.4",
-    "pptxgenjs": "^4.0.1"
-  }
+	"name": "deck-maker",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "bunx biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.2",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"node-html-parser": "^8.0.4",
+		"pptxgenjs": "^4.0.1"
+	}
 }

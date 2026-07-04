@@ -78,6 +78,9 @@ takeaway blocks with paper text; ghost chapter numerals (220px, same-hue shade).
 - **Numeric table cells right-align** (the engine does this automatically) — Swiss tables
   scan on figures.
 - Sentence case with terminal punctuation for titles; keep one case system deck-wide.
+- **"Right angles only" scopes to interface shapes** (cards, nodes, bars, chips) — not to
+  representational illustration content. A sun is round; don't square it to satisfy the
+  rule.
 
 ## Bans
 

@@ -33,30 +33,20 @@ already carries every coordinate, so converting to PPTX is plain parsing — no 
 browser, no layout engine. The agent and user iterate entirely in HTML; conversion
 happens **once, on approval**.
 
-```
-   ┌──────────────────────────────────────────┐
-   │  DESIGN + REVIEW — stays in HTML, fast    │
-   └──────────────────────────────────────────┘
-
-agent writes / edits deck HTML       (absolute-positioned slides,
-        │                             one .slide box each)
-        ▼
-bun ./index.html  →  browser         (one scrollable page, N slides at
-        │                             PPTX scale = the surface the user reviews)
-        ▼
-   user reviews  ──"tweak this"──►  back to agent   (loop until happy)
-        │
-        │ "OK, ship it"
-        ▼
-━━━━━━━━━━━━━  approval gate · one-way from here  ━━━━━━━━━━━━━
-        ▼
-parser reads each .slide             (element → semantic primitive:
-        │                             text | shape | table | chart | svg | image, + its px box)
-        ▼
-PptxGenJS emits native PPTX          (px × 9525 → EMU; one .slide → one slide)
-        │
-        ▼
-     shipped .pptx
+```mermaid
+flowchart TD
+    subgraph loop["DESIGN + REVIEW — stays in HTML, fast"]
+        direction TB
+        A["agent writes / edits deck HTML<br/>(absolute-positioned slides, one .slide box each)"]
+        B["bun ./index.html → browser<br/>(one scrollable page, N slides at PPTX scale)"]
+        C{"user reviews"}
+        A --> B --> C
+        C -->|tweak this| A
+    end
+    C -->|OK, ship it| GATE{{"approval gate · one-way from here"}}
+    GATE --> P["parser reads each .slide<br/>(element → primitive: text, shape, table, chart, svg, image + px box)"]
+    P --> E["PptxGenJS emits native PPTX<br/>(px × 9525 → EMU; one .slide → one slide)"]
+    E --> OUT(["shipped .pptx"])
 ```
 
 Three conventions make the convert step pure parsing:

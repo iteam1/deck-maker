@@ -22,9 +22,10 @@ touches PptxGenJS; emit never touches HTML. The IR is the contract between them.
 
 ## Dataflow
 
-```
-deck.html ──parse.ts──► Deck (IR) ──emit.ts──► out.pptx
- (string)              (in memory)            (PptxGenJS write)
+```mermaid
+flowchart LR
+    H["deck.html<br/>(string)"] -->|parse.ts| IR["Deck — the IR<br/>(in memory)"]
+    IR -->|emit.ts| O["out.pptx<br/>(PptxGenJS write)"]
 ```
 
 The IR — a `.slide` box becomes a `Slide`, each positioned child an `Element`:
@@ -71,23 +72,16 @@ cascade, so no layout engine. Detection precedence (in `parse.ts`):
 
 ## Workflow
 
-**Setup (once):**
-```
-bun install
-bun run setup      # symlink skill → ~/.claude/skills/deck-maker, link CLI onto PATH
-```
-
-**Author + review (loop, in any project):**
-```
-you: "make me a deck about X"
-Claude Code: writes deck.html per skill/reference/conventions.md
-you: bun ./index.html  → review in browser → "tweak this" → loop
-```
-
-**Convert (one-way, on approval):**
-```
-Claude Code: deck-maker convert deck.html out.pptx
-             └─ parse.ts → Deck → emit.ts → PptxGenJS → out.pptx
+```mermaid
+flowchart TD
+    S["Setup (once)<br/>bun install && bun run setup<br/>(symlink skill → ~/.claude/skills, link CLI onto PATH)"]
+    S --> A1["you: 'make me a deck about X'"]
+    A1 --> W["Claude Code writes deck.html<br/>(per skill/reference/conventions.md)"]
+    W --> R{"you review<br/>bun ./index.html in browser"}
+    R -->|tweak this| W
+    R -->|OK, ship it| CV["Claude Code runs (one-way)<br/>deck-maker convert deck.html out.pptx"]
+    CV --> INT["parse.ts → Deck → emit.ts → PptxGenJS"]
+    INT --> O(["out.pptx"])
 ```
 
 ## First milestone — walking skeleton

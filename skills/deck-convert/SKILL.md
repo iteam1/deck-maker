@@ -7,6 +7,9 @@ triggers:
   - "make the powerpoint"
   - "html to pptx"
   - "check deck"
+  - "read this pptx"
+  - "what's in this deck"
+  - "inspect pptx"
 od:
   mode: utility
   category: slides
@@ -62,6 +65,24 @@ and **name the systemic cause** — one rule usually produces several violations
 "three slides cross the rail because body blocks start at y 500"), and fixing the rule
 beats nudging slides one by one.
 
+## Reading an EXISTING pptx
+
+If the user hands you a `.pptx` (not one deck-maker made) and wants its content read —
+"what does this deck say", pulling numbers/copy for reuse, or checking what's in an
+inherited template — use `inspect`, not `convert`:
+
+```
+bun <path-to-deck-maker>/src/cli.ts inspect existing-deck.pptx
+```
+
+Prints JSON per slide: `texts` (plain paragraph text), `tables` (rows of cells), `charts`
+(type + categories + series values — reads the real embedded data, not a picture of a
+chart), and `images` (media file paths inside the package, resolvable by unzipping the
+`.pptx` since it's a zip). This is **read-only content extraction, not a re-editable
+reconstruction** — positions and fine-grained styling are dropped; you get what the deck
+*says*, not a `deck.html` you can edit. (There is currently no `pptx → HTML` path in this
+project — see `docs/overview.md` if that changes.)
+
 ## Verify (recommended)
 
 The HTML preview is a design proxy, not a fidelity guarantee — PowerPoint re-wraps text with
@@ -84,10 +105,13 @@ it back to images) before treating it as final.
 
 The engine lives in the deck-maker repo (run `bun install` once):
 
-- `src/cli.ts` — the CLI entry: `check <in.html>` and `convert <in.html> <out.pptx>`.
+- `src/cli.ts` — the CLI entry: `check <in.html>`, `convert <in.html> <out.pptx>`,
+  `inspect <in.pptx>`.
 - `src/parse.ts` — HTML → `Deck` IR (inline styles, `var(--x)` resolution, rich text runs).
 - `src/check.ts` — the geometry + copy-typography gate (rails, chart sanity, quotes/ellipsis).
 - `src/emit.ts` — `Deck` → PptxGenJS → `.pptx`.
+- `src/inspect.ts` — an EXISTING `.pptx` → JSON content dump (text/tables/charts/images).
+  One-way, read-only; unrelated to the `parse`/`emit` round-trip.
 - `docs/IR.md` — the `Deck` intermediate-representation contract shared by parse/check/emit.
 
 Authoring rules and design guidance live in the **deck-author** skill's `references/`.

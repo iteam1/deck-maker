@@ -50,9 +50,12 @@ a browser, on your OK it produces `deck.pptx`.
 ```sh
 deck-maker check   deck.html              # validate geometry
 deck-maker convert deck.html deck.pptx    # check + convert
+deck-maker inspect existing.pptx          # read an EXISTING pptx's content as JSON
 ```
 
-Opens in PowerPoint, Keynote, Google Slides, LibreOffice.
+Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` is one-way and
+read-only — it pulls text/tables/chart data/image refs out of any `.pptx` (not just ones
+deck-maker made) for reuse; it does not reconstruct an editable `deck.html`.
 
 ## Docs
 

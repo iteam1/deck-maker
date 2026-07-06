@@ -2,18 +2,30 @@
 import { dirname, isAbsolute, resolve } from "node:path";
 import { check, formatViolations, type Violation } from "./check";
 import { emit } from "./emit";
+import { inspect } from "./inspect";
 import { parse } from "./parse";
 
 const argv = Bun.argv.slice(2);
 const verb =
-	argv[0] === "convert" || argv[0] === "check" ? argv.shift() : "convert";
+	argv[0] === "convert" || argv[0] === "check" || argv[0] === "inspect"
+		? argv.shift()
+		: "convert";
 const [inPath, outPath] = argv;
 
 if (!inPath || (verb === "convert" && !outPath)) {
 	console.error(
-		"usage: deck-maker convert <in.html> <out.pptx>\n       deck-maker check <in.html>",
+		"usage: deck-maker convert <in.html> <out.pptx>\n" +
+			"       deck-maker check <in.html>\n" +
+			"       deck-maker inspect <in.pptx>   # read an EXISTING pptx's content as JSON",
 	);
 	process.exit(1);
+}
+
+if (verb === "inspect") {
+	const bytes = new Uint8Array(await Bun.file(inPath).arrayBuffer());
+	const slides = await inspect(bytes);
+	console.log(JSON.stringify(slides, null, 2));
+	process.exit(0);
 }
 
 const html = await Bun.file(inPath).text();

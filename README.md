@@ -48,9 +48,16 @@ Claude writes `deck.html`, you review it in a browser, and on your OK it produce
 [worked examples](examples/) (Swiss QBR + Aurora pitch). Keep the deck and it's archived,
 so the next one seeds from it: deck-maker gets more on-brand the more you use it.
 
+```mermaid
+flowchart LR
+    A["Author<br/>design the deck"] --> C["Convert<br/>to an editable .pptx"]
+    C --> K["Archive<br/>keep it as reference"]
+    K -.->|"next deck"| R["Reference<br/>start from your closest past deck"]
+    R -.-> A
 ```
-author ──▶ convert ──▶ archive ──▶ (next deck references it) ──▶ author
-```
+
+The dotted path is the self-improving part: each deck you keep makes the next one start
+closer to done.
 
 ## CLI
 

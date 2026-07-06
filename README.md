@@ -26,8 +26,9 @@ No link? Run in place: `bun /path/to/deck-maker/src/cli.ts …`
 
 ## Use with Claude Code
 
-Two skills ship in `skills/`: **deck-author** (writes the HTML) and **deck-convert**
-(runs the engine). Install either way:
+Three skills ship in `skills/`: **deck-author** (writes the HTML), **deck-convert**
+(runs the engine), **deck-inspect** (reads an existing `.pptx`'s content/style). Install
+either way:
 
 ```sh
 # A — plugin:
@@ -35,7 +36,7 @@ Two skills ship in `skills/`: **deck-author** (writes the HTML) and **deck-conve
 /plugin install deck-maker
 
 # B — copy skills (global, or into a project's .claude/skills/):
-cp -r skills/deck-author skills/deck-convert ~/.claude/skills/
+cp -r skills/deck-author skills/deck-convert skills/deck-inspect ~/.claude/skills/
 ```
 
 Then, from any project:
@@ -50,13 +51,13 @@ a browser, on your OK it produces `deck.pptx`.
 ```sh
 deck-maker check   deck.html              # validate geometry
 deck-maker convert deck.html deck.pptx    # check + convert
-deck-maker inspect existing.pptx          # read an EXISTING pptx's content as JSON
+deck-maker inspect existing.pptx          # read an EXISTING pptx's content + style as JSON
 ```
 
-Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` is one-way and
-read-only — it pulls text/tables/chart data/image refs *and* style (color palette,
-fonts, type scale, rounded-vs-square corners) out of any `.pptx` for reuse or to match
-an existing deck's look; it does not reconstruct an editable `deck.html`.
+Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` (see **deck-inspect**)
+is one-way and read-only — it pulls text/tables/chart data/image refs *and* style (color
+palette, fonts, type scale, rounded-vs-square corners) out of any `.pptx` for reuse or to
+match an existing deck's look; it does not reconstruct an editable `deck.html`.
 
 ## Docs
 
@@ -65,3 +66,9 @@ an existing deck's look; it does not reconstruct an editable `deck.html`.
 - [docs/IR.md](docs/IR.md) — the `Deck` IR contract
 - [skills/deck-author/references/design.md](skills/deck-author/references/design.md) —
   the design playbook
+
+
+## Related to
+
+- [open-design](https://github.com/nexu-io/open-design)- 🎨 The open-source Claude Design alternative. 🖥️ Local-first desktop app. 🖼️ Your coding agent becomes the design engine: prototypes, landing pages, dashboards, slides, images & video — real files, HTML/PDF/PPTX/MP4 export. 🤖 Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen & 20+ CLIs via BYOK. 
+- [Harness design - Anthropic](https://www.anthropic.com/engineering/harness-design-long-running-apps)- Harness design for long-running application development

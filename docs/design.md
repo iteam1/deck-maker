@@ -7,21 +7,24 @@ the engineering view: repo layout, dataflow, workflow._
 
 ```
 skills/
-  deck-author/    skill — how to write deck.html in the required format
-    references/
-      design.md      the design playbook (palette, type scale, archetype pool)
-      themes.md      named palettes + the --od-* theme-slot contract
-      checklist.md   pre-handoff gate
-  deck-convert/   skill — how to run the CLI to convert it
+├── deck-author/    skill — how to write deck.html in the required format
+│   └── references/
+│       ├── design.md      the design playbook (palette, type scale, archetype pool)
+│       ├── themes.md      named palettes + the --od-* theme-slot contract
+│       └── checklist.md   pre-handoff gate
+├── deck-convert/   skill — how to run the CLI to convert it
+└── deck-inspect/   skill — how to read an EXISTING pptx's content + style
 examples/
-  index.html      the full worked example / starter deck (copy + adapt)
-  assets/         image assets referenced by the example
+├── index.html      the full worked example / starter deck (copy + adapt)
+├── pitch.html      second worked example (Aurora Cards language, pitch arc)
+└── assets/         image assets referenced by the examples
 src/
-  cli.ts          verbs: convert (check + emit), check (geometry gate only)
-  parse.ts        HTML → Deck (the IR)
-  check.ts        Deck → violations (canvas bounds, footer rail, chart sanity)
-  emit.ts         Deck → PptxGenJS → .pptx (repacks OPC, rasterizes SVG)
-  types.ts        the IR types shared by parse + emit
+├── cli.ts          verbs: convert (check + emit), check (gate only), inspect (read pptx)
+├── parse.ts        HTML → Deck (the IR)
+├── check.ts        Deck → violations (canvas bounds, footer rail, chart sanity)
+├── emit.ts         Deck → PptxGenJS → .pptx (repacks OPC, rasterizes SVG)
+├── inspect.ts      existing .pptx → JSON content + style (one-way, unrelated to the IR)
+└── types.ts        the IR types shared by parse + emit
 ```
 
 - **engine** = `parse.ts` + `emit.ts`, decoupled by the **IR** (`Deck`): parse never

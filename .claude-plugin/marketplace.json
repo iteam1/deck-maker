@@ -9,7 +9,7 @@
 		{
 			"name": "deck-maker",
 			"source": "./",
-			"description": "Vibe-design a deck as HTML; convert it to a real, editable PowerPoint (native text, tables, charts, SVG) with a browser-free engine."
+			"description": "Vibe-design a deck as HTML; convert it to a real, editable PowerPoint (native text, tables, charts, SVG) with a browser-free engine. Also reads an existing pptx's content and style."
 		}
 	]
 }

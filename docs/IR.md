@@ -56,9 +56,11 @@ type ChartSpec = { type: "bar"|"line"|"pie"|"doughnut"; categories: string[];
 
 ## Pipeline
 
-```
-deck.html ──parse.ts──▶ Deck ──check.ts──▶ violations (gate)
-                          └────emit.ts──▶ out.pptx
+```mermaid
+flowchart LR
+    H["deck.html"] -->|parse.ts| D["Deck (IR)"]
+    D -->|check.ts| V["violations (gate)"]
+    D -->|emit.ts| O["out.pptx"]
 ```
 
 `check.ts` runs before `emit.ts` in the `convert` verb and blocks on any critical violation

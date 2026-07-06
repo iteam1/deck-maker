@@ -32,7 +32,7 @@ deck) is the #1 "spliced-together" tell; it is banned.
 
 | Language | Feel | Use for |
 |---|---|---|
-| [`languages/swiss-ikb.md`](languages/swiss-ikb.md) | cold, rational, hairlines + one saturated accent | facts, analysis, methodology — **the shipped example** |
+| [`languages/swiss-ikb.md`](languages/swiss-ikb.md) | cold, rational, hairlines + one saturated accent | facts, analysis, methodology — see `examples/index.html` |
 | [`languages/editorial-ink.md`](languages/editorial-ink.md) | magazine × e-ink, serif display, printed paper | narrative, opinion, story-telling |
 | [`languages/aurora-cards.md`](languages/aurora-cards.md) | friendly corporate, rounded cards, gradient air | product reviews, SaaS — see `examples/pitch.html` |
 
@@ -87,9 +87,11 @@ otherwise — never inject a random serif word *and* mix families elsewhere.
 
 **Spacing rhythm.** 8px base grid; card gaps 20–24; generous card padding 24–32.
 
-**Layering (DOM order = z-order).** Background rect → decorative SVG → cards/panels → text.
-Never leave a slide default-white with floating text: dark slides get a full-bleed ink rect
-+ a gradient-wave SVG; light slides get an `#f8fafc` rect with white cards on top.
+**Layering (DOM order = z-order).** Background surface → decorative texture (your
+language's: gradient SVG, ASCII field, dot matrix, paper tint) → panels/cards/hairlines →
+text. Never leave a slide default-white with floating text: every slide sits on an
+explicit surface from your language's palette, with that language's structure devices
+on top.
 
 ## The layout pool (locked)
 
@@ -97,41 +99,47 @@ Compose every deck from this pool. **Do not invent or restructure layouts mid-de
 count is driven by content (short 6–10, long far more); **repeat layouts across sections** —
 consistency comes from repetition, not variety. Each is a variation of the middle band.
 
-The pool is universal; **your chosen language restyles it** (see `languages/`). The
-coordinate sketches below are written in the Aurora Cards idiom — under Swiss they become
-hairlines/towers/square nodes, under Editorial they become tint blocks/serif quotes, as
-each language file specifies.
+The sketches below are **structure only** — geometry bands, content roles, and proven
+coordinates. Every *visual device* (container: card vs hairline vs tint block; marker:
+dot vs square; badge/chip; texture; exact colors) comes from your **language file**, never
+from here. Where a sketch says "container", "marker", "badge", or "texture", read your
+language's version of that device.
 
-**S01 · Cover (dark).** Full-bleed ink rect + aurora SVG (2 gradient wave paths + faint
-circle rings, `stop-opacity` 0.3–0.55); logo 44px + wordmark (64, 56); pill chip
-(`border-radius: 18px`, dark tint, 13px bold accent, centered) y ~252; title 72px y ~312;
-subtitle 20px muted; hairline (1152×1, `#334155`) y 640; footer both corners. Optional big
-stat (56px accent) in the SVG rings.
+**S01 · Cover (dark surface).** Full-bleed dark surface + the language's texture; brand
+mark 44px + wordmark at (64, 56); a small badge (kicker chip or tracked mono label)
+y ~250; title 72–104px y ~310, tight leading; subtitle 16–20px muted; hairline 1152×1
+y ~640; footer chrome both corners. Optional one big stat (56px+ accent) right of the
+title block.
 
-**S02 · Agenda (split).** Dark panel 420×720 left + SVG wave at its foot; "Agenda" 44px
-white (64, 96) + accent bar. Right: per item — number 28px bold rotating-accent x 484, title
-22px bold x 564, 15px muted desc, hairline 732×1 under each. Rows y 108, step ~132.
+**S02 · Agenda.** Split (dark panel 420×720 left + texture) or full-light ledger — per
+language. Title 44–84px + accent bar. Items: index number 16–28px in accent at one x
+track, title 22–26px bold at a second track, 15px muted description below, hairline
+under each row. Rows step ~120–132.
 
-**S03 · KPI dashboard.** Four cards 274×150 y 150 (x 64/357/650/943): white rect radius 14 +
-`1px #e2e8f0`, accent tick 40×6, value 40px bold, 14px muted label, 13px bold delta in
-emerald/rose with ▲/▼. Below, two cards y 330 h 330: chart card 736w, notes card 396w
-(accent-ellipse dots + bold-lead 14px lines, step ~62).
+**S03 · KPI dashboard.** Four stat units in a row, y ~150, on shared x tracks
+(64/352/640/928 ± card padding): each = accent tick or marker, value 40px bold (mono in
+data-forward languages), 12–14px muted label, 13px delta with direction. Below, two
+containers y ~330 h ~330: a chart (≈ 700w) and a notes list (≈ 400w — marker + bold-lead
+14px lines, step ~62). Swiss variant: the KPI *tower* (bars to scale on a baseline)
+replaces the tile row.
 
-**S04 · Data deep-dive.** Table card 620×470 left (title, `<table>` inset 24, italic
-footnote). Right: doughnut/chart card 512×290, then takeaway callout y 460 — tint rect
-(`#eef2ff`, radius 14) + 6×full-height accent bar on its left edge + bold mini-title + 15px.
+**S04 · Data deep-dive.** Table container ~600w × 470 left (title row, `<table>` at inset
+24, italic footnote at bottom). Right column ~520w: chart or big-number argument
+(~290h), then a takeaway callout below — tint container with an accent edge bar or a
+solid accent block with surface-colored text, per language.
 
-**S05 · Timeline / roadmap.** Hairline 1088×4 `#e2e8f0` y 268; per milestone (x step ~288):
-month label 14px bold accent y 200, 24px accent ellipse on the line, 18px bold title y 312,
-14px muted desc. Optional workstream cards 368×130 y 480.
+**S05 · Timeline / roadmap.** Axis hairline 1088w y ~268; per milestone (x step ~288):
+period label 13–14px accent y ~200, a 16–24px marker on the axis, title 18–20px bold
+y ~312, 14px muted desc below. Optional row of workstream containers ~368×130 y ~480.
 
-**S06 · Photo + quote.** Image 640w × content-height (64, 64) — **box aspect must match the
-file's aspect** or it distorts. Right col x 768: giant `"` 96px Georgia `#c7d2fe`, quote 30px
-Georgia italic (≤ 3 lines), accent bar 56×4, bold attribution 16px + muted stats 14px.
+**S06 · Photo + quote.** Image 560–640w tall-column at (64, ~96) — **box aspect must
+match the file's aspect** or it distorts; mono/muted caption under it. Right col x ~700:
+giant `"` 96–120px in the language's serif accent color, quote 28–30px serif italic
+(≤ 3 lines), short accent bar, bold attribution + muted stats line.
 
-**S07 · Closing (dark).** Ink rect + one SVG wave; centered logo ~60px y 160; "Thank you"
-64px bold centered; contact 19px muted + bold email; pill chip centered y 440; centered 12px
-footer.
+**S07 · Closing (dark surface).** Same surface as the cover; the language's texture;
+brand mark ~60px y ~160; thank-you 64–96px bold; contact line 14–19px muted with bold
+email; optional badge; footer chrome. Centered or left-aligned per language.
 
 **S08 · Statement / hero-question (breather).** Full-bleed (light or ink). Eyebrow y ~300,
 one giant sentence 88–120px filling the middle band (semantic line breaks), one 22–26px
@@ -295,7 +303,7 @@ truth. Every real defect in this project's history was found by *looking*, not b
 reviewing HTML. See the SKILL workflow for the loop.
 
 For the browser render to match the converter, the preview relies on three things (all in
-`examples/index.html`): the converter ignores `<style>`/`<script>` for layout, so they
+the worked examples): the converter ignores `<style>`/`<script>` for layout, so they
 exist purely to make the browser show what the PPTX will contain:
 
 1. Margin reset: `.slide p, .slide h1, .slide h2 { margin: 0; line-height: 1.25; }` — without

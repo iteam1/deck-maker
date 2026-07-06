@@ -37,20 +37,20 @@ native `.pptx`.
    three-band frame, palette + type scale + tracking, the locked 19-archetype layout pool + deck arcs
    (S01–S19), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
    designed without it look generated.
-2. **Study and copy [`examples/index.html`](../../examples/index.html)** (in the
-   deck-maker repo) as your starting deck — the full worked example: 13 slides across the
-   archetype pool (cover, agenda, statement, KPI tower, native chart, ranked H-bar, data
-   deep-dive, section divider, timeline, process row, photo+quote, closing) in the Swiss
-   IKB theme, with mono chrome rows, the margin reset, and the chart-preview script
-   already in place. Copy it and replace the content (and palette, per `themes.md`) with
-   yours.
-3. **Pick the deck arc** for the deck type (QBR, investor pitch, sales, talk, status,
+2. **Pick the deck arc** for the deck type (QBR, investor pitch, sales, talk, status,
    consulting) from the playbook's "Deck arcs" section — the arc orders the archetypes
    and guarantees an ask/decision beat before the close.
-4. **Pick ONE design language** from [`references/languages/`](references/languages/) by
-   the deck's purpose — Swiss IKB (facts/analysis — what the example uses), Editorial
-   E-Ink (narrative), or Aurora Cards (friendly corporate) — and follow only it. Never
-   blend languages. `references/themes.md` has extra palettes for brand-matching.
+3. **Pick ONE design language** from [`references/languages/`](references/languages/) by
+   the deck's purpose — Swiss IKB (facts/analysis), Editorial E-Ink (narrative), or
+   Aurora Cards (friendly corporate) — and follow only it. Never blend languages.
+   `references/themes.md` has extra palettes for brand-matching.
+4. **Copy the worked example that matches your language and arc** as the starting file —
+   [`examples/index.html`](../../examples/index.html) (Swiss IKB, report/QBR arc,
+   13 slides) or [`examples/pitch.html`](../../examples/pitch.html) (Aurora Cards,
+   investor-pitch arc, 7 slides). No example in your language yet (e.g. Editorial)?
+   Start from the structurally closest one and re-skin it strictly per your language
+   file — the chrome pattern, margin reset, and chart-preview script carry over
+   unchanged; only palette, fonts, and devices change. Replace all content with yours.
 
 ## The contract
 
@@ -101,7 +101,8 @@ markup.** The markup hides everything that actually matters — text overflow, w
 positions, broken images, off-palette color, distorted photos. Only the rendered pixels
 tell the truth. Build and *look* one slide at a time:
 
-1. Start from a copy of `examples/index.html`; write (or edit) **one** slide.
+1. Start from a copy of the matching worked example (see "Start here"); write (or edit)
+   **one** slide.
 2. **Render it and actually look at it.** Serve the file — `bun ./index.html` (or
    `python3 -m http.server -d <dir>`) — and screenshot that slide, e.g. with Playwright:
    `page.locator("section.slide:nth-of-type(N)").screenshot(...)`, then view the image.
@@ -122,7 +123,7 @@ tell the truth. Build and *look* one slide at a time:
 ## Rules that keep the preview truthful
 
 The converter ignores `<style>`/`<script>`; they exist so the browser shows what the
-PPTX will contain. `examples/index.html` already includes all three:
+PPTX will contain. Both worked examples already include all three:
 
 1. The margin reset (`.slide p, h1, h2 { margin: 0; line-height: 1.25 }`) — without it
    browser text sits ~16px lower than the converter places it.
@@ -137,11 +138,12 @@ inside 1280x720.
 ## Bundled resources
 
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
-- [`examples/index.html`](../../examples/index.html) — the full worked example / starter
-  deck (13 slides across the archetype pool, Swiss IKB theme). **Copy and adapt to begin.**
-- [`examples/pitch.html`](../../examples/pitch.html) — second worked example: a 7-slide
-  investor pitch in **Aurora Cards** (2×2 matrix, team grid, pricing, logo wall, the ask).
-  Start here for pitch/sales-shaped decks.
+- [`examples/`](../../examples/) — worked examples, one per language+arc so far; **copy
+  the one matching your language/arc to begin** (re-skin the closest if none matches):
+  - [`index.html`](../../examples/index.html) — Swiss IKB, report/QBR arc, 13 slides
+    across the archetype pool.
+  - [`pitch.html`](../../examples/pitch.html) — Aurora Cards, investor-pitch arc,
+    7 slides (2×2 matrix, team grid, pricing, logo wall, the ask).
 - [`references/languages/`](references/languages/) — the design-language catalogue
   (swiss-ikb, editorial-ink, aurora-cards). **Pick exactly one per deck.**
 - [`references/themes.md`](references/themes.md) — named palettes + the `--od-*` theme-slot

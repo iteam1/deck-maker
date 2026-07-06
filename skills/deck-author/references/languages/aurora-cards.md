@@ -1,8 +1,8 @@
 # Language: Aurora Cards
 
 **Intent:** friendly corporate — product reviews, team updates, SaaS dashboards. Softer
-and more approachable than Swiss; rounded cards and gradient atmosphere. This was
-deck-maker's original example language.
+and more approachable than Swiss; rounded cards and gradient atmosphere. The worked
+example in this language is `examples/pitch.html` (investor-pitch arc) — copy it.
 
 ## Palette
 

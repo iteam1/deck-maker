@@ -1,7 +1,7 @@
-# deck-maker
+# 📊 deck-maker
 
 Design a slide deck as HTML with Claude Code, convert it to a **real, editable
-PowerPoint** — native text, tables, charts, shapes. Not images.
+PowerPoint** 📽️ — native text, tables, charts, shapes. Not images.
 
 What/how: **[docs/overview.md](docs/overview.md)**. This page: install & use.
 
@@ -79,6 +79,24 @@ into a corpus (default `examples/`, or `DECK_MAKER_ARCHIVE_DIR`) so the next dec
 from it; the cards' style fields come from `inspect`. You can also drop a bare `.pptx` into
 the corpus as a style reference — `--list` synthesizes its card by inspecting it, no html
 or summary required.
+
+## Starter decks — seed the corpus
+
+Grab nice, **editable** `.pptx` (not image-only — `inspect` needs native objects) for
+business/tech decks and drop them in as references:
+
+- [PresentationGO](https://www.presentationgo.com/) — free, no signup, direct `.pptx`
+- [SlideEgg](https://www.slideegg.com/free-powerpoint-templates) — free `.pptx`, states royalty-free / commercial / no-attribution
+- [Slidesgo](https://slidesgo.com/business) · [tech](https://slidesgo.com/technology) — polished; free tier limited
+- [SketchBubble](https://www.sketchbubble.com/en/free-powerpoint-templates) — proper color/variant theming, extracts cleanly
+- [Microsoft templates](https://powerpoint.cloud.microsoft/create/en/templates/) · [Template.net pitch decks](https://www.template.net/pitch-deck/ppt) — native, safe licensing
+
+Then `cp deck.pptx "$DECK_MAKER_ARCHIVE_DIR"/` (or the install's `examples/`) and
+`deck-maker archive --list`.
+
+**Licensing:** using a downloaded template privately as a style seed is fine; redistributing
+the template file is what licenses restrict — so keep the corpus **local** (it's gitignored,
+never committed), and prefer the no-attribution sources if a *derived* deck ships externally.
 
 ## Docs
 

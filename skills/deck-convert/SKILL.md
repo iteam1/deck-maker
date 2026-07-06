@@ -75,13 +75,25 @@ inherited template — use `inspect`, not `convert`:
 bun <path-to-deck-maker>/src/cli.ts inspect existing-deck.pptx
 ```
 
-Prints JSON per slide: `texts` (plain paragraph text), `tables` (rows of cells), `charts`
-(type + categories + series values — reads the real embedded data, not a picture of a
-chart), and `images` (media file paths inside the package, resolvable by unzipping the
-`.pptx` since it's a zip). This is **read-only content extraction, not a re-editable
-reconstruction** — positions and fine-grained styling are dropped; you get what the deck
-*says*, not a `deck.html` you can edit. (There is currently no `pptx → HTML` path in this
-project — see `docs/overview.md` if that changes.)
+Prints JSON: `{ slides: [...], style: {...} }`.
+
+- **`slides[]`** — per slide: `texts` (plain paragraph text), `tables` (rows of cells),
+  `charts` (type + categories + series values — reads the real embedded data, not a
+  picture of a chart), `images` (media file paths inside the package), and a per-slide
+  `style` (see below).
+- **`style`** — the deck-level rollup an agent can read to *match an existing deck's
+  design* when authoring a new one in the same style: `palette` (colors ranked by how
+  many slides they appear on — resolves PowerPoint theme-color references like
+  `accent1`/`tx1` to real hex, not just literal fills), `fonts` (ranked by frequency),
+  `fontSizesPx` (every distinct size used, sorted descending — read the spread to judge
+  type contrast), `roundedShapes` (true if any card/shape uses a rounded-rect preset —
+  distinguishes e.g. Swiss's hard corners from Aurora Cards' rounded ones), and
+  `backgrounds` (distinct full-slide surface colors, in first-appearance order).
+
+This is **read-only extraction, not a re-editable reconstruction** — exact per-element
+positions aren't exposed (only used internally to detect full-slide background shapes).
+You get what the deck *says and looks like*, not a `deck.html` you can edit. (There is
+currently no `pptx → HTML` path in this project — see `docs/overview.md` if that changes.)
 
 ## Verify (recommended)
 
@@ -110,8 +122,9 @@ The engine lives in the deck-maker repo (run `bun install` once):
 - `src/parse.ts` — HTML → `Deck` IR (inline styles, `var(--x)` resolution, rich text runs).
 - `src/check.ts` — the geometry + copy-typography gate (rails, chart sanity, quotes/ellipsis).
 - `src/emit.ts` — `Deck` → PptxGenJS → `.pptx`.
-- `src/inspect.ts` — an EXISTING `.pptx` → JSON content dump (text/tables/charts/images).
-  One-way, read-only; unrelated to the `parse`/`emit` round-trip.
+- `src/inspect.ts` — an EXISTING `.pptx` → JSON content + style dump (text/tables/
+  charts/images, plus palette/fonts/type-scale/corner-radius). One-way, read-only;
+  unrelated to the `parse`/`emit` round-trip.
 - `docs/IR.md` — the `Deck` intermediate-representation contract shared by parse/check/emit.
 
 Authoring rules and design guidance live in the **deck-author** skill's `references/`.

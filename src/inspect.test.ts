@@ -14,13 +14,13 @@ async function roundTrip(bodyHtml: string) {
 	const out = join(tmpdir(), `deck-maker-inspect-test-${Date.now()}.pptx`);
 	await emit(deck, out);
 	const bytes = new Uint8Array(await Bun.file(out).arrayBuffer());
-	const slides = await inspect(bytes);
+	const result = await inspect(bytes);
 	await unlink(out);
-	return slides;
+	return result;
 }
 
 test("recovers text content", async () => {
-	const slides = await roundTrip(
+	const { slides } = await roundTrip(
 		`<h1 style="position:absolute;left:0;top:0;width:400px;height:60px;font-size:32px">Hello there</h1>`,
 	);
 	expect(slides).toHaveLength(1);
@@ -28,7 +28,7 @@ test("recovers text content", async () => {
 });
 
 test("recovers table rows and cells", async () => {
-	const slides = await roundTrip(
+	const { slides } = await roundTrip(
 		`<table style="position:absolute;left:0;top:0;width:300px;height:100px">
 			<tr><td>Region</td><td>Revenue</td></tr>
 			<tr><td>NA</td><td>$14.2M</td></tr>
@@ -43,7 +43,7 @@ test("recovers table rows and cells", async () => {
 });
 
 test("recovers bar chart categories, series names, and values", async () => {
-	const slides = await roundTrip(
+	const { slides } = await roundTrip(
 		`<div data-chart='{"type":"bar","categories":["Q1","Q2"],"series":[{"name":"Revenue","values":[4.2,5.1]},{"name":"Costs","values":[2,3]}]}' style="position:absolute;left:0;top:0;width:400px;height:300px"></div>`,
 	);
 	expect(slides[0]?.charts).toEqual([
@@ -59,7 +59,7 @@ test("recovers bar chart categories, series names, and values", async () => {
 });
 
 test("recovers doughnut chart with a single series", async () => {
-	const slides = await roundTrip(
+	const { slides } = await roundTrip(
 		`<div data-chart='{"type":"doughnut","categories":["NA","EU","APAC"],"series":[{"name":"Q2","values":[14.2,8.6,4.1]}]}' style="position:absolute;left:0;top:0;width:400px;height:300px"></div>`,
 	);
 	expect(slides[0]?.charts).toEqual([
@@ -80,7 +80,7 @@ test("recovers an image reference", async () => {
 	const imgPath = join(tmpdir(), `deck-maker-inspect-test-${Date.now()}.png`);
 	await Bun.write(imgPath, png);
 
-	const slides = await roundTrip(
+	const { slides } = await roundTrip(
 		`<img src="${imgPath}" style="position:absolute;left:0;top:0;width:100px;height:100px" />`,
 	);
 	await unlink(imgPath);
@@ -97,10 +97,61 @@ test("multi-slide decks return one entry per slide, in order", async () => {
 	const out = join(tmpdir(), `deck-maker-inspect-test-${Date.now()}.pptx`);
 	await emit(deck, out);
 	const bytes = new Uint8Array(await Bun.file(out).arrayBuffer());
-	const slides = await inspect(bytes);
+	const { slides } = await inspect(bytes);
 	await unlink(out);
 
 	expect(slides).toHaveLength(2);
 	expect(slides[0]?.texts).toContain("First");
 	expect(slides[1]?.texts).toContain("Second");
+});
+
+// ---------- style extraction ----------
+
+test("recovers a full-bleed shape's fill as the slide background", async () => {
+	const { slides } = await roundTrip(
+		`<div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#002fa7"></div>`,
+	);
+	expect(slides[0]?.style.background).toBe("#002fa7");
+	expect(slides[0]?.style.colors).toContain("#002fa7");
+});
+
+test("recovers text color and font face", async () => {
+	const { slides } = await roundTrip(
+		`<p style="position:absolute;left:0;top:0;width:400px;height:40px;font-size:20px;color:#4f46e5;font-family:Georgia">Styled</p>`,
+	);
+	expect(slides[0]?.style.colors).toContain("#4f46e5");
+	expect(slides[0]?.style.fonts).toContain("Georgia");
+});
+
+test("distinguishes rounded shapes from square ones", async () => {
+	const rounded = await roundTrip(
+		`<div data-shape="rect" style="position:absolute;left:0;top:0;width:200px;height:100px;background:#fff;border-radius:14px"></div>`,
+	);
+	expect(rounded.slides[0]?.style.roundedShapes).toBe(true);
+
+	const square = await roundTrip(
+		`<div data-shape="rect" style="position:absolute;left:0;top:0;width:200px;height:100px;background:#fff"></div>`,
+	);
+	expect(square.slides[0]?.style.roundedShapes).toBe(false);
+});
+
+test("deck-level style rolls up palette, fonts, and backgrounds across slides", async () => {
+	const deck = parse(
+		`<section class="slide" style="width:1280px;height:720px;position:relative">` +
+			`<div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#0f172a"></div>` +
+			`<p style="position:absolute;left:0;top:0;width:200px;height:40px;font-size:20px;color:#4f46e5;font-family:Arial">A</p>` +
+			`</section>` +
+			`<section class="slide" style="width:1280px;height:720px;position:relative">` +
+			`<p style="position:absolute;left:0;top:0;width:200px;height:40px;font-size:20px;color:#4f46e5;font-family:Arial">B</p>` +
+			`</section>`,
+	);
+	const out = join(tmpdir(), `deck-maker-inspect-test-${Date.now()}.pptx`);
+	await emit(deck, out);
+	const bytes = new Uint8Array(await Bun.file(out).arrayBuffer());
+	const { style } = await inspect(bytes);
+	await unlink(out);
+
+	expect(style.palette[0]).toBe("#4f46e5"); // appears on both slides -> ranked first
+	expect(style.fonts).toContain("Arial");
+	expect(style.backgrounds).toEqual(["#0f172a"]);
 });

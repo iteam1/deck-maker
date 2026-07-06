@@ -54,8 +54,9 @@ deck-maker inspect existing.pptx          # read an EXISTING pptx's content as J
 ```
 
 Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` is one-way and
-read-only — it pulls text/tables/chart data/image refs out of any `.pptx` (not just ones
-deck-maker made) for reuse; it does not reconstruct an editable `deck.html`.
+read-only — it pulls text/tables/chart data/image refs *and* style (color palette,
+fonts, type scale, rounded-vs-square corners) out of any `.pptx` for reuse or to match
+an existing deck's look; it does not reconstruct an editable `deck.html`.
 
 ## Docs
 

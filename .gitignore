@@ -24,3 +24,9 @@ dist/
 # generated decks / scratch test kits (outputs, not source)
 *.pptx
 /lo-test/
+
+# track only the curated examples; ignore everything else (archived decks)
+examples/*
+!examples/assets/
+!examples/index.html
+!examples/pitch.html

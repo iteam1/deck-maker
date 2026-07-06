@@ -1,6 +1,6 @@
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { inspect } from "./inspect";
 
 /**
@@ -53,12 +53,14 @@ export type ArchiveCard = {
 	palette: string[];
 	fonts: string[];
 	slides: number;
-	/** Absolute path to this deck's archive folder. */
+	/** Absolute path to this deck's folder (the corpus root itself for a top-level starter). */
 	path: string;
+	/** Absolute path to the .pptx to `inspect` when seeding a new deck from this card. */
+	pptx: string;
 };
 
 function summaryMarkdown(
-	card: Omit<ArchiveCard, "slug" | "path">,
+	card: Omit<ArchiveCard, "slug" | "path" | "pptx">,
 	note: string,
 ): string {
 	const fm = [
@@ -78,11 +80,12 @@ function summaryMarkdown(
 }
 
 /**
- * Archive a converted deck. Returns the absolute path of the new archive folder.
- * `htmlPath`/`pptxPath` are the approved source and shipped artifact.
+ * Archive a deck. Returns the absolute path of the new folder. `pptxPath` is the shipped
+ * artifact; `htmlPath` is the approved source, or `undefined` for a bare starter (a nice
+ * `.pptx` dropped in as a style reference, with no deck.html we authored).
  */
 export async function archive(
-	htmlPath: string,
+	htmlPath: string | undefined,
 	pptxPath: string,
 	meta: ArchiveMeta = {},
 ): Promise<string> {
@@ -95,7 +98,7 @@ export async function archive(
 	const dir = join(archivesDir(), slug);
 	await mkdir(dir, { recursive: true });
 
-	await Bun.write(join(dir, "deck.html"), Bun.file(htmlPath));
+	if (htmlPath) await Bun.write(join(dir, "deck.html"), Bun.file(htmlPath));
 	await Bun.write(join(dir, "deck.pptx"), Bun.file(pptxPath));
 
 	const card = {
@@ -139,18 +142,27 @@ function parseArray(v: string | undefined): string[] {
 }
 
 /**
- * Every archived card, newest first — the cheap index an authoring agent scans to find
- * a deck like the one now requested (before deep-inspecting the winner).
+ * Every deck in the corpus, newest first — the cheap index an authoring agent scans to
+ * find a deck like the one now requested (before deep-inspecting the winner). Two kinds:
+ * archived decks (a folder with a SUMMARY.md, read straight from the card) and bare
+ * starter `.pptx` dropped into the corpus (no summary — a card is synthesized by
+ * inspecting the file, so palette/fonts/slides are present but type/language/note blank).
  */
 export async function listArchive(): Promise<ArchiveCard[]> {
 	const root = archivesDir();
 	if (!existsSync(root)) return [];
+
 	const cards: ArchiveCard[] = [];
+	const cardedDirs = new Set<string>();
+
+	// 1. Archived decks — folder + SUMMARY.md. Cheap, and carries the type/language/note
+	//    the authoring agent recorded.
 	for await (const rel of new Bun.Glob("*/SUMMARY.md").scan(root)) {
-		const dir = join(root, rel.replace(/\/SUMMARY\.md$/, ""));
+		const folder = rel.replace(/\/SUMMARY\.md$/, "");
+		cardedDirs.add(folder);
 		const fm = parseFrontmatter(await Bun.file(join(root, rel)).text());
 		cards.push({
-			slug: rel.replace(/\/SUMMARY\.md$/, ""),
+			slug: folder,
 			title: fm.title ?? "",
 			date: fm.date ?? "",
 			type: fm.type ?? "",
@@ -158,9 +170,35 @@ export async function listArchive(): Promise<ArchiveCard[]> {
 			palette: parseArray(fm.palette),
 			fonts: parseArray(fm.fonts),
 			slides: Number(fm.slides ?? 0),
-			path: dir,
+			path: join(root, folder),
+			pptx: join(root, folder, "deck.pptx"),
 		});
 	}
+
+	// 2. Bare starter decks — any `.pptx` not already covered by a SUMMARY folder.
+	//    Synthesize the card by inspecting the file.
+	for await (const rel of new Bun.Glob("**/*.pptx").scan(root)) {
+		const folder = dirname(rel); // "." for a file dropped at the corpus root
+		if (folder !== "." && cardedDirs.has(folder)) continue; // already carded in pass 1
+		const full = join(root, rel);
+		const deck = await inspect(
+			new Uint8Array(await Bun.file(full).arrayBuffer()),
+		);
+		const base = (rel.split("/").pop() ?? "untitled").replace(/\.pptx$/, "");
+		cards.push({
+			slug: folder === "." ? base : folder,
+			title: deck.slides[0]?.texts[0] ?? base,
+			date: statSync(full).mtime.toISOString().slice(0, 10),
+			type: "",
+			language: "",
+			palette: deck.style.palette.slice(0, 6),
+			fonts: deck.style.fonts.slice(0, 3),
+			slides: deck.slides.length,
+			path: dirname(full),
+			pptx: full,
+		});
+	}
+
 	cards.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 	return cards;
 }

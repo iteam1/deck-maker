@@ -7,25 +7,32 @@ import { emit } from "./emit";
 import { parse } from "./parse";
 
 // Point the corpus at a throwaway dir so tests never touch the real examples/.
+// Source .pptx are built in a SEPARATE dir so they aren't mistaken for corpus starters.
 let root: string;
+let srcDir: string;
 beforeAll(async () => {
 	root = await mkdtemp(join(tmpdir(), "dm-archive-test-"));
+	srcDir = await mkdtemp(join(tmpdir(), "dm-archive-src-"));
 	process.env.DECK_MAKER_ARCHIVE_DIR = root;
 });
 afterAll(async () => {
 	await rm(root, { recursive: true, force: true });
+	await rm(srcDir, { recursive: true, force: true });
 	delete process.env.DECK_MAKER_ARCHIVE_DIR;
 });
 
-/** Build a real .pptx from a one-slide deck so archive() has something to inspect. */
-async function makePptx(): Promise<string> {
+/** Build a real .pptx (outside the corpus) from a one-slide deck to feed archive(). */
+async function makePptx(
+	into = srcDir,
+	name = `src-${Date.now()}.pptx`,
+): Promise<string> {
 	const deck = parse(
 		`<section class="slide" style="width:1280px;height:720px;position:relative">` +
 			`<div data-shape="rect" style="position:absolute;left:0;top:0;width:1280px;height:720px;background:#002fa7"></div>` +
 			`<h1 style="position:absolute;left:64px;top:120px;width:800px;height:80px;font-size:64px;color:#fafaf8">Acme Q3 Review</h1>` +
 			`</section>`,
 	);
-	const out = join(root, `src-${Date.now()}.pptx`);
+	const out = join(into, name);
 	await emit(deck, out);
 	return out;
 }
@@ -94,6 +101,42 @@ test("listArchive round-trips the frontmatter, newest first", async () => {
 	expect(cards.findIndex((c) => c.title === "Newer")).toBeLessThan(
 		cards.findIndex((c) => c.title === "Older"),
 	);
+});
+
+test("archives a bare pptx with no html (starter)", async () => {
+	const pptx = await makePptx();
+	const dir = await archive(undefined, pptx, {
+		date: "1970-01-03",
+		title: "Starter",
+	});
+
+	expect(dir).toBe(join(root, "1970-01-03-starter"));
+	expect(await Bun.file(join(dir, "deck.pptx")).exists()).toBe(true);
+	expect(await Bun.file(join(dir, "deck.html")).exists()).toBe(false);
+	const summary = await Bun.file(join(dir, "SUMMARY.md")).text();
+	expect(summary).toContain("title: Starter");
+	expect(summary).toContain("#002fa7");
+});
+
+test("listArchive synthesizes a card for a bare pptx dropped in (no summary)", async () => {
+	const iso = await mkdtemp(join(tmpdir(), "dm-archive-iso-"));
+	process.env.DECK_MAKER_ARCHIVE_DIR = iso;
+	try {
+		// A nice deck dropped straight into the corpus — no folder, no SUMMARY, no html.
+		await makePptx(iso, "mckinsey-starter.pptx");
+		const cards = await listArchive();
+
+		expect(cards).toHaveLength(1);
+		const c = cards[0];
+		expect(c?.slug).toBe("mckinsey-starter");
+		expect(c?.type).toBe(""); // nothing recorded — the card is synthesized
+		expect(c?.palette).toContain("#002fa7"); // recovered by inspecting the file
+		expect(c?.slides).toBe(1);
+		expect(c?.pptx).toBe(join(iso, "mckinsey-starter.pptx"));
+	} finally {
+		await rm(iso, { recursive: true, force: true });
+		process.env.DECK_MAKER_ARCHIVE_DIR = root;
+	}
 });
 
 test("listArchive returns [] when the corpus dir does not exist", async () => {

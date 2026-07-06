@@ -34,11 +34,21 @@ if (verb === "archive") {
 		console.log(JSON.stringify(await listArchive(), null, 2));
 		process.exit(0);
 	}
-	const [html, pptx] = positional;
-	if (!html || !pptx) {
+	// Either `<deck.html> <deck.pptx>` (an authored deck) or a bare `<deck.pptx>`
+	// (a starter dropped in as a style reference, with no html).
+	let html: string | undefined;
+	let pptx: string | undefined;
+	if (positional.length === 1 && positional[0]?.endsWith(".pptx")) {
+		pptx = positional[0];
+	} else {
+		[html, pptx] = positional;
+	}
+	if (!pptx) {
 		console.error(
-			"usage: deck-maker archive <deck.html> <deck.pptx> [--title T --type T --language L --note '…']\n" +
-				"       deck-maker archive --list   # print archived decks as JSON",
+			"usage: deck-maker archive <deck.html> <deck.pptx>   # an authored deck\n" +
+				"       deck-maker archive <deck.pptx>              # a bare starter (no html)\n" +
+				"       deck-maker archive --list                   # print the corpus as JSON\n" +
+				"       [ --title T --type T --language L --note '…' ]",
 		);
 		process.exit(1);
 	}

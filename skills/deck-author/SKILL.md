@@ -33,12 +33,13 @@ native `.pptx`.
 
 ## Start here
 
-0. **Check the archive first.** Run `deck-maker archive --list` — it prints past decks the
-   user kept (JSON, newest first). If a card matches what's being asked for (same `type`,
-   brand, or style), `deck-maker inspect` that folder's `deck.pptx` and **seed from it** —
-   reuse its palette/fonts and pick the closest language — instead of the generic example.
-   Empty list or no match? Proceed as below. (Archiving a shipped deck into this corpus is
-   the **deck-archive** skill.)
+0. **Check the archive first.** Run `deck-maker archive --list` — it prints the user's
+   corpus (JSON, newest first): past decks they kept *and* any bare `.pptx` starters they
+   dropped in. If a card matches what's being asked for (by `type`, brand, or `palette`),
+   `deck-maker inspect` that card's `pptx` and **seed from it** — reuse its palette/fonts
+   and pick the closest language — instead of the generic example. (Starter cards have
+   blank `type`/`language`; judge them by `palette`/`fonts` and inspect to confirm.) Empty
+   list or no match? Proceed as below. (Saving to this corpus is the **deck-archive** skill.)
 1. **Read [`references/design.md`](references/design.md)** — the design playbook: the
    three-band frame, palette + type scale + tracking, the locked 19-archetype layout pool + deck arcs
    (S01–S19), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks

@@ -60,16 +60,32 @@ It writes one folder into the corpus and prints its path:
                        slides) + your note
 ```
 
+## Starter decks — a bare .pptx, no html or summary needed
+
+The corpus doesn't only hold decks deck-maker authored. Drop any nice `.pptx` straight into
+it (default `examples/`, or `DECK_MAKER_ARCHIVE_DIR`) as a **style reference** — no
+`deck.html`, no `SUMMARY.md`. `--list` finds it and **synthesizes its card by inspecting
+the file** (title/palette/fonts/slides); only `type`/`language`/`note` come back blank,
+because nothing recorded them. To give a starter those fields, archive it with a single
+positional (still no html required):
+
+```
+deck-maker archive nice-board-deck.pptx --type qbr --language editorial-ink --note "clean serif look"
+```
+
+Use this to seed the corpus with reference decks you admire before you've authored anything.
+
 ## List the corpus (the reference side)
 
 ```
 deck-maker archive --list
 ```
 
-Prints every card as a JSON array, newest first — a cheap index to scan for a deck like
-the one now requested. This is what **deck-author** runs at step 0: find a match by
-`type`/`language`/`palette`, then `deck-maker inspect` that folder's `deck.pptx` to recover
-its exact style and seed the new deck from it.
+Prints every deck as a JSON array, newest first — authored decks (rich cards) and bare
+starters (synthesized cards) together. A cheap index to scan for a deck like the one now
+requested. This is what **deck-author** runs at step 0: find a match by
+`type`/`language`/`palette`, then `deck-maker inspect` the card's `pptx` to recover its
+exact style and seed the new deck from it.
 
 ## Where the corpus lives
 

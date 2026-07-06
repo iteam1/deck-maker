@@ -66,7 +66,8 @@ deck-maker check   deck.html              # validate geometry
 deck-maker convert deck.html deck.pptx    # check + convert
 deck-maker inspect existing.pptx          # read an EXISTING pptx's content + style as JSON
 deck-maker archive deck.html deck.pptx    # save a shipped deck to the reusable corpus
-deck-maker archive --list                 # list archived decks as JSON
+deck-maker archive nice.pptx              # or drop in a bare starter (no html) as a reference
+deck-maker archive --list                 # list the corpus as JSON
 ```
 
 Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` (see **deck-inspect**)
@@ -75,7 +76,9 @@ palette, fonts, type scale, rounded-vs-square corners) out of any `.pptx` for re
 match an existing deck's look; it does not reconstruct an editable `deck.html`. `archive`
 (see **deck-archive**) saves a kept deck — html + pptx + an auto-filled `SUMMARY.md` card —
 into a corpus (default `examples/`, or `DECK_MAKER_ARCHIVE_DIR`) so the next deck can seed
-from it; the cards' style fields come from `inspect`.
+from it; the cards' style fields come from `inspect`. You can also drop a bare `.pptx` into
+the corpus as a style reference — `--list` synthesizes its card by inspecting it, no html
+or summary required.
 
 ## Docs
 

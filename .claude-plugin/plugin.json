@@ -1,5 +1,5 @@
 {
 	"name": "deck-maker",
-	"description": "Author absolutely-positioned HTML decks and convert them to native, editable .pptx, or read an existing pptx's content and style. Ships three skills (deck-author, deck-convert, deck-inspect) plus a Bun/TypeScript engine.",
+	"description": "Author absolutely-positioned HTML decks and convert them to native, editable .pptx, read an existing pptx's content and style, or archive shipped decks into a reusable corpus. Ships four skills (deck-author, deck-convert, deck-inspect, deck-archive) plus a Bun/TypeScript engine.",
 	"version": "0.1.0"
 }

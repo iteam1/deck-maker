@@ -1,4 +1,7 @@
-# Improvement — the archive loop
+# Self-Improving — the archive loop
+
+_Status: **implemented.** `deck-maker archive` + the **deck-archive** skill ship it; the
+reference side is **deck-author** step 0._
 
 deck-maker forgets every deck the moment it ships. This makes it remember: decks you keep
 become the reference for the next one, so each deck starts from your closest past deck

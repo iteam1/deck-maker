@@ -33,6 +33,12 @@ native `.pptx`.
 
 ## Start here
 
+0. **Check the archive first.** Run `deck-maker archive --list` — it prints past decks the
+   user kept (JSON, newest first). If a card matches what's being asked for (same `type`,
+   brand, or style), `deck-maker inspect` that folder's `deck.pptx` and **seed from it** —
+   reuse its palette/fonts and pick the closest language — instead of the generic example.
+   Empty list or no match? Proceed as below. (Archiving a shipped deck into this corpus is
+   the **deck-archive** skill.)
 1. **Read [`references/design.md`](references/design.md)** — the design playbook: the
    three-band frame, palette + type scale + tracking, the locked 19-archetype layout pool + deck arcs
    (S01–S19), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
@@ -119,6 +125,9 @@ tell the truth. Build and *look* one slide at a time:
 6. Hand off to **deck-convert** to produce the `.pptx` — then **look at the `.pptx` too**
    (render it back to images or open it). The browser is a design proxy; the converted
    file is the artifact, and it can differ (fonts, wrapping). Confirm before shipping.
+7. Once the user keeps it, **archive it** (the **deck-archive** skill: `deck-maker archive
+   deck.html deck.pptx --type … --language … --note …`) so the next deck can reference it
+   at step 0. Closes the loop.
 
 ## Rules that keep the preview truthful
 
@@ -152,3 +161,5 @@ inside 1280x720.
   declaring the deck ready and before converting.
 - [`references/critic.md`](references/critic.md) — the critic-subagent persona + rubric.
   Run the critic gate on rendered screenshots before handing the deck to the user.
+- **deck-archive** skill — `deck-maker archive --list` to find a past deck to seed from
+  (step 0), and `deck-maker archive …` to save a shipped deck to the corpus (step 7).

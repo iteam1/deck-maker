@@ -1,5 +1,6 @@
 {
 	"name": "deck-maker",
+	"version": "0.0.2",
 	"module": "index.ts",
 	"type": "module",
 	"private": true,
@@ -9,6 +10,8 @@
 	"scripts": {
 		"convert": "bun src/cli.ts convert",
 		"check": "bun src/cli.ts check",
+		"inspect": "bun src/cli.ts inspect",
+		"archive": "bun src/cli.ts archive",
 		"test": "bun test",
 		"lint": "bunx biome check --write ."
 	},

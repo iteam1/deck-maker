@@ -13,17 +13,19 @@ skills/
 │       ├── themes.md      named palettes + the --od-* theme-slot contract
 │       └── checklist.md   pre-handoff gate
 ├── deck-convert/   skill — how to run the CLI to convert it
-└── deck-inspect/   skill — how to read an EXISTING pptx's content + style
-examples/
+├── deck-inspect/   skill — how to read an EXISTING pptx's content + style
+└── deck-archive/   skill — how to save a shipped deck to the reusable corpus
+examples/            curated starters (tracked) + archived decks (gitignored)
 ├── index.html      the full worked example / starter deck (copy + adapt)
 ├── pitch.html      second worked example (Aurora Cards language, pitch arc)
 └── assets/         image assets referenced by the examples
 src/
-├── cli.ts          verbs: convert (check + emit), check (gate only), inspect (read pptx)
+├── cli.ts          verbs: convert (check + emit), check (gate), inspect (read pptx), archive
 ├── parse.ts        HTML → Deck (the IR)
 ├── check.ts        Deck → violations (canvas bounds, footer rail, chart sanity)
 ├── emit.ts         Deck → PptxGenJS → .pptx (repacks OPC, rasterizes SVG)
 ├── inspect.ts      existing .pptx → JSON content + style (one-way, unrelated to the IR)
+├── archive.ts      save a shipped deck (html+pptx+SUMMARY) to the corpus; reuses inspect
 └── types.ts        the IR types shared by parse + emit
 ```
 

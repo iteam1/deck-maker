@@ -26,9 +26,9 @@ No link? Run in place: `bun /path/to/deck-maker/src/cli.ts …`
 
 ## Use with Claude Code
 
-Three skills ship in `skills/`: **deck-author** (writes the HTML), **deck-convert**
-(runs the engine), **deck-inspect** (reads an existing `.pptx`'s content/style). Install
-either way:
+Four skills ship in `skills/`: **deck-author** (writes the HTML), **deck-convert**
+(runs the engine), **deck-inspect** (reads an existing `.pptx`'s content/style), and
+**deck-archive** (saves a shipped deck to a reusable corpus). Install either way:
 
 ```sh
 # A — plugin:
@@ -36,15 +36,21 @@ either way:
 /plugin install deck-maker
 
 # B — copy skills (global, or into a project's .claude/skills/):
-cp -r skills/deck-author skills/deck-convert skills/deck-inspect ~/.claude/skills/
+cp -r skills/deck-author skills/deck-convert skills/deck-inspect skills/deck-archive ~/.claude/skills/
 ```
 
 Then, from any project:
 
 > "Make me a deck about our Q2 results."
 
-Claude writes `deck.html` (from the [worked examples](examples/) — Swiss QBR + Aurora pitch), you review in
-a browser, on your OK it produces `deck.pptx`.
+Claude writes `deck.html`, you review it in a browser, and on your OK it produces
+`deck.pptx`. The starting point is a **matching past deck** if you've made one — else the
+[worked examples](examples/) (Swiss QBR + Aurora pitch). Keep the deck and it's archived,
+so the next one seeds from it: deck-maker gets more on-brand the more you use it.
+
+```
+author ──▶ convert ──▶ archive ──▶ (next deck references it) ──▶ author
+```
 
 ## CLI
 
@@ -52,12 +58,17 @@ a browser, on your OK it produces `deck.pptx`.
 deck-maker check   deck.html              # validate geometry
 deck-maker convert deck.html deck.pptx    # check + convert
 deck-maker inspect existing.pptx          # read an EXISTING pptx's content + style as JSON
+deck-maker archive deck.html deck.pptx    # save a shipped deck to the reusable corpus
+deck-maker archive --list                 # list archived decks as JSON
 ```
 
 Opens in PowerPoint, Keynote, Google Slides, LibreOffice. `inspect` (see **deck-inspect**)
 is one-way and read-only — it pulls text/tables/chart data/image refs *and* style (color
 palette, fonts, type scale, rounded-vs-square corners) out of any `.pptx` for reuse or to
-match an existing deck's look; it does not reconstruct an editable `deck.html`.
+match an existing deck's look; it does not reconstruct an editable `deck.html`. `archive`
+(see **deck-archive**) saves a kept deck — html + pptx + an auto-filled `SUMMARY.md` card —
+into a corpus (default `examples/`, or `DECK_MAKER_ARCHIVE_DIR`) so the next deck can seed
+from it; the cards' style fields come from `inspect`.
 
 ## Docs
 
@@ -66,7 +77,6 @@ match an existing deck's look; it does not reconstruct an editable `deck.html`.
 - [docs/IR.md](docs/IR.md) — the `Deck` IR contract
 - [skills/deck-author/references/design.md](skills/deck-author/references/design.md) —
   the design playbook
-
 
 ## Related to
 

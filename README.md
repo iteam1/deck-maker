@@ -52,7 +52,9 @@ so the next one seeds from it: deck-maker gets more on-brand the more you use it
 flowchart LR
     A["Author<br/>design the deck"] --> C["Convert<br/>to an editable .pptx"]
     C --> K["Archive<br/>keep it as reference"]
-    K -.->|"next deck"| R["Reference<br/>start from your closest past deck"]
+    K --> E[("examples/<br/>corpus")]
+    X[("external resources<br/>.pptx templates")] -.->|"inject"| E
+    E -.->|"next deck"| R["Reference<br/>start from your closest past deck"]
     R -.-> A
 ```
 

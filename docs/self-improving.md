@@ -13,8 +13,9 @@ instead of a generic example.
 flowchart LR
     A["deck-author<br/>deck.html"] --> C["deck-convert<br/>deck.pptx"]
     C --> R["deck-archive<br/>save html+pptx+SUMMARY"]
-    R --> E["examples/<br/>(grows)"]
-    E -.->|"scan SUMMARYs,<br/>pick match"| I["deck-inspect<br/>palette + fonts"]
+    R --> E[("examples/ corpus<br/>archived decks + starters")]
+    X["external .pptx<br/>downloaded starter"] -.->|"inject"| E
+    E -.->|"list cards,<br/>pick match"| I["deck-inspect<br/>palette + fonts"]
     I -.->|"seed"| A
 ```
 
@@ -22,10 +23,15 @@ flowchart LR
 2. **Convert** — `deck-convert` emits `deck.pptx`.
 3. **Archive** (new `deck-archive`) — on a deck you keep, save `deck.html` + `deck.pptx` +
    a `SUMMARY.md` into its own folder under `examples/`.
-4. **Reference** — next deck, first scan the `SUMMARY.md` cards for a match (type, style,
+4. **Reference** — next deck, first list the corpus cards and pick a match (type, style,
    brand).
 5. **Deep-dive** — if one matches, `deck-inspect` its `.pptx` for the exact palette/fonts.
 6. → back to **Author**, seeded from that instead of the generic example.
+
+**External inject** (dotted branch above): the corpus isn't only decks you authored — drop
+any nice `.pptx` (a downloaded business/tech template) straight into it, no html or summary
+needed. `deck-archive --list` synthesizes its card by inspecting it, so it's matchable and
+seedable exactly like an archived deck. This is how an outside look enters the loop.
 
 ## `deck-archive`
 

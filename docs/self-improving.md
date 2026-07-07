@@ -15,7 +15,7 @@ flowchart LR
     C --> R["deck-archive<br/>save html+pptx+SUMMARY"]
     R --> E[("examples/ corpus<br/>archived decks + starters")]
     X["external .pptx<br/>downloaded starter"] -.->|"inject"| E
-    E -.->|"list cards,<br/>pick match"| I["deck-inspect<br/>palette + fonts"]
+    E -.->|"list cards,<br/>pick match"| I["deck-inspect<br/>style + layout"]
     I -.->|"seed"| A
 ```
 

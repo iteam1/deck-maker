@@ -33,13 +33,16 @@ native `.pptx`.
 
 ## Start here
 
-0. **Check the archive first.** Run `deck-maker archive --list` — it prints the user's
-   corpus (JSON, newest first): past decks they kept *and* any bare `.pptx` starters they
-   dropped in. If a card matches what's being asked for (by `type`, brand, or `palette`),
-   `deck-maker inspect` that card's `pptx` and **seed from it** — reuse its palette/fonts
-   and pick the closest language — instead of the generic example. (Starter cards have
-   blank `type`/`language`; judge them by `palette`/`fonts` and inspect to confirm.) Empty
-   list or no match? Proceed as below. (Saving to this corpus is the **deck-archive** skill.)
+0. **Study the corpus first — [`references/corpus.md`](references/corpus.md).** The user
+   may not describe a style at all: they drop a nice `.pptx` into the corpus and expect
+   you to leverage it. Run `deck-maker archive --list`, pick the best-matching reference,
+   `deck-maker inspect` its `pptx`, and extract **everything** — palette → `--od-*` slots,
+   fonts (+ `themeFonts`) → type pair, `fontSizesPx` → contrast ratio, `roundedShapes` →
+   language family, and `slides[].elements` → the layout grids (card sizes, x-steps,
+   bands) to rebuild with pool archetypes. Steps 1–4 below then run *inside* that frame:
+   the reference decides palette/type/layout density; the language file supplies grammar
+   and chrome. Empty corpus or no plausible match? Skip to step 1 as before. (Saving decks
+   into the corpus is the **deck-archive** skill.)
 1. **Read [`references/design.md`](references/design.md)** — the design playbook: the
    three-band frame, palette + type scale + tracking, the locked 19-archetype layout pool + deck arcs
    (S01–S19), iron laws, copy rules, and which visual devices survive HTML→PPTX. Decks
@@ -148,6 +151,8 @@ inside 1280x720.
 ## Bundled resources
 
 - [`references/design.md`](references/design.md) — the full playbook. **Read first.**
+- [`references/corpus.md`](references/corpus.md) — how to study a reference deck from the
+  corpus and leverage its palette/fonts/type scale/layout. **Read when the corpus has decks.**
 - [`examples/`](../../examples/) — worked examples, one per language+arc so far; **copy
   the one matching your language/arc to begin** (re-skin the closest if none matches):
   - [`index.html`](../../examples/index.html) — Swiss IKB, report/QBR arc, 13 slides

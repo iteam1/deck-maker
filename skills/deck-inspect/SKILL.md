@@ -47,25 +47,35 @@ engine deck-convert uses).
 bun <path-to-deck-maker>/src/cli.ts inspect existing-deck.pptx
 ```
 
-Prints JSON: `{ slides: [...], style: {...} }`.
+Prints JSON: `{ canvas, slides: [...], style: {...} }`. Handles real-PowerPoint files —
+grouped shapes (recursively walked with their child-coordinate transforms), `p:bg` slide
+backgrounds, gradient fills, and theme color/font references — not just decks this
+engine authored.
 
+- **`canvas`** — slide size in px (`1280×720` for 16:9). Element boxes are on this grid.
 - **`slides[]`** — per slide: `texts` (plain paragraph text), `tables` (rows of cells),
   `charts` (type + categories + series values — reads the real embedded chart data, not
-  a picture of a chart), `images` (media file paths inside the package), and a per-slide
-  `style` (see below, same shape as the deck-level rollup).
+  a picture of a chart), `images` (media file paths inside the package), **`elements`**
+  (see below), and a per-slide `style` (same shape as the deck-level rollup).
+- **`slides[].elements`** — the slide's **layout**: every visible element in z-order with
+  `kind` (text/shape/image/table/chart), `x/y/w/h` in px, `text` preview, `fontSizePx`
+  (largest run), `color`, `rounded`. Read repeated same-size shapes on one y-band as a
+  card grid (note the x-step), a big top-left text as the title band, etc. — this is what
+  lets an agent transplant a reference deck's layout system.
 - **`style`** — the deck-level design rollup:
   - `palette` — colors ranked by how many slides they appear on. Resolves PowerPoint
     theme-color references (`accent1`, `tx1`, `bg2`, …) to real hex via the theme file,
-    not just literal fills.
-  - `fonts` — font faces ranked by frequency.
+    and reads every gradient stop, not just literal fills.
+  - `fonts` — font faces ranked by frequency (theme refs like `+mn-lt` resolved).
+  - `themeFonts` — the template's declared heading/body pair (`major`/`minor`).
   - `fontSizesPx` — every distinct text size used, sorted descending. The spread tells
     you the type contrast (a wide spread like `12 → 220` reads as "designed"; a narrow
     one like `14 → 24` reads as generic — see the deck-author playbook's type-scale rule).
   - `roundedShapes` — true if any shape uses a rounded-rect preset. The single best
     signal for which family a deck belongs to (Swiss-like languages ban rounding;
     card-based languages lean on it).
-  - `backgrounds` — distinct full-slide surface colors, in first-appearance order
-    (usually the cover/divider/closing accent).
+  - `backgrounds` — distinct slide surface colors (`p:bg` fills and full-bleed shapes),
+    in first-appearance order (usually the cover/divider/closing accent).
 
 ## Using this to match an existing deck's style
 
@@ -85,13 +95,12 @@ PowerPoint. Workflow:
 
 ## Limitations (be upfront about these)
 
-- **Content only, not layout.** Positions aren't exposed per element (only used
-  internally to detect the full-slide background shape) — you get *what* the deck says
-  and what it's styled with, not *where* things sit. This is not enough to recreate the
-  deck's exact slide layouts.
-- **Per-slide backgrounds only.** A background inherited from a slide master/layout
-  (rather than an explicit full-slide shape on the slide itself) won't be detected —
-  `style.backgrounds` can under-report on decks that rely on master-level theming.
+- **Layout is geometry, not a reconstruction.** `elements` gives every box's position,
+  size, and style — enough to extract the grid system — but not effects, rotations, or
+  exact vector art. You transplant the layout *system*, not the pixels.
+- **Slide-level only.** Backgrounds, colors, and text inherited from a slide *master or
+  layout* (rather than set on the slide itself) aren't read — `style.backgrounds` and
+  placeholder text can under-report on decks that lean on master-level theming.
 - **Chart categories can come back empty** if the source used a chart-data reference
   style this engine doesn't recognize yet — treat an empty `categories`/`series.values`
   as "couldn't read this chart," not "the chart is empty."

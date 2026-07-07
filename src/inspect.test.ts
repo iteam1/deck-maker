@@ -155,3 +155,66 @@ test("deck-level style rolls up palette, fonts, and backgrounds across slides", 
 	expect(style.fonts).toContain("Arial");
 	expect(style.backgrounds).toEqual(["#0f172a"]);
 });
+
+// ---------- layout (elements) ----------
+
+test("elements carry per-element geometry on the canvas", async () => {
+	const { canvas, slides } = await roundTrip(
+		`<h1 style="position:absolute;left:64px;top:120px;width:800px;height:80px;font-size:64px;color:#111111">Layout probe</h1>` +
+			`<div data-shape="rect" style="position:absolute;left:64px;top:300px;width:213px;height:107px;background:#ffd247"></div>`,
+	);
+	expect(canvas).toEqual({ w: 1280, h: 720 });
+	const els = slides[0]?.elements ?? [];
+	const title = els.find((e) => e.kind === "text");
+	const card = els.find((e) => e.kind === "shape");
+	expect(title).toMatchObject({ x: 64, y: 120, w: 800, h: 80, fontSizePx: 64 });
+	expect(title?.text).toContain("Layout probe");
+	expect(card).toMatchObject({
+		x: 64,
+		y: 300,
+		w: 213,
+		h: 107,
+		color: "#ffd247",
+	});
+});
+
+// ---------- real-PowerPoint templates (guarded: skipped when not present) ----------
+
+const HOTEL = "examples/hotel/SlideEgg_201241-Hotel Management Dashboard.pptx";
+const TECH =
+	"examples/tech/Slide_Egg-73844-Artificial Intelligence PowerPoint.pptx";
+
+test.if(await Bun.file(HOTEL).exists())(
+	"real template (hotel): groups walked, rich palette, layout grid",
+	async () => {
+		const deck = await inspect(
+			new Uint8Array(await Bun.file(HOTEL).arrayBuffer()),
+		);
+		expect(deck.canvas).toEqual({ w: 1280, h: 720 });
+		expect(deck.style.palette.length).toBeGreaterThanOrEqual(6);
+		expect(deck.style.fonts).toContain("Montserrat");
+		// slide 2 is the KPI dashboard: a row of accent stat cards recovered from groups
+		const els = deck.slides[1]?.elements ?? [];
+		expect(els.length).toBeGreaterThan(10);
+		const cards = els.filter(
+			(e) => e.kind === "shape" && e.h > 90 && e.h < 120 && e.w > 190,
+		);
+		expect(cards.length).toBeGreaterThanOrEqual(3); // the stat-card row
+	},
+);
+
+test.if(await Bun.file(TECH).exists())(
+	"real template (tech): p:bg gradient + theme fonts resolved",
+	async () => {
+		const deck = await inspect(
+			new Uint8Array(await Bun.file(TECH).arrayBuffer()),
+		);
+		// the slide background is a gradient of theme accents — first stop wins
+		expect(deck.style.backgrounds).toContain("#262c82");
+		expect(deck.style.palette).toContain("#ba3b96"); // second gradient stop
+		expect(deck.style.themeFonts.minor).toBeTruthy();
+		// grouped text was invisible before the recursive walk
+		const slide2 = deck.slides[1];
+		expect(slide2?.texts.join(" ")).toContain("Artificial Intelligence");
+	},
+);

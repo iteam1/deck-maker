@@ -2,12 +2,13 @@ import { XMLParser } from "fast-xml-parser";
 import JSZip from "jszip";
 
 /**
- * Reads an existing .pptx and extracts its content AND its visual style — text,
- * tables, chart data, image references, colors, fonts, and corner-radius usage
- * — as plain JSON an agent can read. This is deliberately NOT a re-editable Deck
- * reconstruction (see docs/IR.md); it answers "what does this deck say and look
- * like", not "let me edit it as HTML". Exact positions are used internally (to
- * detect full-slide background shapes) but not exposed per element.
+ * Reads an existing .pptx and extracts its content, visual style, AND layout — text,
+ * tables, chart data, image references, colors, fonts, and per-element geometry — as
+ * plain JSON an agent can read. Handles real-PowerPoint files (grouped shapes with
+ * child-coordinate transforms, p:bg slide backgrounds, gradient fills, theme color and
+ * font references), not just decks this engine emitted. This is deliberately NOT a
+ * re-editable Deck reconstruction (see docs/IR.md); it answers "what does this deck
+ * say and look like — and how is it laid out", not "let me edit it as HTML".
  */
 
 const parser = new XMLParser({
@@ -19,11 +20,13 @@ const parser = new XMLParser({
 			"Relationship",
 			"p:sp",
 			"p:pic",
+			"p:grpSp",
 			"p:graphicFrame",
 			"a:p",
 			"a:r",
 			"a:tr",
 			"a:tc",
+			"a:gs",
 			"c:ser",
 			"c:pt",
 		].includes(name),
@@ -61,7 +64,7 @@ const ptCentiToPx = (sz: string | number | undefined): number | undefined =>
 		? undefined
 		: Math.round((Number(sz) / 100 / 0.75) * 100) / 100;
 
-// ---------- theme colors ----------
+// ---------- theme (colors + fonts) ----------
 
 /** PowerPoint aliases these scheme names to the theme's actual color slots. */
 const SCHEME_ALIASES: Record<string, string> = {
@@ -71,7 +74,12 @@ const SCHEME_ALIASES: Record<string, string> = {
 	tx2: "dk2",
 };
 
-async function readThemeColors(zip: JSZip): Promise<Record<string, string>> {
+type Theme = {
+	colors: Record<string, string>;
+	fonts: { major?: string; minor?: string };
+};
+
+async function readTheme(zip: JSZip): Promise<Theme> {
 	let doc = await readXml(zip, "ppt/theme/theme1.xml");
 	if (!doc) {
 		const path = Object.keys(zip.files).find((p) =>
@@ -79,56 +87,140 @@ async function readThemeColors(zip: JSZip): Promise<Record<string, string>> {
 		);
 		if (path) doc = await readXml(zip, path);
 	}
-	const clrScheme = doc?.["a:theme"]?.["a:themeElements"]?.["a:clrScheme"];
-	const map: Record<string, string> = {};
-	if (!clrScheme) return map;
-	for (const key of [
-		"dk1",
-		"lt1",
-		"dk2",
-		"lt2",
-		"accent1",
-		"accent2",
-		"accent3",
-		"accent4",
-		"accent5",
-		"accent6",
-		"hlink",
-		"folHlink",
-	]) {
-		const node = clrScheme[`a:${key}`];
-		const hex: string | undefined =
-			node?.["a:srgbClr"]?.["@_val"] ?? node?.["a:sysClr"]?.["@_lastClr"];
-		if (hex) map[key] = `#${hex.toLowerCase()}`;
+	const els = doc?.["a:theme"]?.["a:themeElements"];
+	const colors: Record<string, string> = {};
+	const clrScheme = els?.["a:clrScheme"];
+	if (clrScheme) {
+		for (const key of [
+			"dk1",
+			"lt1",
+			"dk2",
+			"lt2",
+			"accent1",
+			"accent2",
+			"accent3",
+			"accent4",
+			"accent5",
+			"accent6",
+			"hlink",
+			"folHlink",
+		]) {
+			const node = clrScheme[`a:${key}`];
+			const hex: string | undefined =
+				node?.["a:srgbClr"]?.["@_val"] ?? node?.["a:sysClr"]?.["@_lastClr"];
+			if (hex) colors[key] = `#${hex.toLowerCase()}`;
+		}
 	}
-	return map;
+	const fontScheme = els?.["a:fontScheme"];
+	const fonts = {
+		major: fontScheme?.["a:majorFont"]?.["a:latin"]?.["@_typeface"] as
+			| string
+			| undefined,
+		minor: fontScheme?.["a:minorFont"]?.["a:latin"]?.["@_typeface"] as
+			| string
+			| undefined,
+	};
+	return { colors, fonts };
 }
 
-/** Resolve a solidFill's color (literal RGB or a theme scheme reference) to hex. */
-function resolveFill(
-	container: Xml,
-	theme: Record<string, string>,
-): string | undefined {
-	const solid = container?.["a:solidFill"];
-	if (!solid) return undefined;
-	const srgb = solid["a:srgbClr"]?.["@_val"];
+/** Read the color of a node that contains a:srgbClr or a:schemeClr (a fill, a gradient stop, a bgRef). */
+function clr(node: Xml, theme: Theme): string | undefined {
+	const srgb = node?.["a:srgbClr"]?.["@_val"];
 	if (srgb) return `#${String(srgb).toLowerCase()}`;
-	const schemeName = solid["a:schemeClr"]?.["@_val"];
-	if (schemeName) return theme[SCHEME_ALIASES[schemeName] ?? schemeName];
+	const scheme = node?.["a:schemeClr"]?.["@_val"];
+	if (scheme) return theme.colors[SCHEME_ALIASES[scheme] ?? scheme];
 	return undefined;
 }
 
-function readBox(
-	spPr: Xml,
-): { x: number; y: number; w: number; h: number } | null {
-	const off = spPr?.["a:xfrm"]?.["a:off"];
-	const ext = spPr?.["a:xfrm"]?.["a:ext"];
+/**
+ * All colors of a container's fill: one for solidFill, every stop for gradFill.
+ * Real templates lean on gradients (e.g. a slide bg blending accent1→accent2).
+ */
+function fillColors(container: Xml, theme: Theme): string[] {
+	const solid = container?.["a:solidFill"];
+	if (solid) {
+		const c = clr(solid, theme);
+		return c ? [c] : [];
+	}
+	const grad = container?.["a:gradFill"];
+	if (grad) {
+		return arr(grad["a:gsLst"]?.["a:gs"])
+			.map((g: Xml) => clr(g, theme))
+			.filter((c): c is string => !!c);
+	}
+	return [];
+}
+
+/** First fill color — the representative one. */
+function resolveFill(container: Xml, theme: Theme): string | undefined {
+	return fillColors(container, theme)[0];
+}
+
+/** Resolve a run's typeface, mapping theme references (+mj-lt / +mn-lt) to real faces. */
+function resolveFont(
+	typeface: string | undefined,
+	theme: Theme,
+): string | undefined {
+	if (!typeface) return undefined;
+	if (typeface === "+mj-lt") return theme.fonts.major;
+	if (typeface === "+mn-lt") return theme.fonts.minor;
+	return typeface;
+}
+
+// ---------- geometry (groups carry their own child coordinate space) ----------
+
+/** EMU-space affine: maps a child x to parent space as ox + x*sx. */
+type Affine = { ox: number; oy: number; sx: number; sy: number };
+const IDENTITY: Affine = { ox: 0, oy: 0, sx: 1, sy: 1 };
+
+type Box = { x: number; y: number; w: number; h: number };
+
+function readBoxEmu(
+	xfrm: Xml,
+): { x: number; y: number; cx: number; cy: number } | null {
+	const off = xfrm?.["a:off"];
+	const ext = xfrm?.["a:ext"];
 	if (!off || !ext) return null;
 	return {
-		x: emuToPx(Number(off["@_x"] ?? 0)),
-		y: emuToPx(Number(off["@_y"] ?? 0)),
-		w: emuToPx(Number(ext["@_cx"] ?? 0)),
-		h: emuToPx(Number(ext["@_cy"] ?? 0)),
+		x: Number(off["@_x"] ?? 0),
+		y: Number(off["@_y"] ?? 0),
+		cx: Number(ext["@_cx"] ?? 0),
+		cy: Number(ext["@_cy"] ?? 0),
+	};
+}
+
+function mapBox(t: Affine, xfrm: Xml): Box | null {
+	const b = readBoxEmu(xfrm);
+	if (!b) return null;
+	return {
+		x: emuToPx(t.ox + b.x * t.sx),
+		y: emuToPx(t.oy + b.y * t.sy),
+		w: emuToPx(b.cx * t.sx),
+		h: emuToPx(b.cy * t.sy),
+	};
+}
+
+/**
+ * Compose a group's transform onto the incoming one. A grpSp positions its children in
+ * its own space (chOff/chExt) and maps that space into its parent box (off/ext):
+ * parentX = off.x + (childX − chOff.x) · ext.cx/chExt.cx.
+ */
+function composeGroup(t: Affine, grpXfrm: Xml): Affine {
+	const b = readBoxEmu(grpXfrm);
+	if (!b) return t;
+	const chOff = grpXfrm?.["a:chOff"];
+	const chExt = grpXfrm?.["a:chExt"];
+	const cx0 = Number(chOff?.["@_x"] ?? b.x);
+	const cy0 = Number(chOff?.["@_y"] ?? b.y);
+	const cw = Number(chExt?.["@_cx"] ?? b.cx) || b.cx || 1;
+	const ch = Number(chExt?.["@_cy"] ?? b.cy) || b.cy || 1;
+	const kx = b.cx / cw;
+	const ky = b.cy / ch;
+	return {
+		ox: t.ox + (b.x - cx0 * kx) * t.sx,
+		oy: t.oy + (b.y - cy0 * ky) * t.sy,
+		sx: t.sx * kx,
+		sy: t.sy * ky,
 	};
 }
 
@@ -224,14 +316,30 @@ async function readChart(
 	return null;
 }
 
-// ---------- style extraction ----------
+// ---------- output types ----------
+
+export type InspectedElement = {
+	kind: "text" | "shape" | "image" | "table" | "chart";
+	/** Box in px on this deck's own canvas (see InspectedDeck.canvas). */
+	x: number;
+	y: number;
+	w: number;
+	h: number;
+	/** Text preview (first ~80 chars) for text elements. */
+	text?: string;
+	/** Largest run size in the element, px. */
+	fontSizePx?: number;
+	/** Shape fill, or first text color. */
+	color?: string;
+	rounded?: boolean;
+};
 
 export type SlideStyle = {
-	/** Fill of the shape that covers ~the whole slide, if any — the surface color. */
+	/** The slide surface color: its p:bg fill, or a shape covering ~the whole slide. */
 	background?: string;
-	/** Distinct colors seen on this slide (shape fills + text), first-appearance order. */
+	/** Distinct colors seen on this slide (bg + shape fills + text), first-appearance order. */
 	colors: string[];
-	/** Distinct font faces seen on this slide. */
+	/** Distinct font faces seen on this slide (theme refs resolved). */
 	fonts: string[];
 	/** Distinct text sizes seen, in px (our own contract's unit), sorted descending. */
 	fontSizesPx: number[];
@@ -244,6 +352,8 @@ export type DeckStyle = {
 	palette: string[];
 	/** Font faces ranked by frequency across the deck. */
 	fonts: string[];
+	/** The theme's declared font pair (major = headings, minor = body), if any. */
+	themeFonts: { major?: string; minor?: string };
 	/** All distinct text sizes across the deck, in px, sorted descending. */
 	fontSizesPx: number[];
 	/** True if any slide uses a rounded-rect shape. */
@@ -257,17 +367,41 @@ export type InspectedSlide = {
 	tables: string[][][];
 	charts: InspectedChart[];
 	images: string[];
+	/** Every visible element with its geometry, in z-order — the slide's layout. */
+	elements: InspectedElement[];
 	style: SlideStyle;
 };
 
 export type InspectedDeck = {
+	/** Slide size in px (16:9 decks are 1280×720; 4:3 are 960×720). */
+	canvas: { w: number; h: number };
 	slides: InspectedSlide[];
 	style: DeckStyle;
 };
 
+// ---------- the walk ----------
+
+/** Flat pick of sp/pic/graphicFrame from a shape tree, descending into groups. */
+type Collected = {
+	sps: { node: Xml; box: Box | null }[];
+	pics: { node: Xml; box: Box | null }[];
+	frames: { node: Xml; box: Box | null }[];
+};
+
+function walkTree(tree: Xml, t: Affine, out: Collected): void {
+	for (const sp of arr(tree?.["p:sp"]))
+		out.sps.push({ node: sp, box: mapBox(t, sp?.["p:spPr"]?.["a:xfrm"]) });
+	for (const pic of arr(tree?.["p:pic"]))
+		out.pics.push({ node: pic, box: mapBox(t, pic?.["p:spPr"]?.["a:xfrm"]) });
+	for (const gf of arr(tree?.["p:graphicFrame"]))
+		out.frames.push({ node: gf, box: mapBox(t, gf?.["p:xfrm"]) });
+	for (const grp of arr(tree?.["p:grpSp"]))
+		walkTree(grp, composeGroup(t, grp?.["p:grpSpPr"]?.["a:xfrm"]), out);
+}
+
 export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 	const zip = await JSZip.loadAsync(pptxBytes);
-	const theme = await readThemeColors(zip);
+	const theme = await readTheme(zip);
 
 	const pres = await readXml(zip, "ppt/presentation.xml");
 	const presRels = await readRels(zip, "ppt/_rels/presentation.xml.rels");
@@ -275,7 +409,7 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 	const slidePaths = slideIds
 		.map((s: Xml) => presRels[s["@_r:id"]])
 		.filter((p): p is string => !!p)
-		.map((p) => `ppt/${p}`);
+		.map((p) => `ppt/${p.replace(/^\//, "").replace(/^ppt\//, "")}`);
 	const sldSz = pres?.["p:presentation"]?.["p:sldSz"];
 	const slideW = emuToPx(Number(sldSz?.["@_cx"] ?? 12192000));
 	const slideH = emuToPx(Number(sldSz?.["@_cy"] ?? 6858000));
@@ -285,12 +419,14 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 		const doc = await readXml(zip, slidePath);
 		const relsPath = slidePath.replace(/^(.*\/)([^/]+)$/, "$1_rels/$2.rels");
 		const slideRels = await readRels(zip, relsPath);
-		const spTree = doc?.["p:sld"]?.["p:cSld"]?.["p:spTree"];
+		const cSld = doc?.["p:sld"]?.["p:cSld"];
+		const spTree = cSld?.["p:spTree"];
 
 		const texts: string[] = [];
 		const tables: string[][][] = [];
 		const charts: InspectedChart[] = [];
 		const images: string[] = [];
+		const elements: InspectedElement[] = [];
 		const colors: string[] = [];
 		const fonts: string[] = [];
 		const fontSizesPx: number[] = [];
@@ -307,40 +443,76 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 			if (s !== undefined && !fontSizesPx.includes(s)) fontSizesPx.push(s);
 		};
 
-		for (const sp of arr(spTree?.["p:sp"])) {
+		// Slide background: the p:bg element (solid, gradient, or a bgRef style link).
+		const bg = cSld?.["p:bg"];
+		if (bg) {
+			const bgColors = bg["p:bgPr"]
+				? fillColors(bg["p:bgPr"], theme)
+				: [clr(bg["p:bgRef"], theme)].filter((c): c is string => !!c);
+			if (bgColors[0]) background = bgColors[0];
+			for (const c of bgColors) noteColor(c);
+		}
+
+		const found: Collected = { sps: [], pics: [], frames: [] };
+		walkTree(spTree, IDENTITY, found);
+
+		for (const { node: sp, box } of found.sps) {
 			const t = shapeText(sp);
 			if (t) texts.push(t);
 
 			const spPr = sp?.["p:spPr"];
-			const fill = resolveFill(spPr, theme);
-			noteColor(fill);
-			if (spPr?.["a:prstGeom"]?.["@_prst"] === "roundRect")
-				roundedShapes = true;
+			const fillAll = fillColors(spPr, theme);
+			const fill = fillAll[0];
+			for (const c of fillAll) noteColor(c);
+			const rounded = spPr?.["a:prstGeom"]?.["@_prst"] === "roundRect";
+			if (rounded) roundedShapes = true;
 
-			const box = readBox(spPr);
 			if (fill && box && box.w >= slideW * 0.9 && box.h >= slideH * 0.9) {
-				background = fill;
+				background = fill; // a full-bleed shape paints over the p:bg
 			}
 
+			let maxSize: number | undefined;
+			let firstTextColor: string | undefined;
 			for (const p of arr(sp?.["p:txBody"]?.["a:p"])) {
 				for (const r of arr(p?.["a:r"])) {
 					const rPr = r?.["a:rPr"];
-					noteColor(resolveFill(rPr, theme));
-					noteFont(rPr?.["a:latin"]?.["@_typeface"]);
-					noteSize(ptCentiToPx(rPr?.["@_sz"]));
+					const c = resolveFill(rPr, theme);
+					noteColor(c);
+					if (!firstTextColor && c) firstTextColor = c;
+					noteFont(resolveFont(rPr?.["a:latin"]?.["@_typeface"], theme));
+					const s = ptCentiToPx(rPr?.["@_sz"]);
+					noteSize(s);
+					if (s !== undefined && (maxSize === undefined || s > maxSize))
+						maxSize = s;
 				}
 			}
+
+			if (box) {
+				const color = t ? firstTextColor : fill;
+				elements.push({
+					kind: t ? "text" : "shape",
+					...box,
+					...(t ? { text: t.slice(0, 80) } : {}),
+					...(maxSize !== undefined ? { fontSizePx: maxSize } : {}),
+					...(color ? { color } : {}),
+					...(rounded ? { rounded: true } : {}),
+				});
+			}
 		}
-		for (const pic of arr(spTree?.["p:pic"])) {
+
+		for (const { node: pic, box } of found.pics) {
 			const embed = pic?.["p:blipFill"]?.["a:blip"]?.["@_r:embed"];
 			const target = embed ? slideRels[embed] : undefined;
 			if (target) images.push(target.replace(/^\.\.\//, "ppt/"));
+			if (box) elements.push({ kind: "image", ...box });
 		}
-		for (const gf of arr(spTree?.["p:graphicFrame"])) {
+
+		for (const { node: gf, box } of found.frames) {
 			const graphicData = gf?.["a:graphic"]?.["a:graphicData"];
 			const uri: string = graphicData?.["@_uri"] ?? "";
 			if (uri.includes("/table")) {
 				tables.push(tableRows(graphicData["a:tbl"]));
+				if (box) elements.push({ kind: "table", ...box });
 			} else if (uri.includes("/chart")) {
 				const rId = graphicData?.["c:chart"]?.["@_r:id"];
 				const target = rId ? slideRels[rId] : undefined;
@@ -349,6 +521,7 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 					const chart = await readChart(zip, chartPath);
 					if (chart) charts.push(chart);
 				}
+				if (box) elements.push({ kind: "chart", ...box });
 			}
 		}
 
@@ -358,6 +531,7 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 			tables,
 			charts,
 			images,
+			elements,
 			style: { background, colors, fonts, fontSizesPx, roundedShapes },
 		});
 	}
@@ -384,7 +558,15 @@ export async function inspect(pptxBytes: Uint8Array): Promise<InspectedDeck> {
 	const fontSizesPx = [...allSizes].sort((a, b) => b - a);
 
 	return {
+		canvas: { w: slideW, h: slideH },
 		slides,
-		style: { palette, fonts, fontSizesPx, roundedShapes, backgrounds },
+		style: {
+			palette,
+			fonts,
+			themeFonts: theme.fonts,
+			fontSizesPx,
+			roundedShapes,
+			backgrounds,
+		},
 	};
 }

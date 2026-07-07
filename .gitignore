@@ -27,6 +27,8 @@ dist/
 
 # track only the curated examples; ignore everything else (archived decks)
 examples/*
+!examples/hotel/
+!examples/tech/
 !examples/assets/
 !examples/index.html
 !examples/pitch.html
